@@ -252,6 +252,7 @@ account_embeddings (
 | `GET /accounts` | List accounts from HubSpot |
 | `GET /accounts/prioritized` | All accounts ranked by priority score with reasons |
 | `GET /accounts/high-risk` | Accounts with `risk_level = High` |
+| `GET /accounts/similar/{id}` | Nearest-neighbor accounts by 768-dim pgvector similarity |
 | `GET /accounts/{id}/context` | Merged CRM + internal context |
 | `GET /accounts/{id}/brief` | Gemini-generated structured brief |
 | `GET /hubspot/raw` | Raw HubSpot response (debug) |

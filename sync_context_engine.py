@@ -203,6 +203,7 @@ def embed_account(merged: dict) -> list[float] | None:
             model="models/gemini-embedding-001",
             content=text,
             task_type="RETRIEVAL_DOCUMENT",
+            output_dimensionality=768,
         )
         return result["embedding"]
     except Exception as e:

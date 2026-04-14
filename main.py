@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Any
 
 import google.generativeai as genai
+import psycopg2
+import psycopg2.extras
 import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
@@ -13,7 +15,15 @@ from pydantic import BaseModel
 
 load_dotenv()
 
-app = FastAPI(title="AccountsOps API")
+app = FastAPI(title="CSM Copilot API")
+
+# ── Postgres ───────────────────────────────────────────────────────────────
+
+DB_URL = os.getenv("DATABASE_URL", "postgresql://localhost/csm_copilot")
+
+
+def get_db():
+    return psycopg2.connect(DB_URL, cursor_factory=psycopg2.extras.RealDictCursor)
 
 # ── HubSpot ────────────────────────────────────────────────────────────────
 
@@ -268,7 +278,7 @@ def build_context(company_id: str) -> dict[str, Any]:
 
 @app.get("/")
 def root():
-    return {"message": "AccountsOps API is running"}
+    return {"message": "CSM Copilot API is running"}
 
 
 @app.get("/accounts")
@@ -305,98 +315,205 @@ def get_raw():
 
 @app.get("/accounts/prioritized")
 def get_prioritized_accounts(limit: int = 100):
-    data = fetch_companies(limit=limit)
-    context_map = load_account_context()
+    """Returns all accounts ranked by priority_score from Postgres context engine."""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT
+                hubspot_company_id,
+                company_name,
+                crm_snapshot,
+                internal_context,
+                priority_score,
+                priority_reasons,
+                last_refreshed
+            FROM accounts
+            ORDER BY priority_score DESC
+            LIMIT %s
+        """, (limit,))
+        rows = cur.fetchall()
+    finally:
+        conn.close()
+
     results = []
-
-    for item in data.get("results", []):
-        props = item.get("properties", {})
-        company_id = item.get("id")
-        internal = context_map.get(company_id, {})
-
-        crm = {
-            "id": company_id,
-            "name": props.get("name"),
-            "health_score": props.get("health_score"),
-            "risk_level": props.get("risk_level"),
-            "renewal_date": props.get("renewal_date"),
-            "open_ticket_count": props.get("open_ticket_count"),
-        }
-
-        # Normalise usage_trend
-        delta = internal.get("usage_change_30d", 0)
-        if delta > 4:
-            crm["usage_trend"] = "Increasing"
-        elif delta < -4:
-            crm["usage_trend"] = "Decreasing"
-        else:
-            crm["usage_trend"] = props.get("usage_trend", "Stable")
-
-        score, reasons = priority_score(crm, internal)
-
+    for row in rows:
+        crm = row["crm_snapshot"]
+        internal = row["internal_context"]
         results.append({
-            "id": company_id,
-            "name": props.get("name"),
+            "id": row["hubspot_company_id"],
+            "name": row["company_name"],
             "segment": internal.get("segment"),
             "plan_tier": internal.get("plan_tier"),
             "arr": internal.get("arr"),
-            "risk_level": props.get("risk_level"),
-            "health_score": props.get("health_score"),
-            "renewal_date": props.get("renewal_date"),
-            "usage_trend": crm["usage_trend"],
-            "open_ticket_count": props.get("open_ticket_count"),
+            "risk_level": crm.get("risk_level"),
+            "health_score": crm.get("health_score"),
+            "renewal_date": crm.get("renewal_date"),
+            "usage_trend": crm.get("usage_trend"),
+            "open_ticket_count": crm.get("open_ticket_count"),
             "renewal_confidence": internal.get("renewal_confidence"),
             "engagement_status": internal.get("engagement_status"),
             "owner_name": internal.get("owner_name"),
-            "priority_score": score,
-            "priority_reasons": reasons,
+            "priority_score": row["priority_score"],
+            "priority_reasons": row["priority_reasons"],
+            "last_refreshed": row["last_refreshed"].isoformat() if row["last_refreshed"] else None,
         })
 
-    results.sort(key=lambda x: x["priority_score"], reverse=True)
     return {"results": results}
 
 
 @app.get("/accounts/high-risk")
 def get_high_risk_accounts(limit: int = 100):
-    data = fetch_companies(limit=limit)
-    results = []
+    """Returns accounts with risk_level = High, ranked by priority_score."""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT
+                hubspot_company_id,
+                company_name,
+                crm_snapshot,
+                internal_context,
+                priority_score,
+                priority_reasons
+            FROM accounts
+            WHERE crm_snapshot->>'risk_level' = 'High'
+            ORDER BY priority_score DESC
+            LIMIT %s
+        """, (limit,))
+        rows = cur.fetchall()
+    finally:
+        conn.close()
 
-    for item in data.get("results", []):
-        props = item.get("properties", {})
-        if props.get("risk_level") == "High":
-            results.append({
-                "id": item.get("id"),
-                "name": props.get("name"),
-                "health_score": props.get("health_score"),
-                "renewal_date": props.get("renewal_date"),
-                "usage_trend": props.get("usage_trend"),
-                "open_ticket_count": props.get("open_ticket_count"),
-            })
+    results = []
+    for row in rows:
+        crm = row["crm_snapshot"]
+        internal = row["internal_context"]
+        results.append({
+            "id": row["hubspot_company_id"],
+            "name": row["company_name"],
+            "health_score": crm.get("health_score"),
+            "renewal_date": crm.get("renewal_date"),
+            "usage_trend": crm.get("usage_trend"),
+            "open_ticket_count": crm.get("open_ticket_count"),
+            "segment": internal.get("segment"),
+            "arr": internal.get("arr"),
+            "priority_score": row["priority_score"],
+            "priority_reasons": row["priority_reasons"],
+        })
 
     return {"results": results}
 
 
+@app.get("/accounts/similar/{company_id}")
+def get_similar_accounts(company_id: str, limit: int = 5):
+    """Returns accounts with the most similar risk profile via pgvector cosine similarity."""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+
+        cur.execute(
+            "SELECT embedding FROM account_embeddings WHERE hubspot_company_id = %s",
+            (company_id,)
+        )
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="No embedding found for this account — run sync first")
+
+        embedding = row["embedding"]
+
+        cur.execute("""
+            SELECT
+                ae.hubspot_company_id,
+                a.company_name,
+                a.crm_snapshot,
+                a.internal_context,
+                a.priority_score,
+                a.priority_reasons,
+                1 - (ae.embedding <=> %s::vector) AS similarity
+            FROM account_embeddings ae
+            JOIN accounts a USING (hubspot_company_id)
+            WHERE ae.hubspot_company_id != %s
+            ORDER BY ae.embedding <=> %s::vector
+            LIMIT %s
+        """, (embedding, company_id, embedding, limit))
+        rows = cur.fetchall()
+    finally:
+        conn.close()
+
+    results = []
+    for row in rows:
+        crm = row["crm_snapshot"]
+        internal = row["internal_context"]
+        results.append({
+            "id": row["hubspot_company_id"],
+            "name": row["company_name"],
+            "similarity": round(float(row["similarity"]), 4),
+            "risk_level": crm.get("risk_level"),
+            "health_score": crm.get("health_score"),
+            "renewal_date": crm.get("renewal_date"),
+            "usage_trend": crm.get("usage_trend"),
+            "segment": internal.get("segment"),
+            "arr": internal.get("arr"),
+            "priority_score": row["priority_score"],
+            "priority_reasons": row["priority_reasons"],
+        })
+
+    return {"source_id": company_id, "results": results}
+
+
 @app.get("/accounts/{company_id}/context")
 def get_account_context(company_id: str):
-    return build_context(company_id)
+    """Returns the merged CRM + internal context from Postgres."""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT merged_context, priority_score, priority_reasons FROM accounts WHERE hubspot_company_id = %s",
+            (company_id,)
+        )
+        row = cur.fetchone()
+    finally:
+        conn.close()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Account not found in context engine")
+
+    return {
+        **row["merged_context"],
+        "priority_score": row["priority_score"],
+        "priority_reasons": row["priority_reasons"],
+    }
 
 
 @app.get("/accounts/{company_id}/brief")
 def get_account_brief(company_id: str) -> AccountBrief:
-    ctx = build_context(company_id)
-    crm = ctx["crm"]
-    internal = ctx["internal"]
+    """Generates a Gemini brief using pre-synced Postgres context."""
+    conn = get_db()
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT merged_context, priority_score, priority_reasons FROM accounts WHERE hubspot_company_id = %s",
+            (company_id,)
+        )
+        row = cur.fetchone()
+    finally:
+        conn.close()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Account not found in context engine")
+
+    merged = row["merged_context"]
+    crm = merged.get("crm", {})
 
     if not crm.get("name"):
         raise HTTPException(status_code=404, detail="Company not found")
 
-    score, reasons = priority_score(crm, internal)
-
     prompt_data = {
         "crm": crm,
-        "internal": internal,
-        "priority_score": score,
-        "priority_reasons": reasons,
+        "internal": merged.get("internal", {}),
+        "priority_score": row["priority_score"],
+        "priority_reasons": row["priority_reasons"],
     }
     account_data = json.dumps(prompt_data, indent=2)
 
