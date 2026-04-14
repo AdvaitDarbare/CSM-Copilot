@@ -99,6 +99,24 @@ The structural backbone. Maintains one canonical, enriched account record per co
 
 ---
 
+## Current State vs Planned Experience
+
+**Current state**
+- FastAPI backend is live
+- Postgres `accounts` table is populated with merged CRM + internal context
+- `account_embeddings` is populated with `768`-dim Gemini embeddings
+- `/accounts/prioritized`, `/accounts/{id}/context`, `/accounts/{id}/brief`, and `/accounts/similar/{id}` are powered from Postgres
+
+**Planned experience**
+- Google ADK orchestrator with intent routing
+- Conversational workspace frontend
+- Persistent account and portfolio workspaces
+- Action-oriented artifacts: save plans, drafts, alerts, and follow-up workflows
+
+The current product is a working context engine and API. The planned product is an agentic CSM workspace built on top of that engine.
+
+---
+
 ## Priority Scoring
 
 Accounts are ranked using a weighted combination of CRM and operational signals. `risk_level` is intentionally low-weight — it is a derived field. Raw signals drive the score.
@@ -158,6 +176,196 @@ Every account surfaces at least one human-readable `priority_reason`. Phrasing i
 **Conversational response** — follow-up questions, short answers
 
 Plain text, 2–4 sentences. Sounds like a knowledgeable coworker, not a report generator.
+
+---
+
+## Product Experience Plan
+
+### Interaction model
+
+The UX should follow a two-pane agent workspace rather than a plain chatbot or a static dashboard.
+
+```text
+Left side  = request + progress + short answer
+Right side = durable artifact the CSM can use immediately
+```
+
+```text
+User Ask
+  -> Orchestrator
+     -> Portfolio Agent
+     -> Account Agent
+  -> Context Engine
+  -> Right-side artifact
+```
+
+### Why this model fits CSM work
+
+- CSMs ask open-ended questions, not rigid dashboard filters
+- The answer needs evidence, not just prose
+- The result should persist as a useful object: a brief, watchlist, renewal review, or save plan
+- The system should feel like it is doing work on the user's behalf, not just generating text
+
+### Left-pane behavior
+
+The left pane should show:
+- The user's natural-language request
+- Short progress updates in product language
+- A concise final answer
+
+Do not show raw tool traces or bash output to end users.
+
+Use statuses like:
+- `Pulling account context`
+- `Ranking renewal risk`
+- `Reviewing support signals`
+- `Finding similar accounts`
+- `Drafting recommended next step`
+
+### Right-pane artifact design
+
+The right pane should be the primary output surface.
+
+For account-specific questions:
+- Account header: name, risk, segment, plan, ARR, renewal date
+- Summary
+- Why flagged
+- Current situation
+- Recommended next step
+- Similar accounts
+- Quick actions
+
+For portfolio questions:
+- Overview metrics
+- Priority queue
+- Renewal watchlist
+- Risk-theme breakdown
+- Recommended manager actions
+
+For workflow/action questions:
+- Draft follow-up email
+- Save plan
+- Escalation summary
+- Manager update
+
+### Core screens
+
+```text
+1. Portfolio Workspace
+   - morning triage
+   - prioritized queue
+   - renewals in next 30/60/90 days
+   - risk theme breakdown
+
+2. Account Workspace
+   - account brief
+   - risk signals
+   - ticket / note context
+   - next action
+   - similar accounts
+
+3. Renewal Review
+   - renewal-critical accounts
+   - grouped by renewal window
+   - manager-ready summary
+
+4. Save Plan / Draft Panel
+   - email draft
+   - action checklist
+   - owner + due date
+   - reminder / automation trigger
+```
+
+### Example user asks and routing
+
+```text
+"What should I focus on this morning?"
+  -> Orchestrator -> Portfolio Agent
+  -> /accounts/prioritized
+  -> Priority queue artifact
+
+"I have a call with Acme in 20 minutes. What should I know?"
+  -> Orchestrator -> Account Agent
+  -> /accounts/{id}/context + /accounts/{id}/brief
+  -> Pre-call brief artifact
+
+"Are there other accounts with the same issues as Acme?"
+  -> Orchestrator -> Account Agent
+  -> /accounts/similar/{id}
+  -> Similar accounts artifact
+
+"Who renews in the next 30 days and is at risk?"
+  -> Orchestrator -> Portfolio Agent
+  -> accounts query filtered by renewal window
+  -> Renewal watchlist artifact
+```
+
+### Account artifact target
+
+```text
+[Account Header]
+Acme Corp
+High Risk · Mid-market · Pro · $75k ARR
+Renewal: May 15, 2026
+
+[Summary]
+This account is at immediate renewal risk due to low health, declining usage,
+ticket pressure, and weak engagement.
+
+[Why Flagged]
+- Critical health score (22)
+- Usage down 16% (30d)
+- 9 open tickets (escalated)
+- No CSM touch in 26 days
+
+[Current Situation]
+- Latest ticket summary
+- Recent CSM note
+- Champion status
+- Renewal confidence
+
+[Recommended Next Step]
+One clear action the CSM should take now
+
+[Related]
+- Similar accounts
+- Draft email
+- Create save plan
+- Set follow-up reminder
+```
+
+### Portfolio artifact target
+
+```text
+[Portfolio Overview]
+Accounts reviewed: 100
+High risk: 29
+Renewing in 30 days: 19
+Top save-plan accounts: 8
+
+[Priority Queue]
+table
+
+[Risk Theme Breakdown]
+- Integration failure
+- Billing dispute
+- Workflow complexity
+- Low adoption
+
+[Recommended Manager Actions]
+- Escalate renewal-critical accounts
+- Review ticket-heavy cohort with support
+- Assign save plans to owners
+```
+
+### Product rules
+
+- Left side is process, right side is decision-ready output
+- Short answer first, evidence second
+- Narrative fields support the answer; structured signals carry the truth
+- Every high-risk answer should end with a concrete next step
+- Similar-account search should be a first-class workflow, not a hidden debug feature
+- The UI should feel operational, not analytical-only
 
 ---
 
@@ -272,6 +480,7 @@ pip install fastapi uvicorn requests python-dotenv google-generativeai faker
 ```env
 HUBSPOT_ACCESS_TOKEN=your_hubspot_token
 GEMINI_API_KEY=your_gemini_key
+DATABASE_URL=postgresql://localhost/csm_copilot
 ```
 
 ### 3. Generate enrichment data
@@ -284,7 +493,13 @@ curl http://localhost:8000/hubspot/raw > hubspot_companies.json
 python3 generate_account_context.py
 ```
 
-### 4. Run the backend
+### 4. Sync the context engine
+
+```bash
+python3 sync_context_engine.py
+```
+
+### 5. Run the backend
 
 ```bash
 uvicorn main:app --reload
@@ -301,6 +516,7 @@ Docs: `http://localhost:8000/docs`
 .
 ├── main.py                      # FastAPI backend + scoring logic
 ├── generate_account_context.py  # Synthetic enrichment generator
+├── sync_context_engine.py       # HubSpot + enrichment -> Postgres + pgvector sync
 ├── account_context.json         # Generated internal enrichment data
 ├── hubspot_companies.json       # HubSpot raw export
 └── .env                         # API keys (not committed)
@@ -324,8 +540,12 @@ This project uses real CRM structure via HubSpot's API with synthetic business a
 - [x] `/accounts/{id}/context` — merged account object
 - [x] `/accounts/prioritized` — scored and ranked queue
 - [x] `/accounts/{id}/brief` — Gemini structured brief with pre-computed signals
-- [ ] Postgres + pgvector context engine
+- [x] Postgres + pgvector context engine
+- [x] `/accounts/similar/{id}` — vector similarity search
 - [ ] Google ADK — Orchestrator, Portfolio Agent, Account Agent
-- [ ] `/accounts/similar/{id}` — vector similarity search
 - [ ] Conversational frontend (Next.js)
-- [ ] Account card UI + prioritized list view
+- [ ] Two-pane workspace UI: conversation + artifact panel
+- [ ] Portfolio workspace
+- [ ] Account workspace
+- [ ] Renewal review view
+- [ ] Save-plan / draft-action panel
