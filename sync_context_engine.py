@@ -200,7 +200,7 @@ def embed_account(merged: dict) -> list[float] | None:
 
     try:
         result = genai.embed_content(
-            model="models/text-embedding-004",
+            model="models/gemini-embedding-001",
             content=text,
             task_type="RETRIEVAL_DOCUMENT",
         )
