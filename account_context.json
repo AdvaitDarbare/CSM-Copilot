@@ -18,7 +18,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer got stuck building multi-step automation.",
-    "recent_csm_note": "Shaffer Garcia and Richardson is currently high risk. Primary concern is workflow complexity. Health score is 22 with 5 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Shaffer Garcia and Richardson is currently high risk. Primary concern is workflow complexity. Health score is 22 with 5 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Offer guided enablement for advanced workflow setup.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -41,7 +41,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Implementation slowed after initial admin handoff.",
-    "recent_csm_note": "Buchanan LLC is currently high risk. Primary concern is onboarding stall. Health score is 33 with 7 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Buchanan LLC is currently high risk. Primary concern is onboarding stall. Health score is 33 with 7 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Book onboarding rescue session and complete setup checklist.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -64,7 +64,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Finance contact flagged unexpected renewal amount.",
-    "recent_csm_note": "Wright Garcia and Deleon is currently high risk. Primary concern is billing dispute. Health score is 27 with 11 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Wright Garcia and Deleon is currently high risk. Primary concern is billing dispute. Health score is 27 with 11 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -87,7 +87,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer got stuck building multi-step automation.",
-    "recent_csm_note": "Burns Hernandez and Ryan is currently high risk. Primary concern is workflow complexity. Health score is 36 with 9 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Burns Hernandez and Ryan is currently high risk. Primary concern is workflow complexity. Health score is 36 with 9 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Offer guided enablement for advanced workflow setup.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -110,7 +110,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Team questioned duplicate charges on latest invoice.",
-    "recent_csm_note": "Hill Inc is currently high risk. Primary concern is billing dispute. Health score is 27 with 10 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Hill Inc is currently high risk. Primary concern is billing dispute. Health score is 27 with 10 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -133,7 +133,7 @@
     "champion_status": "No clear champion",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Finance contact flagged unexpected renewal amount.",
-    "recent_csm_note": "Williams Logan and Camacho is currently high risk. Primary concern is billing dispute. Health score is 26 with 11 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Williams Logan and Camacho is currently high risk. Primary concern is billing dispute. Health score is 26 with 11 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -685,7 +685,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer hit repeated auth failures reconnecting integration.",
-    "recent_csm_note": "Baker Mason and White is currently high risk. Primary concern is integration failure. Health score is 22 with 8 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Baker Mason and White is currently high risk. Primary concern is integration failure. Health score is 22 with 8 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -708,7 +708,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Field mapping broke during automated sync setup.",
-    "recent_csm_note": "Herman-Walker is currently high risk. Primary concern is integration failure. Health score is 31 with 11 open tickets and usage trend marked as decreasing.",
+    "recent_csm_note": "Herman-Walker is currently high risk. Primary concern is integration failure. Health score is 31 with 11 open tickets and usage trend marked as stable.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -754,7 +754,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "CRM sync failed during bulk updates.",
-    "recent_csm_note": "Gray Group is currently high risk. Primary concern is integration failure. Health score is 34 with 10 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Gray Group is currently high risk. Primary concern is integration failure. Health score is 34 with 10 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -777,7 +777,7 @@
     "champion_status": "No clear champion",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer expected advanced capabilities not yet shipped.",
-    "recent_csm_note": "Best-Townsend is currently high risk. Primary concern is feature gap. Health score is 41 with 7 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Best-Townsend is currently high risk. Primary concern is feature gap. Health score is 41 with 7 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Align on roadmap expectations and provide supported workaround.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -800,7 +800,7 @@
     "champion_status": "No clear champion",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Field mapping broke during automated sync setup.",
-    "recent_csm_note": "Sanders Ayala and Johnson is currently high risk. Primary concern is integration failure. Health score is 31 with 9 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Sanders Ayala and Johnson is currently high risk. Primary concern is integration failure. Health score is 31 with 9 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1467,7 +1467,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Power users hit complexity limits in advanced workflows.",
-    "recent_csm_note": "Sullivan PLC is currently high risk. Primary concern is workflow complexity. Health score is 21 with 7 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Sullivan PLC is currently high risk. Primary concern is workflow complexity. Health score is 21 with 7 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Offer guided enablement for advanced workflow setup.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1490,7 +1490,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer reported invoice mismatch after seat changes.",
-    "recent_csm_note": "Hicks-Hill is currently high risk. Primary concern is billing dispute. Health score is 23 with 8 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Hicks-Hill is currently high risk. Primary concern is billing dispute. Health score is 23 with 8 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1513,7 +1513,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Team questioned duplicate charges on latest invoice.",
-    "recent_csm_note": "Acosta Garcia and Moreno is currently high risk. Primary concern is billing dispute. Health score is 45 with 10 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Acosta Garcia and Moreno is currently high risk. Primary concern is billing dispute. Health score is 45 with 10 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1582,7 +1582,7 @@
     "champion_status": "No clear champion",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer hit repeated auth failures reconnecting integration.",
-    "recent_csm_note": "Bell-Lewis is currently high risk. Primary concern is integration failure. Health score is 40 with 5 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Bell-Lewis is currently high risk. Primary concern is integration failure. Health score is 40 with 5 open tickets and usage trend marked as stable.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1651,7 +1651,7 @@
     "champion_status": "No clear champion",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Customer is not expanding usage beyond core users.",
-    "recent_csm_note": "Wang Henderson and Morales is currently high risk. Primary concern is low adoption. Health score is 20 with 6 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Wang Henderson and Morales is currently high risk. Primary concern is low adoption. Health score is 20 with 6 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Run adoption review and identify broader rollout opportunities.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1674,7 +1674,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Field mapping broke during automated sync setup.",
-    "recent_csm_note": "Mullen Brewer and Hernandez is currently high risk. Primary concern is integration failure. Health score is 47 with 12 open tickets and usage trend marked as increasing.",
+    "recent_csm_note": "Mullen Brewer and Hernandez is currently high risk. Primary concern is integration failure. Health score is 47 with 12 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Schedule technical working session and provide workaround for sync issues.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1812,7 +1812,7 @@
     "champion_status": "Inactive",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Finance contact flagged unexpected renewal amount.",
-    "recent_csm_note": "Alexander-Jordan is currently high risk. Primary concern is billing dispute. Health score is 41 with 9 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Alexander-Jordan is currently high risk. Primary concern is billing dispute. Health score is 41 with 9 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Coordinate with finance ops and resolve billing confusion before renewal.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },
@@ -1858,7 +1858,7 @@
     "champion_status": "Engaged but stretched",
     "renewal_confidence": "At Risk",
     "latest_ticket_summary": "Team requested deeper reporting and admin controls.",
-    "recent_csm_note": "Gray-Mayo is currently high risk. Primary concern is feature gap. Health score is 48 with 6 open tickets and usage trend marked as stable.",
+    "recent_csm_note": "Gray-Mayo is currently high risk. Primary concern is feature gap. Health score is 48 with 6 open tickets and usage trend marked as decreasing.",
     "recommended_next_action": "Align on roadmap expectations and provide supported workaround.",
     "synthetic_data_note": "Generated to simulate internal support, product, and customer-success context not typically stored directly in CRM."
   },

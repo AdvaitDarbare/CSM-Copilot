@@ -86,6 +86,13 @@ def usage_change_from_trend(usage: str, risk: str) -> int:
         return random.randint(-4, 4)
     return random.randint(-30, -5)
 
+def normalized_usage_trend(usage_change_30d: int) -> str:
+    if usage_change_30d > 4:
+        return "Increasing"
+    if usage_change_30d < -4:
+        return "Decreasing"
+    return "Stable"
+
 def choose_theme(risk: str, usage: str, tickets: int) -> str:
     if tickets >= 8:
         return random.choice(["billing_dispute", "integration_failure", "workflow_complexity"])
@@ -159,6 +166,7 @@ def main():
         owner_name = random.choice(OWNERS)
         engagement_status = engagement_from_risk(risk, usage)
         usage_change_30d = usage_change_from_trend(usage, risk)
+        usage_trend = normalized_usage_trend(usage_change_30d)
         top_issue_theme = choose_theme(risk, usage, tickets)
         latest_ticket_summary = random.choice(THEMES[top_issue_theme])
         active_users = random.randint(5, 250)
@@ -167,7 +175,7 @@ def main():
         recent_csm_note = (
             f"{company_name} is currently {risk.lower()} risk. "
             f"Primary concern is {top_issue_theme.replace('_', ' ')}. "
-            f"Health score is {health_score} with {tickets} open tickets and usage trend marked as {usage.lower()}."
+            f"Health score is {health_score} with {tickets} open tickets and usage trend marked as {usage_trend.lower()}."
         )
 
         output.append({
