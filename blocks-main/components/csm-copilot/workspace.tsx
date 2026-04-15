@@ -397,367 +397,423 @@ export function CopilotWorkspace({
     [featuredAccount.crm.name, flows.morning.prompt]
   );
 
-  return (
-    <main className="min-h-screen p-3 sm:p-4 lg:p-6">
-      <div className="mx-auto flex max-w-[1680px] flex-col gap-4">
-        <header className="rounded-[30px] border border-black/6 bg-white/75 px-5 py-4 shadow-[0_10px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:px-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge className="bg-[#151515] px-3 py-1 text-white">
-                  CSM Copilot
-                </Badge>
-                <Badge
-                  className={cn(
-                    "border-0 px-3 py-1",
-                    workspaceData.source === "live"
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "bg-amber-100 text-amber-800"
-                  )}
-                  variant="outline"
-                >
-                  {workspaceData.source === "live" ? "Live API" : "Fallback data"}
-                </Badge>
-                <Badge className="bg-white/90 text-slate-600" variant="outline">
-                  Account Intelligence Layer
-                </Badge>
-              </div>
-              <div className="space-y-2">
-                <h1 className="max-w-4xl text-balance font-semibold text-3xl tracking-tight text-slate-900 sm:text-4xl">
-                  Ask about your book of business, then leave behind something
-                  operational.
-                </h1>
-                <p className="max-w-3xl text-pretty text-[15px] leading-7 text-slate-600 sm:text-base">
-                  The left pane is the request and reasoning flow. The right
-                  pane is the persistent artifact: a priority queue, a pre-call
-                  brief, or a pattern analysis you can actually use.
-                </p>
-              </div>
-            </div>
+  const hasConversation = messages.length > 1;
 
-            <div className="grid grid-cols-2 gap-2 sm:flex">
-              <HeaderStat
-                label="Accounts"
-                value={String(portfolio.totalAccounts)}
-              />
-              <HeaderStat
-                label="High risk"
-                value={String(portfolio.highRiskCount)}
-              />
-              <HeaderStat
-                label="Renewing <=30d"
-                value={String(portfolio.renewingSoonCount)}
-              />
-              <HeaderStat
-                label="Top save plans"
-                value={String(portfolio.topSavePlanCount)}
-              />
-              <Button
-                className="rounded-[22px] border-black/6 bg-white/75 text-slate-700 shadow-none hover:bg-slate-50"
-                disabled={refreshStatus === "loading"}
-                onClick={refreshWorkspace}
-                size="sm"
-                variant="outline"
+  return (
+    <div className="flex h-screen overflow-hidden bg-[#f8f7f4]">
+      {/* ── Left sidebar ─────────────────────────────────── */}
+      <aside className="flex w-[220px] shrink-0 flex-col border-r border-black/6 bg-white/70 backdrop-blur-xl">
+        {/* Branding */}
+        <div className="flex items-center gap-2.5 border-b border-black/6 px-4 py-4">
+          <div className="grid size-7 shrink-0 place-items-center rounded-lg bg-[#141414]">
+            <SparklesIcon className="size-3.5 text-white" />
+          </div>
+          <span className="font-semibold text-[13px] text-slate-900 tracking-tight">
+            CSM Copilot
+          </span>
+        </div>
+
+        {/* New session */}
+        <div className="px-3 pt-3 pb-1">
+          <button
+            className="flex w-full items-center gap-2 rounded-xl border border-black/8 bg-white/80 px-3 py-2 text-[13px] font-medium text-slate-600 transition-colors hover:bg-slate-50"
+            onClick={() => {
+              setMessages([{
+                id: "welcome",
+                role: "assistant",
+                content: "**Welcome to CSM Copilot.** This workspace is tuned for account triage, pre-call prep, and risk pattern discovery. Ask a question or use one of the guided prompts to assemble a durable artifact on the right.",
+              }]);
+              setActiveWorkflow("morning");
+              setRunState(null);
+              setStatus("ready");
+              setInputValue("");
+            }}
+            type="button"
+          >
+            <svg className="size-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M12 5v14M5 12h14" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            New session
+          </button>
+        </div>
+
+        {/* Quick workflows */}
+        <div className="px-3 pt-3 space-y-0.5">
+          <div className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Workflows
+          </div>
+          {Object.values(flows).map((flow) => {
+            const Icon =
+              flow.id === "morning"
+                ? RadarIcon
+                : flow.id === "brief"
+                  ? BriefcaseBusinessIcon
+                  : UsersRoundIcon;
+            return (
+              <button
+                className={cn(
+                  "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-[13px] transition-all",
+                  activeWorkflow === flow.id && !runState
+                    ? "bg-slate-900 font-medium text-white"
+                    : "text-slate-600 hover:bg-slate-100"
+                )}
+                key={flow.id}
+                onClick={() => {
+                  void runWorkflow({
+                    workflowId: flow.id,
+                    prompt: flow.prompt,
+                    accountId: accountData.accountId,
+                    answer: (data) =>
+                      buildWorkflowAnswer(flow.id, flow.prompt, workspaceData, data),
+                  });
+                }}
+                type="button"
               >
-                <RefreshCcwIcon
-                  className={cn(
-                    "size-4",
-                    refreshStatus === "loading" && "animate-spin"
-                  )}
-                />
-                Refresh
-              </Button>
+                <Icon className="size-3.5 shrink-0" />
+                <span className="truncate">{flow.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Spacer */}
+        <div className="flex-1" />
+
+        {/* Portfolio stats */}
+        <div className="border-t border-black/6 px-3 py-3 space-y-2">
+          <div className="px-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Portfolio
+          </div>
+          <div className="grid grid-cols-2 gap-1.5">
+            {[
+              { label: "Accounts", value: portfolio.totalAccounts },
+              { label: "High risk", value: portfolio.highRiskCount },
+              { label: "Renewing ≤30d", value: portfolio.renewingSoonCount },
+              { label: "Save plans", value: portfolio.topSavePlanCount },
+            ].map((stat) => (
+              <div
+                className="rounded-xl border border-black/6 bg-white/80 px-2.5 py-2"
+                key={stat.label}
+              >
+                <div className="text-[10px] text-slate-400 leading-none">{stat.label}</div>
+                <div className="mt-1 text-lg font-semibold tracking-tight text-slate-900">
+                  {stat.value}
+                </div>
+              </div>
+            ))}
+          </div>
+          <Button
+            className="mt-1 w-full rounded-xl border-black/8 bg-white/80 text-[12px] text-slate-600 shadow-none hover:bg-slate-50"
+            disabled={refreshStatus === "loading"}
+            onClick={refreshWorkspace}
+            size="sm"
+            variant="outline"
+          >
+            <RefreshCcwIcon
+              className={cn("size-3.5", refreshStatus === "loading" && "animate-spin")}
+            />
+            Refresh data
+          </Button>
+        </div>
+      </aside>
+
+      {/* ── Chat area ─────────────────────────────────────── */}
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* Chat header */}
+        <header className="flex shrink-0 items-center justify-between gap-4 border-b border-black/6 bg-white/80 px-5 py-3 backdrop-blur-xl">
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-1.5 text-[13px] font-medium text-slate-900">
+              <span className="size-2 rounded-full bg-emerald-500" />
+              Workspace Session
             </div>
+            <Badge
+              className={cn(
+                "border-0 px-2 py-0.5 text-[11px]",
+                workspaceData.source === "live"
+                  ? "bg-emerald-50 text-emerald-700"
+                  : "bg-amber-50 text-amber-700"
+              )}
+              variant="outline"
+            >
+              {workspaceData.source === "live" ? "Live API" : "Fallback"}
+            </Badge>
+          </div>
+
+          {/* Account focus rail (compact) */}
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            {accountStatus === "loading" && (
+              <div className="flex items-center gap-1.5 text-[12px] text-slate-400">
+                <LoaderCircleIcon className="size-3 animate-spin" />
+                Loading
+              </div>
+            )}
+            {portfolio.prioritized.slice(0, 5).map((account) => (
+              <button
+                className={cn(
+                  "shrink-0 rounded-full border px-3 py-1 text-[12px] transition-all",
+                  account.id === accountData.accountId
+                    ? "border-slate-900 bg-slate-900 font-medium text-white"
+                    : "border-black/8 bg-white/80 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                )}
+                key={account.id}
+                onClick={() => void loadAccount(account.id, "brief")}
+                type="button"
+              >
+                {account.name}
+              </button>
+            ))}
           </div>
         </header>
 
-        <div className="grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-          <section className="flex min-h-[780px] flex-col overflow-hidden rounded-[30px] border border-black/6 bg-white/80 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-            <div className="border-b border-black/6 px-5 py-4 sm:px-6">
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
-                      <SparklesIcon className="size-4 text-slate-500" />
-                      Workspace Session
-                    </div>
-                    <p className="text-sm text-slate-500">
-                      Query, progress, and short answers stay on the left.
-                    </p>
-                  </div>
-                  <div className="hidden items-center gap-2 rounded-full border border-black/8 bg-slate-50 px-3 py-1 text-xs text-slate-500 sm:flex">
-                    <span className="size-2 rounded-full bg-emerald-500" />
-                    Generated {formatDateTime(workspaceData.generatedAt)}
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {Object.values(flows).map((flow) => (
-                    <Button
-                      className="rounded-full border-black/8 bg-white/80 text-slate-700 shadow-none hover:bg-slate-50"
-                      key={flow.id}
-                      onClick={() => {
-                        void runWorkflow({
-                          workflowId: flow.id,
-                          prompt: flow.prompt,
-                          accountId: accountData.accountId,
-                          answer: (data) =>
-                            buildWorkflowAnswer(
-                              flow.id,
-                              flow.prompt,
-                              workspaceData,
-                              data
-                            ),
-                        });
-                      }}
-                      size="sm"
-                      variant="outline"
-                    >
-                      {flow.label}
-                    </Button>
-                  ))}
-                </div>
-
-                <AccountFocusRail
-                  activeAccountId={accountData.accountId}
-                  loading={accountStatus === "loading"}
-                  onSelectAccount={(accountId) => {
-                    void loadAccount(accountId, "brief");
-                  }}
-                  prioritized={portfolio.prioritized}
-                />
-              </div>
-            </div>
-
-            <div className="relative flex min-h-0 flex-1 flex-col">
-              {runState && (
-                <div className="absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-black/3">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#7c95ff] via-[#2d6cdf] to-[#141414] transition-all duration-500"
-                    style={{
-                      width: `${Math.max(
-                        16,
-                        (runState.currentStep / runState.steps.length) * 100
-                      )}%`,
-                    }}
-                  />
-                </div>
-              )}
-
-              <Conversation className="flex-1 bg-transparent">
-                <ConversationContent className="gap-5 px-4 py-5 sm:px-6 sm:py-6">
-                  <HeroPromptCard
-                    activeLabel={activeFlow.label}
-                    source={workspaceData.source}
-                  />
-                  <StarterPromptGrid
-                    items={starterPrompts}
-                    onSelect={(item) => {
-                      void runWorkflow({
-                        workflowId: item.workflowId,
-                        prompt: item.prompt,
-                        accountId: accountData.accountId,
-                        answer: (data) =>
-                          buildWorkflowAnswer(
-                            item.workflowId,
-                            item.prompt,
-                            workspaceData,
-                            data
-                          ),
-                      });
-                    }}
-                  />
-
-                  {messages.map((message) => (
-                    <Message
-                      className="animate-in fade-in slide-in-from-bottom-2 duration-500"
-                      from={message.role}
-                      key={message.id}
-                    >
-                      <MessageContent
-                        className={cn(
-                          message.role === "assistant"
-                            ? "max-w-[90%] text-slate-800"
-                            : "max-w-[85%] rounded-3xl bg-[#1b1b1b] px-4 py-3 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)]"
-                        )}
-                      >
-                        {message.role === "assistant" ? (
-                          <div className="rounded-[24px] border border-black/6 bg-white/80 px-4 py-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] backdrop-blur-sm">
-                            <MessageResponse className="prose prose-slate max-w-none text-sm leading-7">
-                              {message.content}
-                            </MessageResponse>
-                          </div>
-                        ) : (
-                          <p className="whitespace-pre-wrap text-sm leading-7">
-                            {message.content}
-                          </p>
-                        )}
-                      </MessageContent>
-                    </Message>
-                  ))}
-
-                  {runState && (
-                    <Message
-                      className="animate-in fade-in slide-in-from-bottom-3 duration-300"
-                      from="assistant"
-                    >
-                      <MessageContent className="max-w-[92%] text-slate-800">
-                        <RunStatusCard
-                          currentStep={runState.currentStep}
-                          label={flows[runState.workflowId].label}
-                          steps={runState.steps}
-                        />
-                      </MessageContent>
-                    </Message>
-                  )}
-                </ConversationContent>
-                <ConversationScrollButton />
-              </Conversation>
-
-              <div className="border-t border-black/6 bg-white/70 px-4 py-4 backdrop-blur-sm sm:px-6">
-                <PromptInput
-                  className="[&>[data-slot=input-group]]:rounded-[24px] [&>[data-slot=input-group]]:border-black/8 [&>[data-slot=input-group]]:bg-white [&>[data-slot=input-group]]:shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
-                  onSubmit={(message) => handleSubmit(message.text)}
-                >
-                  <PromptInputTextarea
-                    onChange={(event) => setInputValue(event.currentTarget.value)}
-                    placeholder={`Ask about renewals, ${featuredAccount.crm.name}, or similar-risk accounts`}
-                    value={inputValue}
-                  />
-                  <PromptInputFooter>
-                    <PromptInputTools>
-                      <PromptInputButton
-                        aria-label="Morning triage"
-                        onClick={() => {
-                          void runWorkflow({
-                            workflowId: "morning",
-                            prompt: flows.morning.prompt,
-                            accountId: accountData.accountId,
-                            answer: (data) =>
-                              buildWorkflowAnswer(
-                                "morning",
-                                flows.morning.prompt,
-                                workspaceData,
-                                data
-                              ),
-                          });
-                        }}
-                        type="button"
-                      >
-                        <RadarIcon className="size-4" />
-                      </PromptInputButton>
-                      <PromptInputButton
-                        aria-label="Pre-call brief"
-                        onClick={() => {
-                          void runWorkflow({
-                            workflowId: "brief",
-                            prompt: flows.brief.prompt,
-                            accountId: accountData.accountId,
-                            answer: (data) =>
-                              buildWorkflowAnswer(
-                                "brief",
-                                flows.brief.prompt,
-                                workspaceData,
-                                data
-                              ),
-                          });
-                        }}
-                        type="button"
-                      >
-                        <BriefcaseBusinessIcon className="size-4" />
-                      </PromptInputButton>
-                      <PromptInputButton
-                        aria-label="Similar accounts"
-                        onClick={() => {
-                          void runWorkflow({
-                            workflowId: "similar",
-                            prompt: flows.similar.prompt,
-                            accountId: accountData.accountId,
-                            answer: (data) =>
-                              buildWorkflowAnswer(
-                                "similar",
-                                flows.similar.prompt,
-                                workspaceData,
-                                data
-                              ),
-                          });
-                        }}
-                        type="button"
-                      >
-                        <UsersRoundIcon className="size-4" />
-                      </PromptInputButton>
-                    </PromptInputTools>
-                    <PromptInputSubmit
-                      disabled={!inputValue.trim() || status !== "ready"}
-                      status={status}
-                    />
-                  </PromptInputFooter>
-                </PromptInput>
-              </div>
-            </div>
-          </section>
-
-          <section className="min-h-[780px] overflow-hidden rounded-[30px] border border-black/6 bg-white/85 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-            <div className="border-b border-black/6 px-5 py-4 sm:px-6">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
-                    <WorkflowIcon className="size-4 text-slate-500" />
-                    Artifact Panel
-                  </div>
-                  <h2 className="text-balance font-semibold text-2xl tracking-tight text-slate-900">
-                    {activeFlow.artifactTitle}
+        {/* Conversation */}
+        <Conversation className="flex-1 bg-transparent">
+          <ConversationContent className="gap-4 px-5 py-5">
+            {/* Empty state — shown only before any user message */}
+            {!hasConversation && (
+              <div className="animate-in fade-in slide-in-from-bottom-2 mx-auto flex w-full max-w-xl flex-col items-center gap-6 pt-8 duration-500">
+                <div className="space-y-2 text-center">
+                  <h2 className="font-semibold text-xl tracking-tight text-slate-900">
+                    What do you need right now?
                   </h2>
-                  <p className="max-w-3xl text-pretty text-sm leading-6 text-slate-500">
-                    {activeFlow.artifactSummary}
+                  <p className="text-sm text-slate-500">
+                    Ask about renewals, accounts, or patterns — or pick a guided workflow.
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge className="bg-slate-900/95 px-3 py-1 text-white">
-                    {activeFlow.label}
-                  </Badge>
-                  <Badge className="bg-white text-slate-500" variant="outline">
-                    Session-linked artifact
-                  </Badge>
+
+                <div className="grid w-full gap-2 sm:grid-cols-3">
+                  {starterPrompts.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <button
+                        className="flex flex-col gap-2 rounded-2xl border border-black/6 bg-white/80 p-4 text-left shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_12px_28px_rgba(15,23,42,0.07)]"
+                        key={item.label}
+                        onClick={() =>
+                          void runWorkflow({
+                            workflowId: item.workflowId,
+                            prompt: item.prompt,
+                            accountId: accountData.accountId,
+                            answer: (data) =>
+                              buildWorkflowAnswer(item.workflowId, item.prompt, workspaceData, data),
+                          })
+                        }
+                        type="button"
+                      >
+                        <div className="flex items-center gap-2 text-[13px] font-medium text-slate-900">
+                          <div className="grid size-7 place-items-center rounded-xl bg-slate-100">
+                            <Icon className="size-3.5 text-slate-600" />
+                          </div>
+                          {item.label}
+                        </div>
+                        <p className="text-[12px] leading-5 text-slate-500">
+                          {item.description}
+                        </p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </div>
+            )}
 
-            <ScrollArea className="h-[720px] lg:h-[calc(100vh-13.5rem)]">
-              <div
-                className="space-y-4 p-4 sm:p-6"
-                key={`${activeWorkflow}:${accountData.accountId}`}
+            {/* Messages — skip the welcome if no conversation started yet */}
+            {messages
+              .filter((m) => hasConversation || m.id !== "welcome")
+              .map((message) => (
+                <Message
+                  className="animate-in fade-in slide-in-from-bottom-2 duration-400"
+                  from={message.role}
+                  key={message.id}
+                >
+                  <MessageContent
+                    className={cn(
+                      message.role === "user"
+                        ? "max-w-[78%] rounded-2xl bg-[#1a1a1a] px-4 py-3 text-white shadow-[0_6px_20px_rgba(15,23,42,0.15)]"
+                        : "max-w-[88%]"
+                    )}
+                  >
+                    {message.role === "assistant" ? (
+                      <div className="rounded-2xl border border-black/6 bg-white/90 px-4 py-4 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
+                        <MessageResponse className="prose prose-slate max-w-none text-[13.5px] leading-7">
+                          {message.content}
+                        </MessageResponse>
+                      </div>
+                    ) : (
+                      <p className="whitespace-pre-wrap text-[13.5px] leading-6">
+                        {message.content}
+                      </p>
+                    )}
+                  </MessageContent>
+                </Message>
+              ))}
+
+            {/* In-progress step tracker */}
+            {runState && (
+              <Message
+                className="animate-in fade-in slide-in-from-bottom-3 duration-300"
+                from="assistant"
               >
-                {activeWorkflow === "morning" ? (
-                  <PortfolioArtifact
-                    activeAccountId={accountData.accountId}
-                    onSelectAccount={(accountId) => {
-                      void loadAccount(accountId, "brief");
-                    }}
-                    portfolio={portfolio}
+                <MessageContent className="max-w-[88%]">
+                  <RunStatusCard
+                    currentStep={runState.currentStep}
+                    label={flows[runState.workflowId].label}
+                    steps={runState.steps}
                   />
-                ) : null}
-                {activeWorkflow === "brief" ? (
-                  <AccountArtifact
-                    brief={accountData.brief}
-                    context={featuredAccount}
-                    isLoading={accountStatus === "loading"}
-                    prioritized={portfolio.prioritized}
-                  />
-                ) : null}
-                {activeWorkflow === "similar" ? (
-                  <SimilarArtifact
-                    context={featuredAccount}
-                    isLoading={accountStatus === "loading"}
-                    similar={accountData.similar}
-                  />
-                ) : null}
-              </div>
-            </ScrollArea>
-          </section>
+                </MessageContent>
+              </Message>
+            )}
+          </ConversationContent>
+          <ConversationScrollButton />
+        </Conversation>
+
+        {/* Input area */}
+        <div className="shrink-0 border-t border-black/6 bg-white/80 px-4 py-3 backdrop-blur-xl">
+          {/* Progress bar when running */}
+          {runState && (
+            <div className="mb-2 h-0.5 overflow-hidden rounded-full bg-black/6">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#7c95ff] via-[#2d6cdf] to-[#141414] transition-all duration-500"
+                style={{
+                  width: `${Math.max(16, (runState.currentStep / runState.steps.length) * 100)}%`,
+                }}
+              />
+            </div>
+          )}
+          <PromptInput
+            className="[&>[data-slot=input-group]]:rounded-2xl [&>[data-slot=input-group]]:border-black/8 [&>[data-slot=input-group]]:bg-white [&>[data-slot=input-group]]:shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
+            onSubmit={(message) => handleSubmit(message.text)}
+          >
+            <PromptInputTextarea
+              onChange={(event) => setInputValue(event.currentTarget.value)}
+              placeholder={`Ask about ${featuredAccount.crm.name}, renewals, or risk patterns…`}
+              value={inputValue}
+            />
+            <PromptInputFooter>
+              <PromptInputTools>
+                <PromptInputButton
+                  aria-label="Morning triage"
+                  title="Morning triage"
+                  onClick={() =>
+                    void runWorkflow({
+                      workflowId: "morning",
+                      prompt: flows.morning.prompt,
+                      accountId: accountData.accountId,
+                      answer: (data) =>
+                        buildWorkflowAnswer("morning", flows.morning.prompt, workspaceData, data),
+                    })
+                  }
+                  type="button"
+                >
+                  <RadarIcon className="size-4" />
+                </PromptInputButton>
+                <PromptInputButton
+                  aria-label="Pre-call brief"
+                  title="Pre-call brief"
+                  onClick={() =>
+                    void runWorkflow({
+                      workflowId: "brief",
+                      prompt: flows.brief.prompt,
+                      accountId: accountData.accountId,
+                      answer: (data) =>
+                        buildWorkflowAnswer("brief", flows.brief.prompt, workspaceData, data),
+                    })
+                  }
+                  type="button"
+                >
+                  <BriefcaseBusinessIcon className="size-4" />
+                </PromptInputButton>
+                <PromptInputButton
+                  aria-label="Pattern analysis"
+                  title="Pattern analysis"
+                  onClick={() =>
+                    void runWorkflow({
+                      workflowId: "similar",
+                      prompt: flows.similar.prompt,
+                      accountId: accountData.accountId,
+                      answer: (data) =>
+                        buildWorkflowAnswer("similar", flows.similar.prompt, workspaceData, data),
+                    })
+                  }
+                  type="button"
+                >
+                  <UsersRoundIcon className="size-4" />
+                </PromptInputButton>
+              </PromptInputTools>
+              <PromptInputSubmit
+                disabled={!inputValue.trim() || status !== "ready"}
+                status={status}
+              />
+            </PromptInputFooter>
+          </PromptInput>
         </div>
       </div>
-    </main>
+
+      {/* ── Right artifact panel ──────────────────────────── */}
+      <aside className="flex w-[460px] shrink-0 flex-col border-l border-black/6 bg-white/85 backdrop-blur-xl xl:w-[500px]">
+        {/* Artifact header */}
+        <div className="shrink-0 border-b border-black/6 px-5 py-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-[12px] font-medium text-slate-400 uppercase tracking-[0.16em]">
+              <WorkflowIcon className="size-3.5" />
+              Artifact
+            </div>
+            <div className="flex gap-1">
+              {Object.values(flows).map((flow) => (
+                <button
+                  className={cn(
+                    "rounded-full px-2.5 py-1 text-[11px] font-medium transition-all",
+                    activeWorkflow === flow.id
+                      ? "bg-slate-900 text-white"
+                      : "text-slate-500 hover:bg-slate-100"
+                  )}
+                  key={flow.id}
+                  onClick={() => setActiveWorkflow(flow.id)}
+                  type="button"
+                >
+                  {flow.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <h2 className="mt-2 font-semibold text-[18px] tracking-tight text-slate-900">
+            {activeFlow.artifactTitle}
+          </h2>
+          <p className="mt-0.5 text-[12.5px] leading-5 text-slate-500">
+            {activeFlow.artifactSummary}
+          </p>
+        </div>
+
+        <ScrollArea className="flex-1">
+          <div
+            className="space-y-4 p-4"
+            key={`${activeWorkflow}:${accountData.accountId}`}
+          >
+            {activeWorkflow === "morning" ? (
+              <PortfolioArtifact
+                activeAccountId={accountData.accountId}
+                onSelectAccount={(accountId) => {
+                  void loadAccount(accountId, "brief");
+                }}
+                portfolio={portfolio}
+              />
+            ) : null}
+            {activeWorkflow === "brief" ? (
+              <AccountArtifact
+                brief={accountData.brief}
+                context={featuredAccount}
+                isLoading={accountStatus === "loading"}
+                prioritized={portfolio.prioritized}
+              />
+            ) : null}
+            {activeWorkflow === "similar" ? (
+              <SimilarArtifact
+                context={featuredAccount}
+                isLoading={accountStatus === "loading"}
+                similar={accountData.similar}
+              />
+            ) : null}
+          </div>
+        </ScrollArea>
+      </aside>
+    </div>
   );
 }
 
@@ -1014,92 +1070,6 @@ function buildAccountActionBundle(
   };
 }
 
-function HeroPromptCard({
-  source,
-  activeLabel,
-}: {
-  source: WorkspaceBootstrap["source"];
-  activeLabel: string;
-}) {
-  return (
-    <div className="animate-in fade-in slide-in-from-top-2 rounded-[28px] border border-black/6 bg-[radial-gradient(circle_at_top_left,#ffffff,rgba(255,255,255,0.82)_52%,rgba(241,235,226,0.8)_100%)] p-5 shadow-[0_12px_40px_rgba(15,23,42,0.06)] duration-500">
-      <div className="flex flex-wrap items-center gap-2">
-        <Badge className="bg-[#131313] text-white">
-          Current flow
-        </Badge>
-        <Badge className="bg-white/90 text-slate-500" variant="outline">
-          {activeLabel}
-        </Badge>
-        <Badge
-          className={cn(
-            "border-0",
-            source === "live"
-              ? "bg-emerald-100 text-emerald-800"
-              : "bg-amber-100 text-amber-800"
-          )}
-          variant="outline"
-        >
-          {source === "live" ? "Using live API data" : "Using reliable fallback"}
-        </Badge>
-      </div>
-
-      <div className="mt-4 max-w-3xl space-y-3">
-        <h3 className="text-balance font-semibold text-xl tracking-tight text-slate-900">
-          Chat handles the request. The artifact handles the operational output.
-        </h3>
-        <p className="text-pretty text-sm leading-7 text-slate-600 sm:text-[15px]">
-          This first prototype is already structured around the product model we
-          defined: the left side shows reasoning and progress, while the right
-          side leaves behind a persistent workspace object your CSM can act on.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function StarterPromptGrid({
-  items,
-  onSelect,
-}: {
-  items: Array<{
-    label: string;
-    description: string;
-    prompt: string;
-    workflowId: WorkflowId;
-    icon: ComponentType<{ className?: string }>;
-  }>;
-  onSelect: (item: {
-    label: string;
-    description: string;
-    prompt: string;
-    workflowId: WorkflowId;
-    icon: ComponentType<{ className?: string }>;
-  }) => void;
-}) {
-  return (
-    <div className="grid gap-3 lg:grid-cols-3">
-      {items.map((item) => {
-        const Icon = item.icon;
-        return (
-          <button
-            className="rounded-[24px] border border-black/6 bg-white/75 p-4 text-left shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50"
-            key={item.label}
-            onClick={() => onSelect(item)}
-            type="button"
-          >
-            <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
-              <Icon className="size-4 text-slate-500" />
-              {item.label}
-            </div>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              {item.description}
-            </p>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
 
 function RunStatusCard({
   label,
@@ -1110,30 +1080,42 @@ function RunStatusCard({
   steps: string[];
   currentStep: number;
 }) {
+  const phaseLabel =
+    currentStep >= steps.length
+      ? "Synthesizing"
+      : currentStep >= Math.ceil(steps.length * 0.6)
+        ? "Verifying"
+        : currentStep >= 1
+          ? "Researching"
+          : "Planning";
+
   return (
-    <div className="rounded-[28px] border border-black/6 bg-[#0f172a] px-5 py-5 text-white shadow-[0_20px_50px_rgba(15,23,42,0.24)]">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <div className="text-xs uppercase tracking-[0.22em] text-slate-400">
-            Working
-          </div>
-          <div className="mt-1 text-lg font-semibold">{label}</div>
+    <div className="overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-3 border-b border-black/5 bg-slate-50 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <LoaderCircleIcon className="size-3.5 animate-spin text-slate-400" />
+          <span className="text-[13px] font-medium text-slate-700">{label}</span>
         </div>
-        <Badge className="border-0 bg-white/10 text-white" variant="outline">
-          {currentStep >= steps.length ? "Wrapping up" : "Assembling"}
-        </Badge>
+        <div className="flex items-center gap-1.5">
+          {["Planning", "Researching", "Verifying", "Synthesizing"].map((phase) => (
+            <span
+              className={cn(
+                "rounded-full px-2 py-0.5 text-[11px] font-medium transition-all",
+                phase === phaseLabel
+                  ? "bg-slate-900 text-white"
+                  : "text-slate-400"
+              )}
+              key={phase}
+            >
+              {phase}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[#8dd0ff] via-[#6d8cff] to-white transition-all duration-500"
-          style={{
-            width: `${Math.max(18, (currentStep / steps.length) * 100)}%`,
-          }}
-        />
-      </div>
-
-      <div className="mt-5 grid gap-2.5">
+      {/* Steps */}
+      <div className="divide-y divide-black/4">
         {steps.map((step, index) => {
           const state =
             index < currentStep
@@ -1141,28 +1123,33 @@ function RunStatusCard({
               : index === currentStep
                 ? "active"
                 : "pending";
-
           return (
             <div
               className={cn(
-                "flex items-center gap-3 rounded-2xl border px-3 py-2.5 text-sm transition-all duration-300",
-                state === "done" &&
-                  "border-emerald-400/20 bg-emerald-400/10 text-emerald-100",
-                state === "active" &&
-                  "border-white/12 bg-white/8 text-white",
-                state === "pending" &&
-                  "border-white/8 bg-transparent text-slate-400"
+                "flex items-center gap-3 px-4 py-2.5 text-[13px] transition-all duration-300",
+                state === "done" && "text-slate-400",
+                state === "active" && "bg-blue-50/50 font-medium text-slate-800",
+                state === "pending" && "text-slate-300"
               )}
               key={step}
             >
-              {state === "done" ? (
-                <CheckCircle2Icon className="size-4" />
-              ) : state === "active" ? (
-                <LoaderCircleIcon className="size-4 animate-spin" />
-              ) : (
-                <CircleDashedIcon className="size-4" />
-              )}
-              <span>{step}</span>
+              <span
+                className={cn(
+                  "grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-bold",
+                  state === "done" && "bg-emerald-100 text-emerald-700",
+                  state === "active" && "bg-blue-100 text-blue-700",
+                  state === "pending" && "bg-slate-100 text-slate-400"
+                )}
+              >
+                {state === "done" ? (
+                  <CheckCircle2Icon className="size-3" />
+                ) : state === "active" ? (
+                  <LoaderCircleIcon className="size-3 animate-spin" />
+                ) : (
+                  index + 1
+                )}
+              </span>
+              {step}
             </div>
           );
         })}
@@ -1970,18 +1957,6 @@ function InlineLoadingBanner({ label }: { label: string }) {
   );
 }
 
-function HeaderStat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="min-w-[7rem] rounded-[22px] border border-black/6 bg-white/70 px-4 py-3">
-      <div className="text-xs uppercase tracking-[0.16em] text-slate-400">
-        {label}
-      </div>
-      <div className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">
-        {value}
-      </div>
-    </div>
-  );
-}
 
 function SectionCard({
   title,
