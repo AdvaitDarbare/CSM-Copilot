@@ -87,10 +87,63 @@ import {
 
 type WorkflowId = "morning" | "brief" | "similar";
 
+// ── Generative UI data types (mirrors Python backend) ─────────────────────
+
+type TriageAccountCard = {
+  id: string;
+  name: string;
+  risk_level: string;
+  priority_score: number;
+  renewal_date?: string | null;
+  top_reason: string;
+  arr?: number | null;
+};
+
+type BriefSnapshot = {
+  id: string;
+  name: string;
+  risk_level?: string | null;
+  health_score?: string | null;
+  renewal_date?: string | null;
+  arr?: number | null;
+  open_tickets?: string | null;
+  engagement?: string | null;
+  owner?: string | null;
+  segment?: string | null;
+  priority_score: number;
+  recommended_next_action?: string | null;
+  top_reason: string;
+};
+
+type SimilarAccountCard = {
+  id: string;
+  name: string;
+  similarity: number;
+  risk_level?: string | null;
+  health_score?: string | null;
+  renewal_date?: string | null;
+  top_reason: string;
+};
+
+type AgentResponse = {
+  reply: string;
+  workflow: WorkflowId;
+  account_id?: string | null;
+  triage_accounts?: TriageAccountCard[] | null;
+  brief_snapshot?: BriefSnapshot | null;
+  similar_accounts?: SimilarAccountCard[] | null;
+};
+
+// ─────────────────────────────────────────────────────────────────────────
+
 type ChatEntry = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  // Generative UI payloads (only on assistant messages)
+  triageAccounts?: TriageAccountCard[] | null;
+  briefSnapshot?: BriefSnapshot | null;
+  similarAccounts?: SimilarAccountCard[] | null;
 };
 
 type FlowDefinition = {
@@ -339,34 +392,92 @@ export function CopilotWorkspace({
     [accountData, clearRunTimers, flows, loadAccount]
   );
 
+  // ── Real agent submit — calls the /api/chat endpoint ───────────────────
   const handleSubmit = useCallback(
-    (text: string) => {
+    async (text: string) => {
       const trimmed = text.trim();
-      if (!trimmed) {
-        return;
-      }
+      if (!trimmed || status !== "ready") return;
 
-      const workflowId = inferWorkflowFromPrompt(
-        trimmed,
-        featuredAccount.crm.name
-      );
-      const accountId = resolveAccountFromPrompt(
-        trimmed,
-        portfolio.prioritized,
-        accountData
-      );
+      // Add user message immediately
+      const userMsgId = `user-${Date.now()}`;
+      setMessages((prev) => [
+        ...prev,
+        { id: userMsgId, role: "user", content: trimmed },
+      ]);
+      setInputValue("");
+      setStatus("submitted");
 
-      void runWorkflow({
-        workflowId,
-        prompt: trimmed,
-        accountId,
-        answer: (data) =>
-          buildWorkflowAnswer(workflowId, trimmed, workspaceData, data),
+      // Determine which workflow to show in the step tracker
+      const localWorkflowId = inferWorkflowFromPrompt(trimmed, featuredAccount.crm.name);
+      const localAccountId = resolveAccountFromPrompt(trimmed, portfolio.prioritized, accountData);
+      const flow = flows[localWorkflowId];
+
+      // Start step animation
+      clearRunTimers();
+      setRunState({ workflowId: localWorkflowId, steps: flow.steps, currentStep: 0 });
+      setActiveWorkflow(localWorkflowId);
+
+      flow.steps.forEach((_, index) => {
+        const id = window.setTimeout(() => {
+          setRunState((cur) => cur ? { ...cur, currentStep: index + 1 } : cur);
+        }, 600 * (index + 1));
+        timeoutIdsRef.current.push(id);
       });
 
-      setInputValue("");
+      // If account changed, load its data
+      if (localAccountId && localAccountId !== accountData.accountId) {
+        void loadAccount(localAccountId, localWorkflowId);
+      }
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: trimmed,
+            account_id: localAccountId || accountData.accountId,
+          }),
+        });
+
+        const agentResp: AgentResponse = await res.json();
+
+        // If agent resolved a different account, load it
+        if (agentResp.account_id && agentResp.account_id !== accountData.accountId) {
+          void loadAccount(agentResp.account_id, agentResp.workflow);
+        }
+
+        setActiveWorkflow(agentResp.workflow);
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `assistant-${Date.now()}`,
+            role: "assistant",
+            content: agentResp.reply,
+            triageAccounts: agentResp.triage_accounts,
+            briefSnapshot: agentResp.brief_snapshot,
+            similarAccounts: agentResp.similar_accounts,
+          },
+        ]);
+      } catch {
+        // Graceful fallback to local simulation
+        const fallbackAnswer = buildWorkflowAnswer(
+          localWorkflowId,
+          trimmed,
+          workspaceData,
+          accountData
+        );
+        setMessages((prev) => [
+          ...prev,
+          { id: `assistant-${Date.now()}`, role: "assistant", content: fallbackAnswer },
+        ]);
+      } finally {
+        clearRunTimers();
+        setRunState(null);
+        setStatus("ready");
+      }
     },
-    [accountData, featuredAccount.crm.name, portfolio.prioritized, runWorkflow, workspaceData]
+    [accountData, clearRunTimers, featuredAccount.crm.name, flows, loadAccount, portfolio.prioritized, status, workspaceData]
   );
 
   const activeFlow = flows[activeWorkflow];
@@ -519,64 +630,61 @@ export function CopilotWorkspace({
 
       {/* ── Chat area ─────────────────────────────────────── */}
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* Chat header */}
-        <header className="flex shrink-0 items-center justify-between gap-4 border-b border-black/6 bg-white/80 px-5 py-3 backdrop-blur-xl">
-          <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-1.5 text-[13px] font-medium text-slate-900">
-              <span className="size-2 rounded-full bg-emerald-500" />
-              Workspace Session
-            </div>
-            <Badge
+        {/* Chat header — fixed, compact */}
+        <header className="flex shrink-0 items-center gap-3 border-b border-black/6 bg-white/80 px-4 py-2.5 backdrop-blur-xl">
+          <div className="flex items-center gap-2 shrink-0">
+            <span
               className={cn(
-                "border-0 px-2 py-0.5 text-[11px]",
-                workspaceData.source === "live"
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "bg-amber-50 text-amber-700"
+                "size-2 rounded-full",
+                workspaceData.source === "live" ? "bg-emerald-500" : "bg-amber-400"
               )}
-              variant="outline"
-            >
-              {workspaceData.source === "live" ? "Live API" : "Fallback"}
-            </Badge>
+            />
+            <span className="text-[13px] font-medium text-slate-800">
+              {workspaceData.source === "live" ? "Live API" : "Fallback data"}
+            </span>
           </div>
 
-          {/* Account focus rail (compact) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="h-4 w-px bg-black/8" />
+
+          {/* Account switcher — scrollable row, truncates gracefully */}
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto pb-0.5">
             {accountStatus === "loading" && (
-              <div className="flex items-center gap-1.5 text-[12px] text-slate-400">
-                <LoaderCircleIcon className="size-3 animate-spin" />
-                Loading
-              </div>
+              <LoaderCircleIcon className="size-3 shrink-0 animate-spin text-slate-400" />
             )}
-            {portfolio.prioritized.slice(0, 5).map((account) => (
-              <button
-                className={cn(
-                  "shrink-0 rounded-full border px-3 py-1 text-[12px] transition-all",
-                  account.id === accountData.accountId
-                    ? "border-slate-900 bg-slate-900 font-medium text-white"
-                    : "border-black/8 bg-white/80 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
-                )}
-                key={account.id}
-                onClick={() => void loadAccount(account.id, "brief")}
-                type="button"
-              >
-                {account.name}
-              </button>
-            ))}
+            {portfolio.prioritized.slice(0, 6).map((account) => {
+              const isActive = account.id === accountData.accountId;
+              return (
+                <button
+                  className={cn(
+                    "shrink-0 rounded-full border px-2.5 py-0.5 text-[12px] font-medium transition-all whitespace-nowrap",
+                    isActive
+                      ? "border-slate-900 bg-slate-900 text-white"
+                      : "border-black/8 bg-white/80 text-slate-500 hover:border-slate-300 hover:text-slate-800"
+                  )}
+                  key={account.id}
+                  onClick={() => void loadAccount(account.id, "brief")}
+                  title={`${account.name} — Score ${account.priority_score}`}
+                  type="button"
+                >
+                  {account.name}
+                </button>
+              );
+            })}
           </div>
         </header>
 
         {/* Conversation */}
-        <Conversation className="flex-1 bg-transparent">
-          <ConversationContent className="gap-4 px-5 py-5">
+        <Conversation className="flex-1 bg-[#faf9f7]">
+          <ConversationContent className="gap-5 px-5 py-6 max-w-[780px] mx-auto w-full">
             {/* Empty state — shown only before any user message */}
             {!hasConversation && (
-              <div className="animate-in fade-in slide-in-from-bottom-2 mx-auto flex w-full max-w-xl flex-col items-center gap-6 pt-8 duration-500">
-                <div className="space-y-2 text-center">
+              <div className="animate-in fade-in slide-in-from-bottom-2 flex flex-col items-center gap-6 pt-4 duration-500">
+                <div className="space-y-1.5 text-center">
                   <h2 className="font-semibold text-xl tracking-tight text-slate-900">
                     What do you need right now?
                   </h2>
-                  <p className="text-sm text-slate-500">
-                    Ask about renewals, accounts, or patterns — or pick a guided workflow.
+                  <p className="text-[13px] text-slate-500">
+                    Ask about renewals, accounts, or risk patterns — or pick a guided workflow.
                   </p>
                 </div>
 
@@ -585,20 +693,12 @@ export function CopilotWorkspace({
                     const Icon = item.icon;
                     return (
                       <button
-                        className="flex flex-col gap-2 rounded-2xl border border-black/6 bg-white/80 p-4 text-left shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_12px_28px_rgba(15,23,42,0.07)]"
+                        className="flex flex-col gap-2 rounded-2xl border border-black/6 bg-white p-4 text-left shadow-[0_6px_20px_rgba(15,23,42,0.04)] transition-all hover:-translate-y-0.5 hover:border-slate-200 hover:shadow-[0_10px_26px_rgba(15,23,42,0.08)]"
                         key={item.label}
-                        onClick={() =>
-                          void runWorkflow({
-                            workflowId: item.workflowId,
-                            prompt: item.prompt,
-                            accountId: accountData.accountId,
-                            answer: (data) =>
-                              buildWorkflowAnswer(item.workflowId, item.prompt, workspaceData, data),
-                          })
-                        }
+                        onClick={() => void handleSubmit(item.prompt)}
                         type="button"
                       >
-                        <div className="flex items-center gap-2 text-[13px] font-medium text-slate-900">
+                        <div className="flex items-center gap-2 text-[13px] font-semibold text-slate-900">
                           <div className="grid size-7 place-items-center rounded-xl bg-slate-100">
                             <Icon className="size-3.5 text-slate-600" />
                           </div>
@@ -614,27 +714,45 @@ export function CopilotWorkspace({
               </div>
             )}
 
-            {/* Messages — skip the welcome if no conversation started yet */}
+            {/* Messages */}
             {messages
               .filter((m) => hasConversation || m.id !== "welcome")
               .map((message) => (
                 <Message
-                  className="animate-in fade-in slide-in-from-bottom-2 duration-400"
+                  className="animate-in fade-in slide-in-from-bottom-2 duration-300"
                   from={message.role}
                   key={message.id}
                 >
                   <MessageContent
                     className={cn(
                       message.role === "user"
-                        ? "max-w-[78%] rounded-2xl bg-[#1a1a1a] px-4 py-3 text-white shadow-[0_6px_20px_rgba(15,23,42,0.15)]"
-                        : "max-w-[88%]"
+                        ? "max-w-[72%] rounded-2xl bg-[#1a1a1a] px-4 py-2.5 text-white shadow-[0_4px_16px_rgba(15,23,42,0.14)]"
+                        : "w-full max-w-full"
                     )}
                   >
                     {message.role === "assistant" ? (
-                      <div className="rounded-2xl border border-black/6 bg-white/90 px-4 py-4 shadow-[0_8px_20px_rgba(15,23,42,0.05)]">
-                        <MessageResponse className="prose prose-slate max-w-none text-[13.5px] leading-7">
-                          {message.content}
-                        </MessageResponse>
+                      <div className="space-y-3">
+                        {/* Main text reply */}
+                        <div className="rounded-2xl border border-black/6 bg-white px-4 py-3.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
+                          <MessageResponse className="prose prose-slate max-w-none text-[13.5px] leading-7">
+                            {message.content}
+                          </MessageResponse>
+                        </div>
+
+                        {/* ── Generative UI: Triage card ── */}
+                        {message.triageAccounts && message.triageAccounts.length > 0 && (
+                          <InlineTriageCard accounts={message.triageAccounts} onSelect={(id) => void loadAccount(id, "brief")} />
+                        )}
+
+                        {/* ── Generative UI: Brief snapshot card ── */}
+                        {message.briefSnapshot && (
+                          <InlineBriefCard snapshot={message.briefSnapshot} />
+                        )}
+
+                        {/* ── Generative UI: Similar accounts card ── */}
+                        {message.similarAccounts && message.similarAccounts.length > 0 && (
+                          <InlineSimilarCard accounts={message.similarAccounts} />
+                        )}
                       </div>
                     ) : (
                       <p className="whitespace-pre-wrap text-[13.5px] leading-6">
@@ -651,7 +769,7 @@ export function CopilotWorkspace({
                 className="animate-in fade-in slide-in-from-bottom-3 duration-300"
                 from="assistant"
               >
-                <MessageContent className="max-w-[88%]">
+                <MessageContent className="w-full max-w-full">
                   <RunStatusCard
                     currentStep={runState.currentStep}
                     label={flows[runState.workflowId].label}
@@ -2553,4 +2671,216 @@ function bootstrapToAccountData(data: WorkspaceBootstrap): WorkspaceAccountData 
     brief: data.featuredAccount.brief,
     similar: data.featuredAccount.similar,
   };
+}
+
+// ── Generative UI Inline Cards ─────────────────────────────────────────────
+
+function InlineTriageCard({
+  accounts,
+  onSelect,
+}: {
+  accounts: TriageAccountCard[];
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_4px_16px_rgba(15,23,42,0.06)]">
+      {/* Card header */}
+      <div className="flex items-center gap-2 border-b border-black/5 bg-slate-50 px-4 py-2.5">
+        <RadarIcon className="size-3.5 text-slate-500" />
+        <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+          Priority Queue
+        </span>
+        <span className="ml-auto rounded-full bg-slate-200 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+          {accounts.length} accounts
+        </span>
+      </div>
+
+      {/* Account rows */}
+      <div className="divide-y divide-black/4">
+        {accounts.map((account, index) => (
+          <button
+            className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-50"
+            key={account.id}
+            onClick={() => onSelect(account.id)}
+            type="button"
+          >
+            {/* Rank badge */}
+            <div className="grid size-6 shrink-0 place-items-center rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+              {index + 1}
+            </div>
+
+            {/* Name + reason */}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="truncate text-[13px] font-semibold text-slate-900">
+                  {account.name}
+                </span>
+                <RiskBadge value={account.risk_level} />
+              </div>
+              <p className="mt-0.5 truncate text-[12px] text-slate-500">
+                {account.top_reason}
+              </p>
+            </div>
+
+            {/* Metadata */}
+            <div className="shrink-0 text-right">
+              <div className="text-[13px] font-semibold text-slate-900">
+                {account.priority_score}
+              </div>
+              {account.renewal_date && (
+                <div className="mt-0.5 text-[11px] text-slate-400">
+                  {formatDateShort(account.renewal_date)}
+                </div>
+              )}
+            </div>
+
+            <ArrowRightIcon className="size-3.5 shrink-0 text-slate-300" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function InlineBriefCard({ snapshot }: { snapshot: BriefSnapshot }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_4px_16px_rgba(15,23,42,0.06)]">
+      {/* Card header */}
+      <div className="flex items-center gap-2 border-b border-black/5 bg-slate-50 px-4 py-2.5">
+        <BriefcaseBusinessIcon className="size-3.5 text-slate-500" />
+        <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+          Account Brief
+        </span>
+      </div>
+
+      {/* Account name + badges */}
+      <div className="flex flex-wrap items-center gap-2 px-4 pt-3 pb-2">
+        <span className="text-[15px] font-semibold text-slate-900">
+          {snapshot.name}
+        </span>
+        <RiskBadge value={snapshot.risk_level} />
+        <Badge className="bg-white text-slate-500" variant="outline">
+          Score {snapshot.priority_score}
+        </Badge>
+      </div>
+
+      {/* Key metrics grid */}
+      <div className="grid grid-cols-3 gap-2 px-4 pb-3">
+        {[
+          { label: "ARR", value: formatCurrency(snapshot.arr) },
+          { label: "Renewal", value: formatDateShort(snapshot.renewal_date) },
+          { label: "Health", value: snapshot.health_score ?? "—" },
+          { label: "Tickets", value: snapshot.open_tickets ?? "—" },
+          { label: "Engagement", value: snapshot.engagement ?? "—" },
+          { label: "Segment", value: snapshot.segment ?? "—" },
+        ].map((metric) => (
+          <div
+            className="rounded-xl border border-black/5 bg-slate-50 px-2.5 py-2"
+            key={metric.label}
+          >
+            <div className="text-[10px] uppercase tracking-[0.14em] text-slate-400">
+              {metric.label}
+            </div>
+            <div className="mt-1 truncate text-[12px] font-semibold text-slate-800">
+              {metric.value}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Top reason */}
+      <div className="mx-4 mb-3 rounded-xl border border-black/5 bg-amber-50 px-3 py-2.5">
+        <div className="text-[10px] uppercase tracking-[0.14em] text-amber-600">
+          Why it&apos;s surfacing
+        </div>
+        <p className="mt-1 text-[12.5px] leading-5 text-slate-700">
+          {snapshot.top_reason}
+        </p>
+      </div>
+
+      {/* Recommended next action */}
+      {snapshot.recommended_next_action && (
+        <div className="mx-4 mb-4 rounded-xl border border-black/5 bg-slate-900 px-3 py-2.5">
+          <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.14em] text-slate-400">
+            <SparklesIcon className="size-3" />
+            Recommended action
+          </div>
+          <p className="mt-1 text-[12.5px] leading-5 text-white">
+            {snapshot.recommended_next_action}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function InlineSimilarCard({ accounts }: { accounts: SimilarAccountCard[] }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_4px_16px_rgba(15,23,42,0.06)]">
+      {/* Card header */}
+      <div className="flex items-center gap-2 border-b border-black/5 bg-slate-50 px-4 py-2.5">
+        <UsersRoundIcon className="size-3.5 text-slate-500" />
+        <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+          Similar Accounts
+        </span>
+        <span className="ml-auto rounded-full bg-slate-200 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+          {accounts.length} matches
+        </span>
+      </div>
+
+      {/* Account rows */}
+      <div className="divide-y divide-black/4">
+        {accounts.map((account) => (
+          <div className="px-4 py-3" key={account.id}>
+            <div className="flex items-start justify-between gap-3">
+              {/* Name + risk */}
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[13px] font-semibold text-slate-900">
+                    {account.name}
+                  </span>
+                  <RiskBadge value={account.risk_level} />
+                </div>
+                <p className="mt-0.5 truncate text-[12px] text-slate-500">
+                  {account.top_reason}
+                </p>
+              </div>
+
+              {/* Similarity */}
+              <div className="shrink-0 text-right">
+                <div className="text-[13px] font-semibold text-slate-900">
+                  {Math.round(account.similarity * 100)}%
+                </div>
+                <div className="mt-0.5 text-[11px] text-slate-400">
+                  similarity
+                </div>
+              </div>
+            </div>
+
+            {/* Similarity bar */}
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/6">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#78b8ff] to-[#161616] transition-all duration-500"
+                style={{ width: `${Math.min(account.similarity * 100, 100)}%` }}
+              />
+            </div>
+
+            {/* Metadata chips */}
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {account.health_score && (
+                <span className="rounded-md border border-black/5 bg-slate-50 px-2 py-0.5 text-[11px] text-slate-500">
+                  Health {account.health_score}
+                </span>
+              )}
+              {account.renewal_date && (
+                <span className="rounded-md border border-black/5 bg-slate-50 px-2 py-0.5 text-[11px] text-slate-500">
+                  Renews {formatDateShort(account.renewal_date)}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

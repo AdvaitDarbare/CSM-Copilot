@@ -78,6 +78,43 @@ class AccountBrief(BaseModel):
     recommended_next_action: str
 
 
+# ── Chat agent models ──────────────────────────────────────────────────────
+
+class ChatMessage(BaseModel):
+    message: str
+    account_id: str | None = None
+
+
+class TriageAccountCard(BaseModel):
+    id: str
+    name: str
+    risk_level: str
+    priority_score: int
+    renewal_date: str | None
+    top_reason: str
+    arr: float | None = None
+
+
+class SimilarAccountCard(BaseModel):
+    id: str
+    name: str
+    similarity: float
+    risk_level: str | None
+    health_score: str | None
+    renewal_date: str | None
+    top_reason: str
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    workflow: str  # "morning" | "brief" | "similar" | "freeform"
+    account_id: str | None = None
+    # Generative UI data — populated based on workflow
+    triage_accounts: list[TriageAccountCard] | None = None
+    brief_snapshot: dict | None = None   # key account fields for inline card
+    similar_accounts: list[SimilarAccountCard] | None = None
+
+
 # ── Internal context ───────────────────────────────────────────────────────
 
 @lru_cache(maxsize=1)
@@ -531,3 +568,266 @@ def get_account_brief(company_id: str) -> AccountBrief:
     )
 
     return AccountBrief.model_validate_json(response.text)
+
+
+# ── Chat agent ─────────────────────────────────────────────────────────────
+
+csm_agent = genai.GenerativeModel(
+    model_name="gemini-2.5-flash",
+    system_instruction="""You are a CSM Copilot AI agent for AccountsOps.
+
+You have access to live account data from HubSpot and an internal context engine.
+
+Your job is to answer questions from Customer Success Managers about their book of business.
+
+Intent classification:
+- "morning" → user wants triage/prioritization (who to focus on, what's urgent)
+- "brief" → user wants info about a specific account (call prep, what's happening)
+- "similar" → user wants to find accounts with matching risk profiles
+- "freeform" → any other question
+
+Rules:
+- Be concise and actionable. CSMs are busy.
+- Reference actual data — names, scores, dates, ARR.
+- Bold the most important pieces of information using **markdown**.
+- Never fabricate data. If data is missing, say so.
+- For morning/triage intent, briefly summarize the top 2-3 accounts.
+- For brief intent, focus on risk signals + next action.
+- For similar intent, name the closest matches and the shared pattern.
+- End every response by indicating which artifact was updated on the right.""",
+)
+
+
+def _get_account_from_db(account_id: str) -> dict | None:
+    """Fetch a single account from Postgres."""
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT hubspot_company_id, company_name, crm_snapshot,
+                      internal_context, priority_score, priority_reasons
+               FROM accounts WHERE hubspot_company_id = %s""",
+            (account_id,),
+        )
+        row = cur.fetchone()
+        conn.close()
+        return dict(row) if row else None
+    except Exception:
+        return None
+
+
+def _get_prioritized_from_db(limit: int = 8) -> list[dict]:
+    """Fetch top prioritized accounts from Postgres."""
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT hubspot_company_id, company_name, crm_snapshot,
+                      internal_context, priority_score, priority_reasons
+               FROM accounts ORDER BY priority_score DESC LIMIT %s""",
+            (limit,),
+        )
+        rows = cur.fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception:
+        return []
+
+
+def _classify_intent(message: str, account_name: str | None = None) -> str:
+    lower = message.lower()
+    brief_signals = ["call", "brief", "prep", "what should i know", "tell me about",
+                     "what's happening", "status of", "how is", "update on"]
+    similar_signals = ["similar", "same pattern", "like ", "compare", "other accounts",
+                       "cluster", "isolated", "pattern"]
+    morning_signals = ["morning", "focus", "today", "priority", "triage", "urgent",
+                       "should i focus", "start", "first"]
+
+    if any(s in lower for s in similar_signals):
+        return "similar"
+    if any(s in lower for s in brief_signals) or (account_name and account_name.lower() in lower):
+        return "brief"
+    if any(s in lower for s in morning_signals):
+        return "morning"
+    return "freeform"
+
+
+def _resolve_account_from_message(message: str, accounts: list[dict]) -> str | None:
+    lower = message.lower()
+    for a in accounts:
+        name = a.get("company_name", "")
+        if name.lower() in lower:
+            return a["hubspot_company_id"]
+        # token match (e.g. "Alexander" matches "Alexander-Jordan")
+        tokens = [t for t in name.lower().split() if len(t) >= 4]
+        if sum(1 for t in tokens if t in lower) >= 2:
+            return a["hubspot_company_id"]
+    return None
+
+
+@app.post("/chat")
+def chat_with_agent(body: ChatMessage) -> ChatResponse:
+    """
+    Agent endpoint — uses Gemini + live data to answer CSM questions.
+    Returns a structured response with reply text + generative UI data.
+    """
+    # 1. Load prioritized accounts for context
+    prioritized = _get_prioritized_from_db(limit=10)
+
+    # Try to resolve account from message
+    resolved_account_id = body.account_id
+    if not resolved_account_id and prioritized:
+        resolved_account_id = _resolve_account_from_message(body.message, prioritized)
+    if not resolved_account_id and prioritized:
+        resolved_account_id = prioritized[0]["hubspot_company_id"]
+
+    # 2. Classify intent
+    featured_name = None
+    if resolved_account_id:
+        for a in prioritized:
+            if a["hubspot_company_id"] == resolved_account_id:
+                featured_name = a.get("company_name")
+                break
+    intent = _classify_intent(body.message, featured_name)
+
+    # 3. Gather relevant data
+    account_row = _get_account_from_db(resolved_account_id) if resolved_account_id else None
+    account_brief_data = None
+    similar_rows = []
+
+    if intent == "brief" and resolved_account_id:
+        # Try to get Gemini-generated brief
+        try:
+            account_brief_data = get_account_brief(resolved_account_id).model_dump()
+        except Exception:
+            if account_row:
+                crm = account_row.get("crm_snapshot", {})
+                internal = account_row.get("internal_context", {})
+                account_brief_data = {
+                    "summary": f"{account_row['company_name']} is a risk account.",
+                    "why_risky": account_row.get("priority_reasons", [])[:3],
+                    "key_issues": [internal.get("latest_ticket_summary", "")],
+                    "recommended_next_action": internal.get("recommended_next_action", "Review account."),
+                }
+
+    if intent == "similar" and resolved_account_id:
+        try:
+            similar_resp = get_similar_accounts(resolved_account_id, limit=4)
+            similar_rows = similar_resp.get("results", [])
+        except Exception:
+            pass
+
+    # 4. Build context string for Gemini
+    context_parts = []
+
+    if prioritized:
+        top_accounts_summary = "\n".join([
+            f"- {a['company_name']}: score={a['priority_score']}, "
+            f"risk={a.get('crm_snapshot',{}).get('risk_level','?')}, "
+            f"renewal={a.get('crm_snapshot',{}).get('renewal_date','?')}, "
+            f"reasons={'; '.join(a.get('priority_reasons',[])[:2])}"
+            for a in prioritized[:5]
+        ])
+        context_parts.append(f"TOP PRIORITY ACCOUNTS:\n{top_accounts_summary}")
+
+    if account_row:
+        crm = account_row.get("crm_snapshot", {})
+        internal = account_row.get("internal_context", {})
+        context_parts.append(
+            f"\nFEATURED ACCOUNT: {account_row['company_name']}\n"
+            f"Risk: {crm.get('risk_level')} | Health: {crm.get('health_score')} | "
+            f"Renewal: {crm.get('renewal_date')} | ARR: {internal.get('arr')}\n"
+            f"Tickets: {crm.get('open_ticket_count')} | Engagement: {internal.get('engagement_status')}\n"
+            f"Owner: {internal.get('owner_name')} | Segment: {internal.get('segment')}\n"
+            f"Latest issue: {internal.get('latest_ticket_summary','none')}\n"
+            f"CSM note: {internal.get('recent_csm_note','none')}\n"
+            f"Priority score: {account_row['priority_score']}\n"
+            f"Reasons: {'; '.join(account_row.get('priority_reasons',[]))}"
+        )
+
+    if account_brief_data:
+        context_parts.append(
+            f"\nACCOUNT BRIEF:\n"
+            f"Summary: {account_brief_data['summary']}\n"
+            f"Why risky: {', '.join(account_brief_data['why_risky'])}\n"
+            f"Next action: {account_brief_data['recommended_next_action']}"
+        )
+
+    if similar_rows:
+        sim_summary = "\n".join([
+            f"- {s['name']}: similarity={s['similarity']}, risk={s.get('risk_level','?')}, "
+            f"reasons={'; '.join(s.get('priority_reasons',[])[:2])}"
+            for s in similar_rows[:3]
+        ])
+        context_parts.append(f"\nSIMILAR ACCOUNTS:\n{sim_summary}")
+
+    full_context = "\n\n".join(context_parts)
+    prompt = f"Context:\n{full_context}\n\nCSM question: {body.message}"
+
+    # 5. Generate reply with Gemini
+    try:
+        response = csm_agent.generate_content(prompt)
+        reply_text = response.text
+    except Exception as e:
+        reply_text = f"I encountered an error generating the response: {str(e)}"
+
+    # 6. Build generative UI data
+    triage_accounts = None
+    brief_snapshot = None
+    similar_accounts_out = None
+
+    if intent == "morning" or intent == "freeform":
+        triage_accounts = []
+        for a in prioritized[:4]:
+            crm = a.get("crm_snapshot", {})
+            internal = a.get("internal_context", {})
+            triage_accounts.append(TriageAccountCard(
+                id=a["hubspot_company_id"],
+                name=a["company_name"],
+                risk_level=crm.get("risk_level", "Unknown"),
+                priority_score=a["priority_score"],
+                renewal_date=crm.get("renewal_date"),
+                top_reason=a.get("priority_reasons", [""])[0],
+                arr=internal.get("arr"),
+            ))
+
+    if (intent == "brief") and account_row:
+        crm = account_row.get("crm_snapshot", {})
+        internal = account_row.get("internal_context", {})
+        brief_snapshot = {
+            "id": resolved_account_id,
+            "name": account_row["company_name"],
+            "risk_level": crm.get("risk_level"),
+            "health_score": crm.get("health_score"),
+            "renewal_date": crm.get("renewal_date"),
+            "arr": internal.get("arr"),
+            "open_tickets": crm.get("open_ticket_count"),
+            "engagement": internal.get("engagement_status"),
+            "owner": internal.get("owner_name"),
+            "segment": internal.get("segment"),
+            "priority_score": account_row["priority_score"],
+            "recommended_next_action": account_brief_data.get("recommended_next_action") if account_brief_data else None,
+            "top_reason": account_row.get("priority_reasons", [""])[0],
+        }
+
+    if intent == "similar" and similar_rows:
+        similar_accounts_out = []
+        for s in similar_rows[:4]:
+            similar_accounts_out.append(SimilarAccountCard(
+                id=s["id"],
+                name=s["name"],
+                similarity=s["similarity"],
+                risk_level=s.get("risk_level"),
+                health_score=s.get("health_score"),
+                renewal_date=s.get("renewal_date"),
+                top_reason=s.get("priority_reasons", [""])[0],
+            ))
+
+    return ChatResponse(
+        reply=reply_text,
+        workflow=intent if intent != "freeform" else "morning",
+        account_id=resolved_account_id,
+        triage_accounts=triage_accounts,
+        brief_snapshot=brief_snapshot,
+        similar_accounts=similar_accounts_out,
+    )
