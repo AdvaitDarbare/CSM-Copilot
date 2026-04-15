@@ -1,13 +1,13 @@
 export const siteConfig = {
-  name: "blocks.so",
-  url: "https://blocks.so",
-  ogImage: "https://blocks.so/opengraph-image.png",
+  name: "CSM Copilot",
+  url: "http://localhost:3000",
+  ogImage: "http://localhost:3000/opengraph-image.png",
   description:
-    "Free shadcn/ui blocks and components built with React, Tailwind CSS, and Next.js. Copy and paste 60+ beautifully designed, accessible UI blocks into your projects. Open source forever.",
+    "An account intelligence workspace for customer success teams. Ask questions in chat and get durable, decision-ready account artifacts.",
   links: {
-    website: "https://ephraimduncan.com?utm_source=blocks.so",
-    twitter: "https://twitter.com/ephraimduncan_?utm_source=blocks.so",
-    github: "https://github.com/ephraimduncan/blocks?utm_source=blocks.so",
+    website: "http://localhost:3000",
+    twitter: "https://twitter.com",
+    github: "https://github.com",
   },
 };
 
