@@ -106,12 +106,14 @@ The structural backbone. Maintains one canonical, enriched account record per co
 - Postgres `accounts` table is populated with merged CRM + internal context
 - `account_embeddings` is populated with `768`-dim Gemini embeddings
 - `/accounts/prioritized`, `/accounts/{id}/context`, `/accounts/{id}/brief`, and `/accounts/similar/{id}` are powered from Postgres
+- Next.js frontend prototype is live locally in `blocks-main`
+- The root frontend experience is a two-pane workspace with starter prompts, live account switching, charts, and action artifacts
 
 **Planned experience**
 - Google ADK orchestrator with intent routing
-- Conversational workspace frontend
+- Productionized multi-page frontend shell
 - Persistent account and portfolio workspaces
-- Action-oriented artifacts: save plans, drafts, alerts, and follow-up workflows
+- Deeper action workflows: alerts, follow-up workflows, reminders, and automation
 
 The current product is a working Account Intelligence Layer and API. The planned product is an agentic CSM workspace built on top of that layer.
 
@@ -259,6 +261,19 @@ For workflow/action questions:
 - Save plan
 - Escalation summary
 - Manager update
+
+### Frontend prototype status
+
+The current frontend prototype already implements the core interaction model locally:
+- Left pane: prompt input, starter prompts, progress states, and short grounded answers
+- Right pane: portfolio artifact, account artifact, similarity artifact, and action outputs
+- Live account loading through same-origin workspace API routes backed by the FastAPI service
+
+The current local frontend URL is:
+
+```text
+http://localhost:3000
+```
 
 ### Core screens
 
@@ -461,7 +476,7 @@ account_embeddings (
 | Database | Postgres + pgvector |
 | CRM | HubSpot (developer account) |
 | Internal data | Synthetic enrichment layer (JSON → Postgres) |
-| Frontend | Next.js / React (planned) |
+| Frontend | Next.js / React / Recharts |
 
 ---
 
@@ -520,6 +535,16 @@ uvicorn main:app --reload
 API: `http://localhost:8000`
 Docs: `http://localhost:8000/docs`
 
+### 6. Run the frontend prototype
+
+```bash
+cd blocks-main
+bun install
+bun run dev --hostname 0.0.0.0 --port 3000
+```
+
+Frontend: `http://localhost:3000`
+
 ---
 
 ## Project structure
@@ -529,6 +554,7 @@ Docs: `http://localhost:8000/docs`
 ├── main.py                      # FastAPI backend + scoring logic
 ├── generate_account_context.py  # Synthetic enrichment generator
 ├── sync_context_engine.py       # HubSpot + enrichment -> Postgres + pgvector sync
+├── blocks-main/                 # Next.js frontend workspace prototype
 ├── account_context.json         # Generated internal enrichment data
 ├── hubspot_companies.json       # HubSpot raw export
 └── .env                         # API keys (not committed)
@@ -554,10 +580,11 @@ This project uses real CRM structure via HubSpot's API with synthetic business a
 - [x] `/accounts/{id}/brief` — Gemini structured brief with pre-computed signals
 - [x] Postgres + pgvector Account Intelligence Layer
 - [x] `/accounts/similar/{id}` — vector similarity search
+- [x] Conversational frontend (Next.js prototype)
+- [x] Two-pane workspace UI: conversation + artifact panel
+- [x] Portfolio workspace
+- [x] Account workspace
+- [x] Save-plan / draft-action panel
 - [ ] Google ADK — Orchestrator, Portfolio Agent, Account Agent
-- [ ] Conversational frontend (Next.js)
-- [ ] Two-pane workspace UI: conversation + artifact panel
-- [ ] Portfolio workspace
-- [ ] Account workspace
 - [ ] Renewal review view
-- [ ] Save-plan / draft-action panel
+- [ ] Production app shell cleanup and route migration away from the blocks gallery

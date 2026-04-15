@@ -983,6 +983,37 @@ function buildSimilarityAnswer(
     .join("**, **")}**.\n\nThe recurring pattern is **${shared.join(", ")}**, which suggests this is a repeatable account-risk shape rather than a one-off issue.\n\nI refreshed the similarity artifact with the match ladder and the shared risk signature.`;
 }
 
+function buildAccountActionBundle(
+  context: AccountContext,
+  brief: WorkspaceBootstrap["featuredAccount"]["brief"]
+) {
+  const issue =
+    brief.key_issues[0] ||
+    context.internal.latest_ticket_summary ||
+    "the current open risk";
+  const subject = `${context.crm.name}: recovery plan before ${formatDateShort(
+    context.crm.renewal_date
+  )}`;
+
+  return {
+    emailSubject: subject,
+    emailBody: `Hi ${context.internal.owner_name || "team"},\n\nI wanted to follow up after reviewing ${context.crm.name}. The main issue right now is ${issue.toLowerCase()}.\n\nTo get us back on stable footing before renewal, I recommend we start with ${brief.recommended_next_action.toLowerCase()}.\n\nIf it helps, I can coordinate a focused working session this week and leave you with a clear next milestone.\n\nBest,\nCSM Copilot`,
+    savePlanItems: [
+      `Diagnose the active blocker: ${issue}`,
+      `Assign ${context.internal.owner_name || "the account owner"} to confirm the customer recovery plan and next milestone.`,
+      `Review renewal risk again before ${formatDateShort(context.crm.renewal_date)} and decide whether exec escalation is needed.`,
+    ],
+    managerUpdate: `${context.crm.name} remains a ${
+      (context.crm.risk_level || "high").toLowerCase()
+    }-risk account with ${brief.why_risky
+      .slice(0, 2)
+      .join(" and ")
+      .toLowerCase()}. The current recovery move is ${brief.recommended_next_action.toLowerCase()}, and this should be treated as an active save plan through ${formatDateShort(
+      context.crm.renewal_date
+    )}.`,
+  };
+}
+
 function HeroPromptCard({
   source,
   activeLabel,
@@ -1022,6 +1053,50 @@ function HeroPromptCard({
           side leaves behind a persistent workspace object your CSM can act on.
         </p>
       </div>
+    </div>
+  );
+}
+
+function StarterPromptGrid({
+  items,
+  onSelect,
+}: {
+  items: Array<{
+    label: string;
+    description: string;
+    prompt: string;
+    workflowId: WorkflowId;
+    icon: ComponentType<{ className?: string }>;
+  }>;
+  onSelect: (item: {
+    label: string;
+    description: string;
+    prompt: string;
+    workflowId: WorkflowId;
+    icon: ComponentType<{ className?: string }>;
+  }) => void;
+}) {
+  return (
+    <div className="grid gap-3 lg:grid-cols-3">
+      {items.map((item) => {
+        const Icon = item.icon;
+        return (
+          <button
+            className="rounded-[24px] border border-black/6 bg-white/75 p-4 text-left shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50"
+            key={item.label}
+            onClick={() => onSelect(item)}
+            type="button"
+          >
+            <div className="flex items-center gap-2 text-sm font-medium text-slate-900">
+              <Icon className="size-4 text-slate-500" />
+              {item.label}
+            </div>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              {item.description}
+            </p>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -1354,6 +1429,21 @@ function PortfolioArtifact({
           />
         </SectionCard>
       </div>
+
+      <SectionCard
+        description="A lightweight owner-by-owner board that makes the queue feel operational instead of purely analytical."
+        title="Save Plan Board"
+      >
+        <div className="grid gap-3 lg:grid-cols-3">
+          {portfolio.prioritized.slice(0, 3).map((account) => (
+            <CoverageCard
+              account={account}
+              key={account.id}
+              onSelect={() => onSelectAccount(account.id)}
+            />
+          ))}
+        </div>
+      </SectionCard>
     </div>
   );
 }
@@ -1373,6 +1463,7 @@ function AccountArtifact({
   const seatUtilization = buildSeatUtilization(context);
   const touchRisk = buildTouchRisk(context);
   const recoveryWindow = daysUntilFromString(context.crm.renewal_date);
+  const actionBundle = buildAccountActionBundle(context, brief);
   const comparisonSet = prioritized.slice(0, 5).filter((account) => {
     return account.id !== context.crm.id;
   });
@@ -1568,6 +1659,41 @@ function AccountArtifact({
         </SectionCard>
       </div>
 
+      <SectionCard
+        description="Copyable outputs the CSM can actually take into customer follow-up, internal save planning, and leadership communication."
+        title="Action Center"
+      >
+        <div className="grid gap-4 xl:grid-cols-3">
+          <ActionStudioCard
+            eyebrow="Customer follow-up"
+            icon={BriefcaseBusinessIcon}
+            title={actionBundle.emailSubject}
+          >
+            <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">
+              {actionBundle.emailBody}
+            </p>
+          </ActionStudioCard>
+
+          <ActionStudioCard
+            eyebrow="Internal save plan"
+            icon={WorkflowIcon}
+            title="Next 3 moves"
+          >
+            <ActionList items={actionBundle.savePlanItems} />
+          </ActionStudioCard>
+
+          <ActionStudioCard
+            eyebrow="Manager update"
+            icon={CalendarClockIcon}
+            title="Leadership-ready summary"
+          >
+            <p className="text-sm leading-6 text-slate-700">
+              {actionBundle.managerUpdate}
+            </p>
+          </ActionStudioCard>
+        </div>
+      </SectionCard>
+
       <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
         <SectionCard
           description="The supporting narrative is secondary to the structured signals, but still useful for CSM context."
@@ -1645,6 +1771,7 @@ function SimilarArtifact({
 }) {
   const sharedPatterns = deriveSharedPatterns(similar);
   const similarityChart = buildSimilarityChartData(similar);
+  const sharedPlaybook = buildSimilarityPlaybook(context, similar);
 
   return (
     <div className="space-y-4">
@@ -1766,6 +1893,13 @@ function SimilarArtifact({
           />
         </SectionCard>
       </div>
+
+      <SectionCard
+        description="A reusable intervention pattern to apply when multiple accounts share the same shape."
+        title="Reusable Recovery Play"
+      >
+        <ActionList items={sharedPlaybook} />
+      </SectionCard>
 
       <SectionCard
         description="The nearest accounts with comparable risk shape and account context."
@@ -2005,6 +2139,59 @@ function FlowDiagram({
   );
 }
 
+function CoverageCard({
+  account,
+  onSelect,
+}: {
+  account: PrioritizedAccount;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      className="rounded-[24px] border border-black/6 bg-slate-50 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_26px_rgba(15,23,42,0.06)]"
+      onClick={onSelect}
+      type="button"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <div className="font-medium text-slate-900">{account.name}</div>
+        <Badge className="bg-white text-slate-600" variant="outline">
+          {account.priority_score}
+        </Badge>
+      </div>
+      <div className="mt-2 text-sm text-slate-500">
+        {account.owner_name || "Owner unassigned"} · Renewal{" "}
+        {formatDateShort(account.renewal_date)}
+      </div>
+      <p className="mt-3 text-sm leading-6 text-slate-700">
+        {account.priority_reasons[0]}
+      </p>
+    </button>
+  );
+}
+
+function ActionStudioCard({
+  eyebrow,
+  title,
+  icon: Icon,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  icon: ComponentType<{ className?: string }>;
+  children: ReactNode;
+}) {
+  return (
+    <div className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)]">
+      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-400">
+        <Icon className="size-4" />
+        {eyebrow}
+      </div>
+      <div className="mt-2 font-medium text-slate-900">{title}</div>
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
+
 function ActionList({ items }: { items: string[] }) {
   return (
     <div className="space-y-3">
@@ -2218,6 +2405,32 @@ function buildSimilarityChartData(similar: SimilarAccount[]) {
     name: compactLabel(account.name, 16),
     similarity: Number(account.similarity.toFixed(4)),
   }));
+}
+
+function buildSimilarityPlaybook(
+  context: AccountContext,
+  similar: SimilarAccount[]
+) {
+  const sharedPatterns = deriveSharedPatterns(similar)
+    .filter((pattern) => pattern.count > 0)
+    .map((pattern) => pattern.label.toLowerCase());
+  const similarNames = similar
+    .slice(0, 2)
+    .map((account) => account.name)
+    .join(" and ");
+
+  return [
+    `Treat ${context.crm.name}${similarNames ? `, ${similarNames},` : ""} as one investigation cluster around ${humanizeTheme(
+      context.internal.top_issue_theme
+    ).toLowerCase()}.`,
+    `Apply the same first intervention across the cluster: ${
+      context.internal.recommended_next_action ||
+      "reconfirm the blocker, owner, and next customer milestone"
+    }.`,
+    `Track the cluster against shared patterns like ${
+      sharedPatterns.join(", ") || "renewal pressure and support load"
+    } so the team can reuse the play instead of reacting account by account.`,
+  ];
 }
 
 function deriveSharedPatterns(similar: SimilarAccount[]) {
