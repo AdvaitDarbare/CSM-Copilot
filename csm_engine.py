@@ -646,13 +646,42 @@ def get_similar_accounts(company_id: str, limit: int = 5) -> list[SimilarAccount
 
 def resolve_account_from_message(message: str) -> str | None:
     lower = message.lower()
+    best: tuple[int, str] | None = None
     for account in load_workspace()["prioritized"]:
-        if account.name.lower() in lower:
+        name_lower = account.name.lower()
+        if name_lower in lower:
             return account.id
-        tokens = [token for token in account.name.lower().replace("-", " ").split() if len(token) >= 4]
-        if sum(1 for token in tokens if token in lower) >= 2:
-            return account.id
-    return None
+        tokens = [token for token in name_lower.replace("-", " ").split() if len(token) >= 4]
+        if not tokens:
+            continue
+        hits = sum(1 for token in tokens if token in lower)
+        if hits >= 2 and (best is None or hits > best[0]):
+            best = (hits, account.id)
+    return best[1] if best else None
+
+
+def search_accounts(query: str, limit: int = 5) -> list[PrioritizedAccount]:
+    if not query or not query.strip():
+        return []
+    lower = query.lower().strip()
+    matches: list[tuple[int, PrioritizedAccount]] = []
+    for account in load_workspace()["prioritized"]:
+        name_lower = account.name.lower()
+        if lower == name_lower:
+            score = 1000
+        elif name_lower.startswith(lower):
+            score = 500 + len(lower)
+        elif lower in name_lower:
+            score = 100 + len(lower)
+        else:
+            tokens = [token for token in name_lower.replace("-", " ").split() if len(token) >= 3]
+            hits = sum(1 for token in tokens if token in lower or lower in token)
+            if not hits:
+                continue
+            score = hits * 10
+        matches.append((score, account))
+    matches.sort(key=lambda pair: (-pair[0], -pair[1].priority_score))
+    return [account for _, account in matches[:limit]]
 
 
 def classify_workflow(message: str, account_name: str | None = None) -> str:
@@ -664,6 +693,19 @@ def classify_workflow(message: str, account_name: str | None = None) -> str:
     ):
         return "brief"
     return "morning"
+
+
+def _account_provenance(context: AccountContext, source_dir: Path = SOURCE_DIR) -> list[str]:
+    sources = ["CRM"]
+    if context.internal.latest_ticket_summary and context.internal.latest_ticket_summary != "No open support issues.":
+        sources.append("support")
+    if context.internal.usage_change_30d is not None:
+        sources.append("usage")
+    if context.internal.recent_csm_note and context.internal.recent_csm_note != "No recent CSM activity.":
+        sources.append("CSM activity")
+    sources.append("renewal")
+    sources.append("derived")
+    return sources
 
 
 def build_account_brief(context: AccountContext) -> AccountBrief:
@@ -680,7 +722,7 @@ def build_account_brief(context: AccountContext) -> AccountBrief:
         why_risky=context.priority_reasons[:5],
         key_issues=key_issues,
         recommended_next_action=context.internal.recommended_next_action,
-        provenance=["CRM", "support", "usage", "CSM activity", "renewal", "derived"],
+        provenance=_account_provenance(context),
     )
 
 
@@ -689,12 +731,13 @@ def build_workflow_artifact(workflow: str, account_id: str | None = None):
         context = get_account_context(account_id) if account_id else None
         if not context:
             return None
+        brief = build_account_brief(context)
         return BriefArtifact(
             title="Pre-Call Brief",
             provenance=["CRM", "support", "usage", "CSM activity", "renewal", "derived"],
             stages=workflow_stages("brief"),
             account=context,
-            brief=build_account_brief(context),
+            brief=brief,
         )
     if workflow == "similar":
         context = get_account_context(account_id) if account_id else None

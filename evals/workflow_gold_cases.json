@@ -16,6 +16,20 @@
     ]
   },
   {
+    "id": "morning-triage-renewal-focus",
+    "workflow": "morning",
+    "prompt": "What's the renewal pressure looking like across the book?",
+    "required_signals": [
+      "main pressure themes",
+      "accounts needing attention"
+    ],
+    "required_provenance": [
+      "CRM",
+      "renewal",
+      "derived"
+    ]
+  },
+  {
     "id": "pre-call-brief-top-account",
     "workflow": "brief",
     "account_selector": "top_priority",
@@ -34,6 +48,23 @@
     ]
   },
   {
+    "id": "pre-call-brief-why-flagged",
+    "workflow": "brief",
+    "account_selector": "top_priority",
+    "prompt": "Why is this account flagged as high risk right now?",
+    "required_signals": [
+      "Next action:",
+      "renewing on"
+    ],
+    "required_provenance": [
+      "CRM",
+      "support",
+      "usage",
+      "renewal",
+      "derived"
+    ]
+  },
+  {
     "id": "similar-pattern-top-account",
     "workflow": "similar",
     "account_selector": "top_priority",
@@ -45,6 +76,21 @@
     "required_provenance": [
       "CRM",
       "support",
+      "usage",
+      "derived"
+    ]
+  },
+  {
+    "id": "similar-pattern-shared-cohort",
+    "workflow": "similar",
+    "account_selector": "top_priority",
+    "prompt": "Are other accounts seeing the same shape of risk as this one?",
+    "required_signals": [
+      "closest accounts",
+      "recurring pattern"
+    ],
+    "required_provenance": [
+      "CRM",
       "usage",
       "derived"
     ]

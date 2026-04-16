@@ -19,6 +19,7 @@ from csm_engine import (
     get_prioritized_accounts,
     get_similar_accounts as engine_get_similar_accounts,
     resolve_account_from_message,
+    search_accounts,
     to_chat_response,
     top_risk_themes,
 )
@@ -89,6 +90,12 @@ def get_prioritized_accounts_endpoint(limit: int = 100):
 def get_high_risk_accounts(limit: int = 100):
     results = [account for account in get_prioritized_accounts(limit=limit) if account.risk_level == "High"]
     return {"results": [account.model_dump(mode="json") for account in results[:limit]]}
+
+
+@app.get("/accounts/search")
+def search_accounts_endpoint(q: str, limit: int = 5):
+    results = search_accounts(q, limit=limit)
+    return {"query": q, "results": [account.model_dump(mode="json") for account in results]}
 
 
 @app.get("/accounts/{company_id}/context")
@@ -192,6 +199,13 @@ def chat_with_agent(body: ChatMessage) -> ChatResponse:
 
     workflow = classify_workflow(body.message, account_name)
     if workflow in {"brief", "similar"} and not resolved_account_id:
+        candidates = search_accounts(body.message, limit=3)
+        if candidates:
+            names = ", ".join(account.name for account in candidates)
+            raise HTTPException(
+                status_code=404,
+                detail=f"Could not resolve an account from the request. Closest matches: {names}",
+            )
         raise HTTPException(status_code=404, detail="Could not resolve an account from the request")
 
     artifact = build_workflow_artifact(workflow, resolved_account_id)

@@ -1,7 +1,7 @@
 import pytest
 from fastapi import HTTPException
 
-from main import chat_with_agent, get_account_brief
+from main import chat_with_agent, get_account_brief, search_accounts_endpoint
 from csm_engine import get_prioritized_accounts, workflow_stages
 from csm_types import ChatMessage
 
@@ -20,7 +20,21 @@ def test_chat_rejects_unresolved_account_specific_request():
         chat_with_agent(ChatMessage(message="Tell me about a made up account named Foo Bar Baz"))
 
     assert exc.value.status_code == 404
-    assert exc.value.detail == "Could not resolve an account from the request"
+    assert "Could not resolve an account" in exc.value.detail
+
+
+def test_search_endpoint_returns_matches_for_known_fragment():
+    target = get_prioritized_accounts(limit=1)[0]
+    fragment = target.name.split()[0]
+    response = search_accounts_endpoint(q=fragment, limit=5)
+    assert response["query"] == fragment
+    assert response["results"]
+    assert any(result["id"] == target.id for result in response["results"])
+
+
+def test_search_endpoint_returns_empty_for_blank_query():
+    response = search_accounts_endpoint(q="", limit=5)
+    assert response["results"] == []
 
 
 def test_brief_endpoint_returns_valid_brief_without_model_key_requirement():
