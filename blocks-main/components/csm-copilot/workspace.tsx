@@ -925,15 +925,15 @@ function buildFlows(
       prompt: "What should I focus on this morning?",
       answer: `Your top accounts today are **${topAccounts
         .map((account) => account.name)
-        .join("**, **")}**.\n\nThe strongest cross-account pattern is **${topThemes}**, which is why the priority queue leans toward renewal-critical accounts instead of general monitoring.\n\nI assembled a morning triage artifact with the queue, risk-theme breakdown, and manager actions on the right.`,
+        .join("**, **")}**.\n\nThe strongest cross-account pattern is **${topThemes}**, which is why the priority queue leans toward renewal-critical accounts instead of general monitoring.\n\nI assembled a morning triage artifact with the ranked queue, shared pressure themes, and manager actions on the right.`,
       artifactTitle: "Morning Triage Artifact",
       artifactSummary:
         "A ranked queue of the accounts that need attention first, plus the shared patterns behind the spike in urgency.",
       steps: [
-        "Pulling prioritized accounts from Postgres",
-        "Scoring renewal urgency and ticket pressure",
-        "Aggregating repeated risk themes",
-        "Composing the portfolio artifact",
+        "Loading ranked portfolio evidence",
+        "Checking renewal and support pressure",
+        "Aggregating shared workflow themes",
+        "Composing the triage artifact",
       ],
     },
     brief: {
@@ -947,23 +947,23 @@ function buildFlows(
       artifactSummary:
         "A decision-ready account view with the summary, why it is risky, current blockers, and the next move the CSM should take.",
       steps: [
-        "Loading merged account context",
-        "Checking health, usage, and renewal pressure",
-        "Drafting the account brief",
-        "Building the account artifact",
+        "Loading account evidence",
+        "Reviewing health, usage, and renewal pressure",
+        "Drafting the structured brief",
+        "Building the brief artifact",
       ],
     },
     similar: {
       id: "similar",
       label: "Pattern analysis",
       prompt: `Are there other accounts with the same pattern as ${featuredName}?`,
-      answer: `**${featuredName}** does not look isolated.\n\nThe closest matches are **${similarNames}**. The shared pattern is a mix of support load, softening adoption, and renewal exposure.\n\nI assembled a similarity artifact with the nearest accounts and the common risk signature on the right.`,
+      answer: `**${featuredName}** does not look isolated.\n\nThe closest matches are **${similarNames}**. The shared pattern is a mix of support load, softening adoption, and renewal exposure.\n\nI assembled a similarity artifact with the nearest accounts and the shared risk patterns on the right.`,
       artifactTitle: "Similarity Artifact",
       artifactSummary:
         "A pattern-analysis view that shows which other accounts look most like the selected account and what the common signals are.",
       steps: [
-        "Loading the source account embedding",
-        "Running pgvector nearest-neighbor search",
+        "Loading the source account evidence",
+        "Retrieving the closest workflow matches",
         "Comparing repeated risk reasons",
         "Assembling the similarity artifact",
       ],
@@ -1076,7 +1076,7 @@ function buildPortfolioAnswer(
   if (lower.includes("manager")) {
     return `As of ${formatDateTime(workspaceData.generatedAt)}, there are **${workspaceData.portfolio.renewingSoonCount}** accounts renewing inside 30 days and **${workspaceData.portfolio.highRiskCount}** accounts currently marked high risk.\n\nThe immediate concentration is **${topTheme?.label.toLowerCase() || "renewal pressure"}**, led by **${focusAccounts
       .map((account) => account.name)
-      .join("**, **")}**.\n\nI updated the portfolio artifact with the ranked queue, risk distribution, and manager actions.`;
+      .join("**, **")}**.\n\nI updated the portfolio artifact with the ranked queue, shared pressure themes, and manager actions.`;
   }
 
   if (lower.includes("renew")) {
@@ -1087,7 +1087,7 @@ function buildPortfolioAnswer(
 
   return `The accounts I would focus on first are **${focusAccounts
     .map((account) => account.name)
-    .join("**, **")}**.\n\nAcross the portfolio, there are **${workspaceData.portfolio.highRiskCount}** high-risk accounts and **${workspaceData.portfolio.topSavePlanCount}** accounts already in top save-plan range. The strongest repeated signal is **${topTheme?.label.toLowerCase() || "renewal pressure"}**.\n\nI updated the portfolio artifact with the queue, theme charts, and recommended manager actions.`;
+    .join("**, **")}**.\n\nAcross the portfolio, there are **${workspaceData.portfolio.highRiskCount}** high-risk accounts and **${workspaceData.portfolio.topSavePlanCount}** accounts already in top save-plan range. The strongest repeated signal is **${topTheme?.label.toLowerCase() || "renewal pressure"}**.\n\nI updated the portfolio artifact with the queue, shared pressure themes, and recommended manager actions.`;
 }
 
 function buildBriefAnswer(prompt: string, accountData: WorkspaceAccountData) {
