@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import {
   type ComponentType,
-  Fragment,
   type ReactNode,
   startTransition,
   useCallback,
@@ -48,15 +47,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Progress } from "@/components/ui/progress";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import {
   Table,
   TableBody,
   TableCell,
@@ -65,6 +55,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  type AccountBrief,
   type AccountContext,
   type PrioritizedAccount,
   type RiskTheme,
@@ -73,17 +64,6 @@ import {
   type WorkspaceBootstrap,
 } from "@/lib/csm-data";
 import { cn } from "@/lib/utils";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  PolarAngleAxis,
-  PolarGrid,
-  Radar as RechartsRadar,
-  RadarChart,
-  XAxis,
-  YAxis,
-} from "recharts";
 
 type WorkflowId = "morning" | "brief" | "similar";
 
@@ -129,6 +109,8 @@ type AgentResponse = {
   reply: string;
   workflow: WorkflowId;
   account_id?: string | null;
+  workflow_stages?: string[];
+  artifact_title?: string | null;
   triage_accounts?: TriageAccountCard[] | null;
   brief_snapshot?: BriefSnapshot | null;
   similar_accounts?: SimilarAccountCard[] | null;
@@ -169,34 +151,6 @@ type WorkflowRunConfig = {
   answer?: (data: WorkspaceAccountData) => string;
 };
 
-const portfolioThemeChartConfig = {
-  count: {
-    label: "Accounts",
-    color: "#111827",
-  },
-} satisfies ChartConfig;
-
-const renewalTimelineChartConfig = {
-  accounts: {
-    label: "Accounts",
-    color: "#d97706",
-  },
-} satisfies ChartConfig;
-
-const accountPressureChartConfig = {
-  pressure: {
-    label: "Pressure",
-    color: "#2563eb",
-  },
-} satisfies ChartConfig;
-
-const similarityChartConfig = {
-  similarity: {
-    label: "Similarity",
-    color: "#111827",
-  },
-} satisfies ChartConfig;
-
 export function CopilotWorkspace({
   initialData,
 }: {
@@ -225,6 +179,7 @@ export function CopilotWorkspace({
   const [runState, setRunState] = useState<RunState | null>(null);
   const [accountStatus, setAccountStatus] = useState<"idle" | "loading">("idle");
   const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading">("idle");
+  const [hasArtifact, setHasArtifact] = useState(false);
   const timeoutIdsRef = useRef<number[]>([]);
 
   const featuredAccount = accountData.context;
@@ -383,6 +338,7 @@ export function CopilotWorkspace({
             content: answer ? answer(targetData) : flow.answer,
           },
         ]);
+        setHasArtifact(true);
         setRunState(null);
         setStatus("ready");
       }, Math.max(flow.steps.length * 550 + 350 - (Date.now() - startedAt), 160));
@@ -435,11 +391,28 @@ export function CopilotWorkspace({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: trimmed,
-            account_id: localAccountId || accountData.accountId,
+            account_id: localAccountId
+              ? localAccountId
+              : localWorkflowId === "morning"
+                ? accountData.accountId
+                : undefined,
           }),
         });
 
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(errorText || `Request failed: ${res.status}`);
+        }
+
         const agentResp: AgentResponse = await res.json();
+
+        if (agentResp.workflow_stages?.length) {
+          setRunState({
+            workflowId: agentResp.workflow,
+            steps: agentResp.workflow_stages,
+            currentStep: agentResp.workflow_stages.length,
+          });
+        }
 
         // If agent resolved a different account, load it
         if (agentResp.account_id && agentResp.account_id !== accountData.accountId) {
@@ -447,6 +420,7 @@ export function CopilotWorkspace({
         }
 
         setActiveWorkflow(agentResp.workflow);
+        setHasArtifact(true);
 
         setMessages((prev) => [
           ...prev,
@@ -460,16 +434,17 @@ export function CopilotWorkspace({
           },
         ]);
       } catch {
-        // Graceful fallback to local simulation
-        const fallbackAnswer = buildWorkflowAnswer(
-          localWorkflowId,
-          trimmed,
-          workspaceData,
-          accountData
-        );
+        setHasArtifact(true);
         setMessages((prev) => [
           ...prev,
-          { id: `assistant-${Date.now()}`, role: "assistant", content: fallbackAnswer },
+          {
+            id: `assistant-${Date.now()}`,
+            role: "assistant",
+            content:
+              localWorkflowId === "brief" || localWorkflowId === "similar"
+                ? "I couldn't confidently resolve the account for that request. Mention the account name or open it from the portfolio list and try again."
+                : buildWorkflowAnswer(localWorkflowId, trimmed, workspaceData, accountData),
+          },
         ]);
       } finally {
         clearRunTimers();
@@ -480,7 +455,6 @@ export function CopilotWorkspace({
     [accountData, clearRunTimers, featuredAccount.crm.name, flows, loadAccount, portfolio.prioritized, status, workspaceData]
   );
 
-  const activeFlow = flows[activeWorkflow];
   const starterPrompts = useMemo(
     () => [
       {
@@ -538,6 +512,7 @@ export function CopilotWorkspace({
               setRunState(null);
               setStatus("ready");
               setInputValue("");
+              setHasArtifact(false);
             }}
             type="button"
           >
@@ -864,73 +839,58 @@ export function CopilotWorkspace({
         </div>
       </div>
 
-      {/* ── Right artifact panel ──────────────────────────── */}
-      <aside className="flex w-[460px] shrink-0 flex-col border-l border-black/6 bg-white/85 backdrop-blur-xl xl:w-[500px]">
-        {/* Artifact header */}
-        <div className="shrink-0 border-b border-black/6 px-5 py-4">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-[12px] font-medium text-slate-400 uppercase tracking-[0.16em]">
-              <WorkflowIcon className="size-3.5" />
-              Artifact
+      {/* ── Artifact panel — slides in after first response ───────── */}
+      <div
+        className={cn(
+          "flex h-full shrink-0 flex-col border-l border-black/6 bg-white/60 backdrop-blur-xl transition-all duration-500 ease-out",
+          hasArtifact ? "w-[480px] opacity-100" : "w-0 overflow-hidden opacity-0"
+        )}
+      >
+        {hasArtifact && (
+          <>
+            <header className="flex shrink-0 items-center justify-between border-b border-black/6 px-4 py-2.5">
+              <div className="flex items-center gap-2 text-[13px] font-medium text-slate-700">
+                <WorkflowIcon className="size-3.5 text-slate-400" />
+                {activeWorkflow === "morning" ? "Portfolio Artifact" : activeWorkflow === "brief" ? "Account Brief" : "Pattern Analysis"}
+              </div>
+              <button
+                className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+                onClick={() => setHasArtifact(false)}
+                type="button"
+                aria-label="Close artifact panel"
+              >
+                <svg className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </header>
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <div className="animate-in fade-in slide-in-from-right-4 p-4 duration-400">
+                {activeWorkflow === "morning" ? (
+                  <PortfolioArtifact
+                    activeAccountId={accountData.accountId}
+                    onSelectAccount={(id) => void loadAccount(id, "brief")}
+                    portfolio={workspaceData.portfolio}
+                  />
+                ) : activeWorkflow === "brief" ? (
+                  <AccountArtifact
+                    brief={accountData.brief}
+                    context={accountData.context}
+                    isLoading={accountStatus === "loading"}
+                  />
+                ) : (
+                  <SimilarArtifact
+                    context={accountData.context}
+                    isLoading={accountStatus === "loading"}
+                    similar={accountData.similar}
+                  />
+                )}
+              </div>
             </div>
-            <div className="flex gap-1">
-              {Object.values(flows).map((flow) => (
-                <button
-                  className={cn(
-                    "rounded-full px-2.5 py-1 text-[11px] font-medium transition-all",
-                    activeWorkflow === flow.id
-                      ? "bg-slate-900 text-white"
-                      : "text-slate-500 hover:bg-slate-100"
-                  )}
-                  key={flow.id}
-                  onClick={() => setActiveWorkflow(flow.id)}
-                  type="button"
-                >
-                  {flow.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <h2 className="mt-2 font-semibold text-[18px] tracking-tight text-slate-900">
-            {activeFlow.artifactTitle}
-          </h2>
-          <p className="mt-0.5 text-[12.5px] leading-5 text-slate-500">
-            {activeFlow.artifactSummary}
-          </p>
-        </div>
+          </>
+        )}
+      </div>
 
-        <ScrollArea className="flex-1 min-h-0">
-          <div
-            className="space-y-4 p-4"
-            key={`${activeWorkflow}:${accountData.accountId}`}
-          >
-            {activeWorkflow === "morning" ? (
-              <PortfolioArtifact
-                activeAccountId={accountData.accountId}
-                onSelectAccount={(accountId) => {
-                  void loadAccount(accountId, "brief");
-                }}
-                portfolio={portfolio}
-              />
-            ) : null}
-            {activeWorkflow === "brief" ? (
-              <AccountArtifact
-                brief={accountData.brief}
-                context={featuredAccount}
-                isLoading={accountStatus === "loading"}
-                prioritized={portfolio.prioritized}
-              />
-            ) : null}
-            {activeWorkflow === "similar" ? (
-              <SimilarArtifact
-                context={featuredAccount}
-                isLoading={accountStatus === "loading"}
-                similar={accountData.similar}
-              />
-            ) : null}
-          </div>
-        </ScrollArea>
-      </aside>
     </div>
   );
 }
@@ -941,7 +901,7 @@ function buildFlows(
 ): Record<WorkflowId, FlowDefinition> {
   const topAccounts = data.portfolio.prioritized.slice(0, 3);
   const featuredName = accountData.context.crm.name;
-  const similarNames = accountData.similar
+  const similarNames = (accountData.similar ?? [])
     .slice(0, 3)
     .map((account) => account.name)
     .join(", ");
@@ -972,7 +932,9 @@ function buildFlows(
       id: "brief",
       label: "Pre-call brief",
       prompt: `I have a call with ${featuredName} in 20 minutes. What should I know?`,
-      answer: `${accountData.brief.summary}\n\nThe most important move right now is **${accountData.brief.recommended_next_action.toLowerCase()}**\n\nI assembled the pre-call artifact with risk signals, current situation, and the recovery path on the right.`,
+      answer: accountData.brief
+        ? `${accountData.brief.summary}\n\nThe most important move right now is **${accountData.brief.recommended_next_action.toLowerCase()}**\n\nI assembled the pre-call artifact with why it was flagged, the current situation, and the next step on the right.`
+        : `Loading account brief for ${featuredName}. Ask a question to generate the full pre-call summary.`,
       artifactTitle: "Pre-Call Brief Artifact",
       artifactSummary:
         "A decision-ready account view with the summary, why it is risky, current blockers, and the next move the CSM should take.",
@@ -1122,17 +1084,23 @@ function buildPortfolioAnswer(
 
 function buildBriefAnswer(prompt: string, accountData: WorkspaceAccountData) {
   const lower = prompt.toLowerCase();
-  const topWhy = accountData.brief.why_risky.slice(0, 3).join(", ");
+  const brief = accountData.brief;
+
+  if (!brief) {
+    return `Here's what I know about **${accountData.context.crm.name}** so far. Ask a specific question to pull the full brief.`;
+  }
+
+  const topWhy = brief.why_risky.slice(0, 3).join(", ");
   const topIssue =
-    accountData.brief.key_issues[0] ||
+    brief.key_issues[0] ||
     accountData.context.internal.latest_ticket_summary ||
     "No issue summary available.";
 
   if (lower.includes("next") || lower.includes("do")) {
-    return `For **${accountData.context.crm.name}**, the next move is **${accountData.brief.recommended_next_action.toLowerCase()}**.\n\nThis account is surfacing because ${topWhy.toLowerCase()}.\n\nI refreshed the pre-call artifact with the signal profile, current situation, and recovery path.`;
+    return `For **${accountData.context.crm.name}**, the next move is **${brief.recommended_next_action.toLowerCase()}**.\n\nThis account is surfacing because ${topWhy.toLowerCase()}.\n\nI refreshed the pre-call artifact with why it was flagged, the current situation, and the next step.`;
   }
 
-  return `**${accountData.context.crm.name}** is a **${(accountData.context.crm.risk_level || "high").toLowerCase()}-risk** ${accountData.context.internal.segment?.toLowerCase() || "customer"} account renewing on **${formatDateShort(accountData.context.crm.renewal_date)}**.\n\nThe main drivers are ${topWhy.toLowerCase()}. The immediate issue is **${topIssue}**.\n\nI refreshed the pre-call artifact with the brief, signal profile, and recommended next step.`;
+  return `**${accountData.context.crm.name}** is a **${(accountData.context.crm.risk_level || "high").toLowerCase()}-risk** ${accountData.context.internal.segment?.toLowerCase() || "customer"} account renewing on **${formatDateShort(accountData.context.crm.renewal_date)}**.\n\nThe main drivers are ${topWhy.toLowerCase()}. The immediate issue is **${topIssue}**.\n\nI refreshed the pre-call artifact with the summary, why it was flagged, and the recommended next step.`;
 }
 
 function buildSimilarityAnswer(
@@ -1141,51 +1109,22 @@ function buildSimilarityAnswer(
 ) {
   const lower = prompt.toLowerCase();
   const closest = accountData.similar.slice(0, 3);
+  const closestNames = closest.map((account) => account.name);
   const shared = deriveSharedPatterns(accountData.similar)
     .filter((pattern) => pattern.count > 0)
     .map((pattern) => pattern.label.toLowerCase())
     .slice(0, 3);
+  const sharedText = shared.length > 0 ? shared.join(", ") : "no clear shared pattern yet";
 
-  if (lower.includes("isolated")) {
-    return `No, **${accountData.context.crm.name}** does not look isolated.\n\nThe closest matches are **${closest
-      .map((account) => account.name)
-      .join("**, **")}**, and the shared shape is **${shared.join(", ")}**.\n\nI refreshed the similarity artifact with the ladder view, matching flow, and nearest accounts.`;
+  if (closestNames.length === 0) {
+    return `I couldn't find close matches for **${accountData.context.crm.name}** yet.\n\nI refreshed the similarity artifact so you can inspect the source account and rerun the comparison when more data is available.`;
   }
 
-  return `The closest accounts to **${accountData.context.crm.name}** are **${closest
-    .map((account) => account.name)
-    .join("**, **")}**.\n\nThe recurring pattern is **${shared.join(", ")}**, which suggests this is a repeatable account-risk shape rather than a one-off issue.\n\nI refreshed the similarity artifact with the match ladder and the shared risk signature.`;
-}
+  if (lower.includes("isolated")) {
+    return `No, **${accountData.context.crm.name}** does not look isolated.\n\nThe closest matches are **${closestNames.join("**, **")}**, and the shared shape is **${sharedText}**.\n\nI refreshed the similarity artifact with shared patterns and the closest matching accounts.`;
+  }
 
-function buildAccountActionBundle(
-  context: AccountContext,
-  brief: WorkspaceBootstrap["featuredAccount"]["brief"]
-) {
-  const issue =
-    brief.key_issues[0] ||
-    context.internal.latest_ticket_summary ||
-    "the current open risk";
-  const subject = `${context.crm.name}: recovery plan before ${formatDateShort(
-    context.crm.renewal_date
-  )}`;
-
-  return {
-    emailSubject: subject,
-    emailBody: `Hi ${context.internal.owner_name || "team"},\n\nI wanted to follow up after reviewing ${context.crm.name}. The main issue right now is ${issue.toLowerCase()}.\n\nTo get us back on stable footing before renewal, I recommend we start with ${brief.recommended_next_action.toLowerCase()}.\n\nIf it helps, I can coordinate a focused working session this week and leave you with a clear next milestone.\n\nBest,\nCSM Copilot`,
-    savePlanItems: [
-      `Diagnose the active blocker: ${issue}`,
-      `Assign ${context.internal.owner_name || "the account owner"} to confirm the customer recovery plan and next milestone.`,
-      `Review renewal risk again before ${formatDateShort(context.crm.renewal_date)} and decide whether exec escalation is needed.`,
-    ],
-    managerUpdate: `${context.crm.name} remains a ${
-      (context.crm.risk_level || "high").toLowerCase()
-    }-risk account with ${brief.why_risky
-      .slice(0, 2)
-      .join(" and ")
-      .toLowerCase()}. The current recovery move is ${brief.recommended_next_action.toLowerCase()}, and this should be treated as an active save plan through ${formatDateShort(
-      context.crm.renewal_date
-    )}.`,
-  };
+  return `The closest accounts to **${accountData.context.crm.name}** are **${closestNames.join("**, **")}**.\n\nThe recurring pattern is **${sharedText}**, which suggests this is a repeatable account-risk shape rather than a one-off issue.\n\nI refreshed the similarity artifact with shared patterns and the closest matches.`;
 }
 
 
@@ -1351,107 +1290,16 @@ function PortfolioArtifact({
   activeAccountId: string;
   onSelectAccount: (accountId: string) => void;
 }) {
-  const renewalTimeline = buildRenewalTimeline(portfolio.prioritized);
-  const recoveryWindowCount = renewalTimeline
-    .slice(0, 2)
-    .reduce((total, item) => total + item.accounts, 0);
-
   return (
     <div className="space-y-4">
       <section className="grid grid-cols-2 gap-3">
-        <MetricCard
-          icon={RadarIcon}
-          label="Accounts reviewed"
-          value={String(portfolio.totalAccounts)}
-        />
-        <MetricCard
-          icon={BadgeAlertIcon}
-          label="High risk"
-          tone="critical"
-          value={String(portfolio.highRiskCount)}
-        />
-        <MetricCard
-          icon={CalendarClockIcon}
-          label="Renewing <=30d"
-          tone="warning"
-          value={String(portfolio.renewingSoonCount)}
-        />
-        <MetricCard
-          icon={WorkflowIcon}
-          label="Top save plans"
-          value={String(portfolio.topSavePlanCount)}
-        />
+        <MetricCard icon={RadarIcon} label="Accounts reviewed" value={String(portfolio.totalAccounts)} />
+        <MetricCard icon={BadgeAlertIcon} label="High risk" tone="critical" value={String(portfolio.highRiskCount)} />
+        <MetricCard icon={CalendarClockIcon} label="Renewing ≤30d" tone="warning" value={String(portfolio.renewingSoonCount)} />
+        <MetricCard icon={WorkflowIcon} label="Top save plans" value={String(portfolio.topSavePlanCount)} />
       </section>
 
-      <div className="grid gap-4">
-        <SectionCard
-          description="The strongest recurring signals across the current queue, shown as an at-a-glance distribution."
-          title="Risk Pressure Map"
-        >
-          <ChartContainer
-            className="h-[240px] w-full"
-            config={portfolioThemeChartConfig}
-          >
-            <BarChart accessibilityLayer data={portfolio.riskThemes}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                axisLine={false}
-                dataKey="label"
-                interval={0}
-                tickFormatter={(value) => compactLabel(value, 10)}
-                tickLine={false}
-                tickMargin={10}
-              />
-              <YAxis allowDecimals={false} axisLine={false} tickLine={false} />
-              <ChartTooltip
-                content={<ChartTooltipContent indicator="line" />}
-                cursor={false}
-              />
-              <Bar dataKey="count" fill="var(--color-count)" radius={[14, 14, 4, 4]} />
-            </BarChart>
-          </ChartContainer>
-        </SectionCard>
-
-        <SectionCard
-          description="Where the top-priority accounts sit on the renewal clock."
-          title="Renewal Wave"
-        >
-          <ChartContainer
-            className="h-[240px] w-full"
-            config={renewalTimelineChartConfig}
-          >
-            <BarChart accessibilityLayer data={renewalTimeline}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                axisLine={false}
-                dataKey="window"
-                tickLine={false}
-                tickMargin={10}
-              />
-              <YAxis allowDecimals={false} axisLine={false} tickLine={false} />
-              <ChartTooltip
-                content={<ChartTooltipContent indicator="line" />}
-                cursor={false}
-              />
-              <Bar
-                dataKey="accounts"
-                fill="var(--color-accounts)"
-                radius={[14, 14, 4, 4]}
-              />
-            </BarChart>
-          </ChartContainer>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            {recoveryWindowCount} of the top accounts are already inside a
-            two-week recovery window, which is why this artifact emphasizes
-            save-plan execution over broad monitoring.
-          </p>
-        </SectionCard>
-      </div>
-
-      <SectionCard
-        description="The highest-priority accounts right now, ordered by priority_score."
-        title="Priority Queue"
-      >
+      <SectionCard title="Priority Queue">
         <Table>
           <TableHeader>
             <TableRow>
@@ -1459,95 +1307,52 @@ function PortfolioArtifact({
               <TableHead>Risk</TableHead>
               <TableHead>Score</TableHead>
               <TableHead>Renewal</TableHead>
-              <TableHead>Primary signal</TableHead>
+              <TableHead>Top signal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {portfolio.prioritized.slice(0, 6).map((account) => (
+            {portfolio.prioritized.slice(0, 8).map((account) => (
               <TableRow
-                className={cn(
-                  "cursor-pointer",
-                  account.id === activeAccountId && "bg-slate-50"
-                )}
+                className={cn("cursor-pointer", account.id === activeAccountId && "bg-slate-50")}
                 key={account.id}
                 onClick={() => onSelectAccount(account.id)}
               >
                 <TableCell className="py-3">
-                  <div className="flex flex-col">
-                    <span className="font-medium text-slate-900">
-                      {account.name}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {account.segment} · {account.plan_tier} ·{" "}
-                      {formatCurrency(account.arr)}
-                    </span>
-                  </div>
+                  <div className="font-medium text-slate-900">{account.name}</div>
+                  <div className="text-xs text-slate-500">{account.segment} · {account.plan_tier}</div>
                 </TableCell>
-                <TableCell>
-                  <RiskBadge value={account.risk_level} />
-                </TableCell>
-                <TableCell className="font-medium text-slate-900">
-                  {account.priority_score}
-                </TableCell>
-                <TableCell className="text-slate-600">
-                  {formatDateShort(account.renewal_date)}
-                </TableCell>
-                <TableCell className="max-w-[18rem] truncate text-slate-600">
-                  {account.priority_reasons[0]}
-                </TableCell>
+                <TableCell><RiskBadge value={account.risk_level} /></TableCell>
+                <TableCell className="font-medium text-slate-900">{account.priority_score}</TableCell>
+                <TableCell className="text-slate-600">{formatDateShort(account.renewal_date)}</TableCell>
+                <TableCell className="max-w-[14rem] truncate text-slate-600">{account.priority_reasons[0]}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </SectionCard>
 
-      <div className="grid gap-4">
-        <SectionCard
-          description="Repeated signals across the priority queue."
-          title="Risk Theme Breakdown"
-        >
-          <div className="space-y-3">
-            {portfolio.riskThemes.map((theme) => (
-              <ThemeRow
-                count={theme.count}
-                key={theme.label}
-                label={theme.label}
-                max={Math.max(portfolio.totalAccounts / 4, 1)}
-                tone={theme.tone}
-              />
-            ))}
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          description="The artifact should always push the team toward next actions, not just observations."
-          title="Recommended Manager Actions"
-        >
-          <ActionList
-            items={[
-              `Escalate ${portfolio.prioritized[0]?.name} and ${
-                portfolio.prioritized[1]?.name
-              } into active save-plan review.`,
-              `Review the ticket-heavy cohort before the next renewal stand-up.`,
-              `Assign an owner and due date to each account scoring 90 or above.`,
-            ]}
-          />
-        </SectionCard>
-      </div>
-
-      <SectionCard
-        description="A lightweight owner-by-owner board that makes the queue feel operational instead of purely analytical."
-        title="Save Plan Board"
-      >
-        <div className="grid gap-3 grid-cols-1">
-          {portfolio.prioritized.slice(0, 3).map((account) => (
-            <CoverageCard
-              account={account}
-              key={account.id}
-              onSelect={() => onSelectAccount(account.id)}
+      <SectionCard title="Risk Theme Breakdown">
+        <div className="space-y-3">
+          {portfolio.riskThemes.map((theme) => (
+            <ThemeRow
+              count={theme.count}
+              key={theme.label}
+              label={theme.label}
+              max={Math.max(portfolio.totalAccounts / 4, 1)}
+              tone={theme.tone}
             />
           ))}
         </div>
+      </SectionCard>
+
+      <SectionCard title="Recommended Manager Actions">
+        <ActionList
+          items={[
+            `Escalate ${portfolio.prioritized[0]?.name} and ${portfolio.prioritized[1]?.name} into active save-plan review.`,
+            `Review the ticket-heavy cohort before the next renewal stand-up.`,
+            `Assign an owner and due date to each account scoring 90 or above.`,
+          ]}
+        />
       </SectionCard>
     </div>
   );
@@ -1556,310 +1361,81 @@ function PortfolioArtifact({
 function AccountArtifact({
   context,
   brief,
-  prioritized,
   isLoading,
 }: {
   context: AccountContext;
-  brief: WorkspaceBootstrap["featuredAccount"]["brief"];
-  prioritized: PrioritizedAccount[];
+  brief: AccountBrief | null;
   isLoading: boolean;
 }) {
-  const signalBars = buildSignalBars(context);
-  const seatUtilization = buildSeatUtilization(context);
-  const touchRisk = buildTouchRisk(context);
-  const recoveryWindow = daysUntilFromString(context.crm.renewal_date);
-  const actionBundle = buildAccountActionBundle(context, brief);
-  const comparisonSet = prioritized.slice(0, 5).filter((account) => {
-    return account.id !== context.crm.id;
-  });
-
   return (
     <div className="space-y-4">
-      <SectionCard
-        description={`${context.crm.name} · ${context.internal.segment} · ${context.internal.plan_tier}`}
-        title="Account Snapshot"
-      >
-        {isLoading ? <InlineLoadingBanner label="Refreshing account brief" /> : null}
-        <div className="grid gap-4">
-          <div className="space-y-4">
-            <div className="rounded-[24px] border border-black/6 bg-[#f7f4ef] p-4">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <RiskBadge value={context.crm.risk_level} />
-                    <Badge className="bg-white text-slate-500" variant="outline">
-                      Score {context.priority_score}
-                    </Badge>
-                  </div>
-                  <p className="max-w-2xl text-pretty text-[15px] leading-7 text-slate-700">
-                    {brief.summary}
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    <Badge className="bg-white text-slate-600" variant="outline">
-                      {context.internal.segment}
-                    </Badge>
-                    <Badge className="bg-white text-slate-600" variant="outline">
-                      {context.internal.plan_tier}
-                    </Badge>
-                    <Badge className="bg-white text-slate-600" variant="outline">
-                      Theme {humanizeTheme(context.internal.top_issue_theme)}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="grid gap-2 text-sm text-slate-500">
-                  <span>Renewal {formatDateShort(context.crm.renewal_date)}</span>
-                  <span>Owner {context.internal.owner_name}</span>
-                  <span>{formatCurrency(context.internal.arr)} ARR</span>
-                </div>
-              </div>
-            </div>
+      {isLoading && <InlineLoadingBanner label="Loading account data" />}
 
-            <div className="grid grid-cols-2 gap-3">
-              {signalBars.map((signal) => (
-                <SignalBarCard key={signal.label} {...signal} />
-              ))}
+      {/* Header */}
+      <div className="rounded-2xl border border-black/6 bg-[#f7f4ef] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <div className="font-semibold text-slate-900 text-[15px]">{context.crm.name}</div>
+            <div className="text-sm text-slate-500">
+              {context.internal.segment} · {context.internal.plan_tier} · {formatCurrency(context.internal.arr)} ARR
+            </div>
+            <div className="text-sm text-slate-500">
+              Renewal {formatDateShort(context.crm.renewal_date)} · Owner {context.internal.owner_name ?? "—"}
             </div>
           </div>
-
-          <div className="rounded-[24px] border border-black/6 bg-slate-950 p-4 text-white">
-            <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
-              <SparklesIcon className="size-4" />
-              Recommended next step
-            </div>
-            <p className="mt-3 text-pretty text-lg leading-8 text-white">
-              {brief.recommended_next_action}
-            </p>
-
-            <div className="mt-6 space-y-3">
-              {["Diagnose", "Align", "Recover"].map((phase, index) => (
-                <div
-                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-3"
-                  key={phase}
-                >
-                  <div className="grid size-8 place-items-center rounded-full bg-white/10 text-sm font-medium">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <div className="font-medium">{phase}</div>
-                    <div className="text-sm text-slate-300">
-                      {index === 0
-                        ? "Tighten the issue statement around the active blocker."
-                        : index === 1
-                          ? "Reconfirm owner, champion, and support path."
-                          : "Leave the customer with a visible next milestone."}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-col items-end gap-1.5">
+            <RiskBadge value={context.crm.risk_level} />
+            <Badge className="bg-white text-slate-500" variant="outline">Score {context.priority_score}</Badge>
           </div>
         </div>
-      </SectionCard>
-
-      <div className="grid gap-4">
-        <SectionCard
-          description="A visual read on the four dimensions driving the account to the top of the queue."
-          title="Signal Profile"
-        >
-          <div className="grid gap-4">
-            <ChartContainer
-              className="mx-auto h-[220px] w-full max-w-[360px]"
-              config={accountPressureChartConfig}
-            >
-              <RadarChart accessibilityLayer data={toPressureChartData(signalBars)}>
-                <ChartTooltip
-                  content={<ChartTooltipContent indicator="line" />}
-                  cursor={false}
-                />
-                <PolarGrid />
-                <PolarAngleAxis
-                  dataKey="label"
-                  tick={{
-                    fill: "#64748b",
-                    fontSize: 12,
-                  }}
-                />
-                <RechartsRadar
-                  dataKey="pressure"
-                  fill="var(--color-pressure)"
-                  fillOpacity={0.18}
-                  stroke="var(--color-pressure)"
-                  strokeWidth={2}
-                />
-              </RadarChart>
-            </ChartContainer>
-
-            <div className="grid grid-cols-2 gap-3">
-              {signalBars.map((signal) => (
-                <div
-                  className="rounded-[22px] border border-black/6 bg-slate-50 px-4 py-3"
-                  key={signal.label}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <div className="font-medium text-slate-900">{signal.label}</div>
-                      <div className="mt-1 text-sm text-slate-500">
-                        {signal.subtitle}
-                      </div>
-                    </div>
-                    <div className="text-right text-2xl font-semibold tracking-tight text-slate-900">
-                      {signal.value}
-                    </div>
-                  </div>
-                  <Progress
-                    className="mt-4 h-2 bg-black/6 [&>[data-slot=progress-indicator]]:bg-slate-900"
-                    value={signal.value}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </SectionCard>
-
-        <SectionCard
-          description="Operational details the CSM needs before turning this into a save-plan motion."
-          title="Coverage & Recovery Window"
-        >
-          <div className="space-y-4">
-            <ProgressMetric
-              label="Seat coverage"
-              subtitle={`${context.internal.active_users ?? 0} active / ${
-                context.internal.licensed_seats ?? 0
-              } licensed`}
-              value={seatUtilization}
-            />
-            <ProgressMetric
-              label="Touch freshness"
-              subtitle={
-                context.internal.days_since_last_touch
-                  ? `${context.internal.days_since_last_touch} days since last CSM touch`
-                  : "No recent touch data"
-              }
-              tone={touchRisk >= 65 ? "critical" : "neutral"}
-              value={touchRisk}
-            />
-            <div className="grid grid-cols-2 gap-3">
-              <MiniStat
-                label="Onboarding"
-                value={context.internal.onboarding_status}
-              />
-              <MiniStat
-                label="Issue severity"
-                value={context.internal.issue_severity}
-              />
-              <MiniStat
-                label="Issue theme"
-                value={humanizeTheme(context.internal.top_issue_theme)}
-              />
-              <MiniStat
-                label="Recovery window"
-                value={
-                  recoveryWindow === null
-                    ? "Unknown"
-                    : `${Math.max(recoveryWindow, 0)} days`
-                }
-              />
-            </div>
-          </div>
-        </SectionCard>
+        {brief && (
+          <p className="mt-3 text-[14px] leading-6 text-slate-700">{brief.summary}</p>
+        )}
       </div>
 
-      <SectionCard
-        description="Copyable outputs the CSM can actually take into customer follow-up, internal save planning, and leadership communication."
-        title="Action Center"
-      >
-        <div className="grid gap-4">
-          <ActionStudioCard
-            eyebrow="Customer follow-up"
-            icon={BriefcaseBusinessIcon}
-            title={actionBundle.emailSubject}
-          >
-            <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">
-              {actionBundle.emailBody}
-            </p>
-          </ActionStudioCard>
-
-          <ActionStudioCard
-            eyebrow="Internal save plan"
-            icon={WorkflowIcon}
-            title="Next 3 moves"
-          >
-            <ActionList items={actionBundle.savePlanItems} />
-          </ActionStudioCard>
-
-          <ActionStudioCard
-            eyebrow="Manager update"
-            icon={CalendarClockIcon}
-            title="Leadership-ready summary"
-          >
-            <p className="text-sm leading-6 text-slate-700">
-              {actionBundle.managerUpdate}
-            </p>
-          </ActionStudioCard>
+      {/* Why flagged */}
+      <SectionCard title="Why Flagged">
+        <div className="space-y-2">
+          {context.priority_reasons.map((reason) => (
+            <div
+              className="flex items-start gap-2.5 rounded-xl border border-black/6 bg-slate-50 px-3 py-2.5"
+              key={reason}
+            >
+              <BadgeAlertIcon className="mt-0.5 size-3.5 shrink-0 text-slate-400" />
+              <span className="text-sm leading-5 text-slate-700">{reason}</span>
+            </div>
+          ))}
         </div>
       </SectionCard>
 
-      <div className="grid gap-4">
-        <SectionCard
-          description="The supporting narrative is secondary to the structured signals, but still useful for CSM context."
-          title="Current Situation"
-        >
-          <div className="space-y-4">
-            <InfoRow
-              label="Latest ticket"
-              value={context.internal.latest_ticket_summary}
+      {/* Current situation */}
+      <SectionCard title="Current Situation">
+        <div className="space-y-4">
+          <InfoRow label="Latest ticket" value={context.internal.latest_ticket_summary} />
+          <InfoRow label="Recent CSM note" value={context.internal.recent_csm_note} />
+          <div className="grid grid-cols-2 gap-3">
+            <MiniStat label="Champion" value={context.internal.champion_status} />
+            <MiniStat label="Renewal confidence" value={context.internal.renewal_confidence} />
+            <MiniStat label="Engagement" value={context.internal.engagement_status} />
+            <MiniStat
+              label="Last touch"
+              value={context.internal.days_since_last_touch != null ? `${context.internal.days_since_last_touch}d ago` : null}
             />
-            <InfoRow
-              label="Recent CSM note"
-              value={context.internal.recent_csm_note}
-            />
-            <div className="grid grid-cols-2 gap-3">
-              <MiniStat
-                label="Champion"
-                value={context.internal.champion_status}
-              />
-              <MiniStat
-                label="Renewal confidence"
-                value={context.internal.renewal_confidence}
-              />
-              <MiniStat
-                label="Engagement"
-                value={context.internal.engagement_status}
-              />
-              <MiniStat
-                label="Last touch"
-                value={`${context.internal.days_since_last_touch ?? 0} days ago`}
-              />
-            </div>
           </div>
-        </SectionCard>
+        </div>
+      </SectionCard>
 
-        <SectionCard
-          description="How this account compares with the rest of the immediate save-plan set."
-          title="Why It Is Surfacing"
-        >
-          <div className="space-y-3">
-            {context.priority_reasons.map((reason) => (
-              <div
-                className="flex items-start gap-3 rounded-2xl border border-black/6 bg-slate-50 px-3 py-3"
-                key={reason}
-              >
-                <BadgeAlertIcon className="mt-0.5 size-4 text-slate-500" />
-                <span className="text-sm leading-6 text-slate-700">{reason}</span>
-              </div>
-            ))}
-          </div>
-
-          <Separator className="my-4" />
-
-          <div className="flex flex-wrap gap-2">
-            {comparisonSet.slice(0, 3).map((account) => (
-              <Badge className="bg-white text-slate-600" key={account.id} variant="outline">
-                {account.name} · score {account.priority_score}
-              </Badge>
-            ))}
-          </div>
-        </SectionCard>
+      {/* Recommended next step */}
+      <div className="rounded-2xl bg-slate-950 p-4 text-white">
+        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-slate-400">
+          <SparklesIcon className="size-3.5" />
+          Recommended next step
+        </div>
+        <p className="mt-2 text-[14px] leading-7 text-white">
+          {brief?.recommended_next_action
+            ?? context.internal.recommended_next_action
+            ?? "Ask a question to generate the recommended next step for this account."}
+        </p>
       </div>
     </div>
   );
@@ -1874,194 +1450,115 @@ function SimilarArtifact({
   similar: SimilarAccount[];
   isLoading: boolean;
 }) {
-  const sharedPatterns = deriveSharedPatterns(similar);
-  const similarityChart = buildSimilarityChartData(similar);
-  const sharedPlaybook = buildSimilarityPlaybook(context, similar);
+  const sharedPatterns = deriveSharedPatterns(similar)
+    .filter((pattern) => pattern.count > 0)
+    .map((pattern, index) => ({
+      ...pattern,
+      tone:
+        index === 0
+          ? ("critical" as const)
+          : index === 1
+            ? ("warning" as const)
+            : ("watch" as const),
+    }));
+  const topMatch = similar[0];
+  const nextStep =
+    context.internal.recommended_next_action ||
+    (topMatch
+      ? `Review ${topMatch.name} and reuse the recovery motion around ${sharedPatterns[0]?.label.toLowerCase() || "the shared risk pattern"}.`
+      : "No similar accounts are available yet. Ask a question to refresh the comparison set.");
 
   return (
     <div className="space-y-4">
-      <SectionCard
-        description="Nearest-neighbor account search using 768-dim Gemini embeddings and pgvector cosine similarity."
-        title="Pattern Overview"
-      >
-        {isLoading ? <InlineLoadingBanner label="Refreshing similarity matches" /> : null}
-        <div className="grid gap-4">
-          <div className="rounded-[24px] border border-black/6 bg-[#f8f5ef] p-4">
-            <div className="flex items-center gap-2">
-              <Badge className="bg-slate-900 text-white">Source account</Badge>
-              <RiskBadge value={context.crm.risk_level} />
+      {isLoading && <InlineLoadingBanner label="Loading similar accounts" />}
+
+      <div className="rounded-2xl border border-black/6 bg-[#f7f4ef] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="space-y-1">
+            <div className="font-semibold text-[15px] text-slate-900">{context.crm.name}</div>
+            <div className="text-sm text-slate-500">
+              {context.internal.segment} · {context.internal.plan_tier} · {formatCurrency(context.internal.arr)} ARR
             </div>
-            <div className="mt-3 space-y-2">
-              <h3 className="text-xl font-semibold tracking-tight text-slate-900">
-                {context.crm.name}
-              </h3>
-              <p className="text-sm leading-6 text-slate-600">
-                {context.internal.segment} · {context.internal.plan_tier} ·{" "}
-                {formatCurrency(context.internal.arr)} ARR
-              </p>
-              <p className="text-sm leading-6 text-slate-600">
-                Renewal {formatDateShort(context.crm.renewal_date)} · Health{" "}
-                {context.crm.health_score} · Usage {context.crm.usage_trend}
-              </p>
+            <div className="text-sm text-slate-500">
+              Renewal {formatDateShort(context.crm.renewal_date)} · Comparing against similar risk patterns
             </div>
           </div>
-
-          <div className="grid grid-cols-3 gap-3">
-            {sharedPatterns.map((pattern) => (
-              <div
-                className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_8px_24px_rgba(15,23,42,0.04)]"
-                key={pattern.label}
-              >
-                <div className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                  Shared pattern
-                </div>
-                <div className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
-                  {pattern.count}
-                </div>
-                <div className="mt-1 text-sm text-slate-600">{pattern.label}</div>
-              </div>
-            ))}
+          <div className="flex flex-col items-end gap-1.5">
+            <RiskBadge value={context.crm.risk_level} />
+            <Badge className="bg-white text-slate-500" variant="outline">
+              {similar.length} matches
+            </Badge>
           </div>
         </div>
-      </SectionCard>
-
-      <div className="grid gap-4">
-        <SectionCard
-          description="A compact visual of how close each neighbor is to the selected account."
-          title="Similarity Ladder"
-        >
-          <ChartContainer
-            className="h-[260px] w-full"
-            config={similarityChartConfig}
-          >
-            <BarChart
-              accessibilityLayer
-              data={similarityChart}
-              layout="vertical"
-              margin={{ left: 20, right: 8 }}
-            >
-              <CartesianGrid horizontal={false} />
-              <XAxis
-                axisLine={false}
-                dataKey="similarity"
-                domain={[0.85, 1]}
-                tickFormatter={(value) => `${Math.round(value * 100)}%`}
-                tickLine={false}
-                type="number"
-              />
-              <YAxis
-                axisLine={false}
-                dataKey="name"
-                tickLine={false}
-                type="category"
-                width={112}
-              />
-              <ChartTooltip
-                content={<ChartTooltipContent indicator="line" />}
-                cursor={false}
-              />
-              <Bar
-                dataKey="similarity"
-                fill="var(--color-similarity)"
-                radius={[0, 12, 12, 0]}
-              />
-            </BarChart>
-          </ChartContainer>
-        </SectionCard>
-
-        <SectionCard
-          description="The matching logic is visible so the user understands why these neighbors were selected."
-          title="How Matching Works"
-        >
-          <FlowDiagram
-            steps={[
-              {
-                label: "Source account",
-                description: context.crm.name,
-              },
-              {
-                label: "Merged profile",
-                description:
-                  "CRM and internal context are combined into one account state.",
-              },
-              {
-                label: "768-dim embedding",
-                description:
-                  "Gemini embeddings convert the account state into a searchable vector.",
-              },
-              {
-                label: "Nearest neighbors",
-                description:
-                  "pgvector cosine search returns accounts with the closest risk shape.",
-              },
-            ]}
-          />
-        </SectionCard>
       </div>
 
-      <SectionCard
-        description="A reusable intervention pattern to apply when multiple accounts share the same shape."
-        title="Reusable Recovery Play"
-      >
-        <ActionList items={sharedPlaybook} />
+      <SectionCard title="Shared Patterns">
+        {sharedPatterns.length > 0 ? (
+          <div className="space-y-3">
+            {sharedPatterns.map((pattern) => (
+              <ThemeRow
+                count={pattern.count}
+                key={pattern.label}
+                label={pattern.label}
+                max={Math.max(similar.length, 1)}
+                tone={pattern.tone}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm leading-6 text-slate-600">
+            No repeated pattern surfaced across the current comparison set.
+          </p>
+        )}
       </SectionCard>
 
-      <SectionCard
-        description="The nearest accounts with comparable risk shape and account context."
-        title="Closest Matches"
-      >
-        <div className="space-y-3">
-          {similar.map((account) => (
-            <div
-              className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(15,23,42,0.08)]"
-              key={account.id}
-            >
-              <div className="flex flex-col gap-3">
-                <div className="space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-lg tracking-tight text-slate-900">
-                      {account.name}
-                    </h3>
-                    <RiskBadge value={account.risk_level} />
-                    <Badge className="bg-slate-50 text-slate-500" variant="outline">
-                      Score {account.priority_score}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-slate-500">
-                    {account.segment} · {formatCurrency(account.arr)} ARR ·
-                    Renewal {formatDateShort(account.renewal_date)}
-                  </p>
-                </div>
+      <SectionCard title="Closest Matches">
+        {similar.length > 0 ? (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Account</TableHead>
+                <TableHead>Risk</TableHead>
+                <TableHead>Similarity</TableHead>
+                <TableHead>Renewal</TableHead>
+                <TableHead>Top signal</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {similar.slice(0, 6).map((account) => (
+                <TableRow key={account.id}>
+                  <TableCell className="py-3">
+                    <div className="font-medium text-slate-900">{account.name}</div>
+                    <div className="text-xs text-slate-500">
+                      {account.segment} · {formatCurrency(account.arr)}
+                    </div>
+                  </TableCell>
+                  <TableCell><RiskBadge value={account.risk_level} /></TableCell>
+                  <TableCell className="font-medium text-slate-900">
+                    {Math.round(account.similarity * 100)}%
+                  </TableCell>
+                  <TableCell className="text-slate-600">{formatDateShort(account.renewal_date)}</TableCell>
+                  <TableCell className="max-w-[14rem] truncate text-slate-600">
+                    {account.priority_reasons[0] || "No signal available"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <p className="text-sm leading-6 text-slate-600">
+            No similar accounts are available for this account yet.
+          </p>
+        )}
+      </SectionCard>
 
-                <div className="min-w-[11rem] space-y-2">
-                  <div className="flex items-center justify-between text-sm text-slate-500">
-                    <span>Similarity</span>
-                    <span className="font-medium text-slate-900">
-                      {account.similarity.toFixed(4)}
-                    </span>
-                  </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-black/6">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#78b8ff] to-[#161616]"
-                      style={{
-                        width: `${Math.min(account.similarity * 100, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {account.priority_reasons.slice(0, 4).map((reason) => (
-                  <Badge className="bg-slate-50 text-slate-600" key={reason} variant="outline">
-                    {reason}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          ))}
+      <div className="rounded-2xl bg-slate-950 p-4 text-white">
+        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-slate-400">
+          <SparklesIcon className="size-3.5" />
+          Matching next step
         </div>
-      </SectionCard>
+        <p className="mt-2 text-[14px] leading-7 text-white">{nextStep}</p>
+      </div>
     </div>
   );
 }
@@ -2082,7 +1579,7 @@ function SectionCard({
   children,
 }: {
   title: string;
-  description: string;
+  description?: string;
   children: ReactNode;
 }) {
   return (
@@ -2091,9 +1588,11 @@ function SectionCard({
         <h3 className="font-semibold text-xl tracking-tight text-slate-900">
           {title}
         </h3>
-        <p className="max-w-3xl text-pretty text-sm leading-6 text-slate-500">
-          {description}
-        </p>
+        {description ? (
+          <p className="max-w-3xl text-pretty text-sm leading-6 text-slate-500">
+            {description}
+          </p>
+        ) : null}
       </div>
       {children}
     </section>
@@ -2137,41 +1636,6 @@ function MetricCard({
   );
 }
 
-function ProgressMetric({
-  label,
-  subtitle,
-  value,
-  tone = "neutral",
-}: {
-  label: string;
-  subtitle: string;
-  value: number;
-  tone?: "neutral" | "critical";
-}) {
-  return (
-    <div className="rounded-[22px] border border-black/6 bg-white px-4 py-4 shadow-[0_8px_24px_rgba(15,23,42,0.04)]">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <div className="font-medium text-slate-900">{label}</div>
-          <div className="mt-1 text-sm text-slate-500">{subtitle}</div>
-        </div>
-        <div className="text-right text-2xl font-semibold tracking-tight text-slate-900">
-          {value}%
-        </div>
-      </div>
-      <Progress
-        className={cn(
-          "mt-4 h-2 bg-black/6",
-          tone === "critical"
-            ? "[&>[data-slot=progress-indicator]]:bg-rose-500"
-            : "[&>[data-slot=progress-indicator]]:bg-slate-900"
-        )}
-        value={value}
-      />
-    </div>
-  );
-}
-
 function ThemeRow({
   label,
   count,
@@ -2201,90 +1665,6 @@ function ThemeRow({
   );
 }
 
-function FlowDiagram({
-  steps,
-}: {
-  steps: Array<{
-    label: string;
-    description: string;
-  }>;
-}) {
-  return (
-    <div className="flex flex-col gap-3">
-      {steps.map((step, index) => (
-        <Fragment key={step.label}>
-          <div className="flex-1 rounded-[22px] border border-black/6 bg-slate-50 px-4 py-4">
-            <div className="text-xs uppercase tracking-[0.18em] text-slate-400">
-              {step.label}
-            </div>
-            <div className="mt-2 text-sm leading-6 text-slate-700">
-              {step.description}
-            </div>
-          </div>
-          {index < steps.length - 1 ? (
-            <div className="hidden items-center justify-center text-slate-300 lg:flex">
-              <ArrowRightIcon className="size-4" />
-            </div>
-          ) : null}
-        </Fragment>
-      ))}
-    </div>
-  );
-}
-
-function CoverageCard({
-  account,
-  onSelect,
-}: {
-  account: PrioritizedAccount;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      className="rounded-[24px] border border-black/6 bg-slate-50 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_26px_rgba(15,23,42,0.06)]"
-      onClick={onSelect}
-      type="button"
-    >
-      <div className="flex items-center justify-between gap-3">
-        <div className="font-medium text-slate-900">{account.name}</div>
-        <Badge className="bg-white text-slate-600" variant="outline">
-          {account.priority_score}
-        </Badge>
-      </div>
-      <div className="mt-2 text-sm text-slate-500">
-        {account.owner_name || "Owner unassigned"} · Renewal{" "}
-        {formatDateShort(account.renewal_date)}
-      </div>
-      <p className="mt-3 text-sm leading-6 text-slate-700">
-        {account.priority_reasons[0]}
-      </p>
-    </button>
-  );
-}
-
-function ActionStudioCard({
-  eyebrow,
-  title,
-  icon: Icon,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  icon: ComponentType<{ className?: string }>;
-  children: ReactNode;
-}) {
-  return (
-    <div className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)]">
-      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-slate-400">
-        <Icon className="size-4" />
-        {eyebrow}
-      </div>
-      <div className="mt-2 font-medium text-slate-900">{title}</div>
-      <div className="mt-4">{children}</div>
-    </div>
-  );
-}
-
 function ActionList({ items }: { items: string[] }) {
   return (
     <div className="space-y-3">
@@ -2299,43 +1679,6 @@ function ActionList({ items }: { items: string[] }) {
           <div className="text-sm leading-6 text-slate-700">{item}</div>
         </div>
       ))}
-    </div>
-  );
-}
-
-function SignalBarCard({
-  label,
-  value,
-  subtitle,
-  tone,
-}: {
-  label: string;
-  value: number;
-  subtitle: string;
-  tone: "critical" | "warning" | "watch";
-}) {
-  return (
-    <div className="rounded-[22px] border border-black/6 bg-white px-4 py-4 shadow-[0_8px_24px_rgba(15,23,42,0.04)]">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <div className="font-medium text-slate-900">{label}</div>
-          <div className="mt-1 text-sm text-slate-500">{subtitle}</div>
-        </div>
-        <div className="text-right text-2xl font-semibold tracking-tight text-slate-900">
-          {value}
-        </div>
-      </div>
-      <div className="mt-4 h-2 overflow-hidden rounded-full bg-black/6">
-        <div
-          className={cn(
-            "h-full rounded-full transition-all duration-500",
-            tone === "critical" && "bg-[#111827]",
-            tone === "warning" && "bg-[#d97706]",
-            tone === "watch" && "bg-[#2563eb]"
-          )}
-          style={{ width: `${Math.min(Math.max(value, 6), 100)}%` }}
-        />
-      </div>
     </div>
   );
 }
@@ -2395,137 +1738,6 @@ function RiskBadge({ value }: { value?: string | null }) {
   );
 }
 
-function buildSignalBars(
-  context: AccountContext
-): Array<{
-  label: string;
-  value: number;
-  subtitle: string;
-  tone: "critical" | "warning" | "watch";
-}> {
-  const health = safeNumber(context.crm.health_score);
-  const renewalDays = daysUntilFromString(context.crm.renewal_date);
-  const tickets = safeNumber(context.crm.open_ticket_count);
-  const usageChange = Math.abs(safeNumber(context.internal.usage_change_30d));
-  const engagement = context.internal.engagement_status;
-
-  return [
-    {
-      label: "Health pressure",
-      value: Math.min(Math.max(100 - health, 8), 100),
-      subtitle: `Health score ${context.crm.health_score ?? "-"}`,
-      tone: "critical" as const,
-    },
-    {
-      label: "Renewal urgency",
-      value:
-        renewalDays === null
-          ? 20
-          : renewalDays <= 14
-            ? 100
-            : renewalDays <= 30
-              ? 82
-              : renewalDays <= 60
-                ? 58
-                : 30,
-      subtitle:
-        renewalDays === null
-          ? "Renewal date unavailable"
-          : `${renewalDays} days until renewal`,
-      tone:
-        renewalDays !== null && renewalDays <= 30
-          ? ("critical" as const)
-          : ("warning" as const),
-    },
-    {
-      label: "Ticket pressure",
-      value: Math.min(tickets * 8 + (context.internal.open_escalation ? 12 : 0), 100),
-      subtitle: `${tickets} open tickets`,
-      tone: tickets >= 8 ? ("critical" as const) : ("warning" as const),
-    },
-    {
-      label: "Usage & engagement",
-      value: Math.min(usageChange * 5 + engagementPenalty(engagement), 100),
-      subtitle: `${usageChange}% usage delta · ${engagement || "Unknown"}`,
-      tone:
-        engagement === "At Risk"
-          ? ("critical" as const)
-          : ("watch" as const),
-    },
-  ];
-}
-
-function buildRenewalTimeline(accounts: PrioritizedAccount[]) {
-  const buckets = [
-    { window: "<=7d", accounts: 0, min: Number.NEGATIVE_INFINITY, max: 7 },
-    { window: "8-14d", accounts: 0, min: 8, max: 14 },
-    { window: "15-30d", accounts: 0, min: 15, max: 30 },
-    { window: ">30d", accounts: 0, min: 31, max: Number.POSITIVE_INFINITY },
-  ];
-
-  for (const account of accounts) {
-    const days = daysUntilFromString(account.renewal_date);
-    const bucket =
-      buckets.find((item) => {
-        if (days === null) {
-          return item.window === ">30d";
-        }
-        return days >= item.min && days <= item.max;
-      }) || buckets[buckets.length - 1];
-    bucket.accounts += 1;
-  }
-
-  return buckets.map(({ window, accounts }) => ({
-    window,
-    accounts,
-  }));
-}
-
-function toPressureChartData(
-  signalBars: Array<{
-    label: string;
-    value: number;
-  }>
-) {
-  return signalBars.map((signal) => ({
-    label: compactLabel(signal.label, 16),
-    pressure: signal.value,
-  }));
-}
-
-function buildSimilarityChartData(similar: SimilarAccount[]) {
-  return similar.slice(0, 5).map((account) => ({
-    name: compactLabel(account.name, 16),
-    similarity: Number(account.similarity.toFixed(4)),
-  }));
-}
-
-function buildSimilarityPlaybook(
-  context: AccountContext,
-  similar: SimilarAccount[]
-) {
-  const sharedPatterns = deriveSharedPatterns(similar)
-    .filter((pattern) => pattern.count > 0)
-    .map((pattern) => pattern.label.toLowerCase());
-  const similarNames = similar
-    .slice(0, 2)
-    .map((account) => account.name)
-    .join(" and ");
-
-  return [
-    `Treat ${context.crm.name}${similarNames ? `, ${similarNames},` : ""} as one investigation cluster around ${humanizeTheme(
-      context.internal.top_issue_theme
-    ).toLowerCase()}.`,
-    `Apply the same first intervention across the cluster: ${
-      context.internal.recommended_next_action ||
-      "reconfirm the blocker, owner, and next customer milestone"
-    }.`,
-    `Track the cluster against shared patterns like ${
-      sharedPatterns.join(", ") || "renewal pressure and support load"
-    } so the team can reuse the play instead of reacting account by account.`,
-  ];
-}
-
 function deriveSharedPatterns(similar: SimilarAccount[]) {
   const counters = new Map<string, number>([
     ["Support load", 0],
@@ -2556,57 +1768,6 @@ function deriveSharedPatterns(similar: SimilarAccount[]) {
     label,
     count,
   }));
-}
-
-function engagementPenalty(status?: string | null) {
-  if (status === "At Risk") {
-    return 26;
-  }
-  if (status === "Declining") {
-    return 18;
-  }
-  if (status === "Neutral") {
-    return 10;
-  }
-  return 4;
-}
-
-function buildSeatUtilization(context: AccountContext) {
-  const active = context.internal.active_users ?? 0;
-  const licensed = context.internal.licensed_seats ?? 0;
-  if (!licensed) {
-    return 0;
-  }
-  return Math.min(Math.round((active / licensed) * 100), 100);
-}
-
-function buildTouchRisk(context: AccountContext) {
-  const days = context.internal.days_since_last_touch ?? 0;
-  return Math.min(Math.max(Math.round((days / 30) * 100), 0), 100);
-}
-
-function safeNumber(value?: string | number | null) {
-  if (typeof value === "number") {
-    return value;
-  }
-  return Number(value ?? 0) || 0;
-}
-
-function compactLabel(value: string, maxLength: number) {
-  if (value.length <= maxLength) {
-    return value;
-  }
-  return `${value.slice(0, maxLength - 1)}…`;
-}
-
-function humanizeTheme(value?: string | null) {
-  if (!value) {
-    return "Unknown";
-  }
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
 }
 
 function formatCurrency(value?: number | null) {
