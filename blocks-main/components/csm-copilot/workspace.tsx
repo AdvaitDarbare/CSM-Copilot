@@ -367,7 +367,10 @@ export function CopilotWorkspace({
 
       // Determine which workflow to show in the step tracker
       const localWorkflowId = inferWorkflowFromPrompt(trimmed, featuredAccount.crm.name);
-      const localAccountId = resolveAccountFromPrompt(trimmed, portfolio.prioritized, accountData);
+      const localAccountId =
+        localWorkflowId === "morning"
+          ? resolveAccountFromPrompt(trimmed, portfolio.prioritized, accountData)
+          : undefined;
       const flow = flows[localWorkflowId];
 
       // Start step animation
@@ -394,11 +397,7 @@ export function CopilotWorkspace({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: trimmed,
-            account_id: localAccountId
-              ? localAccountId
-              : localWorkflowId === "morning"
-                ? accountData.accountId
-                : undefined,
+            account_id: localAccountId ?? undefined,
           }),
         });
 
