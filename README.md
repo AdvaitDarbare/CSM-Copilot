@@ -129,6 +129,8 @@ export GEMINI_API_KEY=your_key_here
 python3 run_deepeval.py
 ```
 
+That command executes the fixed gold-case workflow set and writes a JSON report to `eval_reports/deepeval_workflow_report.json`.
+
 The DeepEval suite covers the three user-facing workflows:
 - morning triage
 - pre-call prep
