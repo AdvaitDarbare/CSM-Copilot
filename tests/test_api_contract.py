@@ -11,6 +11,7 @@ def test_chat_returns_structured_morning_response():
     assert response.workflow == "morning"
     assert response.artifact_title == "Morning Triage"
     assert response.workflow_stages
+    assert response.provenance
     assert response.triage_accounts
 
 
@@ -38,6 +39,7 @@ def test_chat_returns_structured_brief_response_for_resolved_account():
     assert response.account_id == account.id
     assert response.artifact_title == "Pre-Call Brief"
     assert response.workflow_stages == workflow_stages("brief")
+    assert response.provenance == ["CRM", "support", "usage", "CSM activity", "renewal", "derived"]
     assert response.brief_snapshot is not None
     assert response.brief_snapshot.id == account.id
     assert response.brief_snapshot.recommended_next_action
@@ -53,6 +55,7 @@ def test_chat_returns_structured_similar_response_for_resolved_account():
     assert response.account_id == account.id
     assert response.artifact_title == "Similar Risk Pattern Analysis"
     assert response.workflow_stages == workflow_stages("similar")
+    assert response.provenance == ["CRM", "support", "usage", "derived"]
     assert response.similar_accounts
     assert response.brief_snapshot is None
     assert response.triage_accounts is None

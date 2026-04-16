@@ -231,6 +231,7 @@ class ChatResponse(BaseModel):
     account_id: str | None = None
     workflow_stages: list[str] = Field(default_factory=list)
     artifact_title: str | None = None
+    provenance: list[str] = Field(default_factory=list)
     triage_accounts: list[TriageAccountCard] | None = None
     brief_snapshot: BriefSnapshot | None = None
     similar_accounts: list[SimilarAccountCard] | None = None

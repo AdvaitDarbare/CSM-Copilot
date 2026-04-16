@@ -34,6 +34,7 @@ export async function POST(request: Request) {
           "I couldn't reach the agent backend right now. Make sure the Python API is running (`uvicorn main:app --reload`).",
         workflow: "morning",
         account_id: null,
+        provenance: [],
         triage_accounts: null,
         brief_snapshot: null,
         similar_accounts: null,

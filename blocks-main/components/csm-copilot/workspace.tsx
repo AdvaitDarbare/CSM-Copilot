@@ -111,6 +111,7 @@ type AgentResponse = {
   account_id?: string | null;
   workflow_stages?: string[];
   artifact_title?: string | null;
+  provenance?: string[] | null;
   triage_accounts?: TriageAccountCard[] | null;
   brief_snapshot?: BriefSnapshot | null;
   similar_accounts?: SimilarAccountCard[] | null;
@@ -122,6 +123,7 @@ type ChatEntry = {
   id: string;
   role: "user" | "assistant";
   content: string;
+  provenance?: string[] | null;
   // Generative UI payloads (only on assistant messages)
   triageAccounts?: TriageAccountCard[] | null;
   briefSnapshot?: BriefSnapshot | null;
@@ -155,6 +157,10 @@ export function CopilotWorkspace({
 }: {
   initialData: WorkspaceBootstrap;
 }) {
+  const defaultArtifactProvenance = useMemo(
+    () => workflowDefaultProvenance("morning"),
+    []
+  );
   const [workspaceData, setWorkspaceData] = useState(initialData);
   const [accountData, setAccountData] = useState<WorkspaceAccountData>(() =>
     bootstrapToAccountData(initialData)
@@ -180,6 +186,9 @@ export function CopilotWorkspace({
   const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading">("idle");
   const [hasArtifact, setHasArtifact] = useState(false);
   const [artifactTitle, setArtifactTitle] = useState<string>("Portfolio Artifact");
+  const [artifactProvenance, setArtifactProvenance] = useState<string[]>(
+    defaultArtifactProvenance
+  );
   const timeoutIdsRef = useRef<number[]>([]);
 
   const featuredAccount = accountData.context;
@@ -309,6 +318,7 @@ export function CopilotWorkspace({
       setStatus("submitted");
       setActiveWorkflow(workflowId);
       setArtifactTitle(flow.artifactTitle);
+      setArtifactProvenance(workflowDefaultProvenance(workflowId));
 
       flow.steps.forEach((_, index) => {
         const timeoutId = window.setTimeout(() => {
@@ -377,6 +387,7 @@ export function CopilotWorkspace({
       setRunState({ workflowId: localWorkflowId, steps: flow.steps, currentStep: 0 });
       setActiveWorkflow(localWorkflowId);
       setArtifactTitle(flow.artifactTitle);
+      setArtifactProvenance(workflowDefaultProvenance(localWorkflowId));
 
       flow.steps.forEach((_, index) => {
         const id = window.setTimeout(() => {
@@ -422,6 +433,11 @@ export function CopilotWorkspace({
 
         setActiveWorkflow(agentResp.workflow);
         setArtifactTitle(agentResp.artifact_title ?? flow.artifactTitle);
+        setArtifactProvenance(
+          agentResp.provenance?.length
+            ? agentResp.provenance
+            : workflowDefaultProvenance(agentResp.workflow)
+        );
         setHasArtifact(true);
 
         setMessages((prev) => [
@@ -430,6 +446,7 @@ export function CopilotWorkspace({
             id: `assistant-${Date.now()}`,
             role: "assistant",
             content: agentResp.reply,
+            provenance: agentResp.provenance,
             triageAccounts: agentResp.triage_accounts,
             briefSnapshot: agentResp.brief_snapshot,
             similarAccounts: agentResp.similar_accounts,
@@ -441,6 +458,7 @@ export function CopilotWorkspace({
             ? error.message.replace(/^"|"$/g, "")
             : null;
         setHasArtifact(true);
+        setArtifactProvenance(workflowDefaultProvenance(localWorkflowId));
         setMessages((prev) => [
           ...prev,
           {
@@ -450,6 +468,7 @@ export function CopilotWorkspace({
               localWorkflowId === "brief" || localWorkflowId === "similar"
                 ? message || "I couldn't confidently resolve the account for that request. Mention the account name or open it from the portfolio list and try again."
                 : buildWorkflowAnswer(localWorkflowId, trimmed, workspaceData, accountData),
+            provenance: workflowDefaultProvenance(localWorkflowId),
           },
         ]);
         setRunState(null);
@@ -520,6 +539,7 @@ export function CopilotWorkspace({
               setInputValue("");
               setHasArtifact(false);
               setArtifactTitle("Portfolio Artifact");
+              setArtifactProvenance(defaultArtifactProvenance);
             }}
             type="button"
           >
@@ -735,6 +755,10 @@ export function CopilotWorkspace({
                         {message.similarAccounts && message.similarAccounts.length > 0 && (
                           <InlineSimilarCard accounts={message.similarAccounts} />
                         )}
+
+                        {message.provenance && message.provenance.length > 0 && (
+                          <InlineEvidenceSources labels={message.provenance} />
+                        )}
                       </div>
                     ) : (
                       <p className="whitespace-pre-wrap text-[13.5px] leading-6">
@@ -878,17 +902,20 @@ export function CopilotWorkspace({
                     activeAccountId={accountData.accountId}
                     onSelectAccount={(id) => void loadAccount(id, "brief")}
                     portfolio={workspaceData.portfolio}
+                    provenance={artifactProvenance}
                   />
                 ) : activeWorkflow === "brief" ? (
                   <AccountArtifact
                     brief={accountData.brief}
                     context={accountData.context}
                     isLoading={accountStatus === "loading"}
+                    provenance={artifactProvenance}
                   />
                 ) : (
                   <SimilarArtifact
                     context={accountData.context}
                     isLoading={accountStatus === "loading"}
+                    provenance={artifactProvenance}
                     similar={accountData.similar}
                   />
                 )}
@@ -1286,10 +1313,12 @@ function PortfolioArtifact({
   portfolio,
   activeAccountId,
   onSelectAccount,
+  provenance,
 }: {
   portfolio: WorkspaceBootstrap["portfolio"];
   activeAccountId: string;
   onSelectAccount: (accountId: string) => void;
+  provenance: string[];
 }) {
   return (
     <div className="space-y-4">
@@ -1356,9 +1385,7 @@ function PortfolioArtifact({
         />
       </SectionCard>
 
-      <ProvenanceCard
-        labels={["CRM", "support", "usage", "CSM activity", "renewal", "derived"]}
-      />
+      <ProvenanceCard labels={provenance} />
     </div>
   );
 }
@@ -1367,10 +1394,12 @@ function AccountArtifact({
   context,
   brief,
   isLoading,
+  provenance,
 }: {
   context: AccountContext;
   brief: AccountBrief | null;
   isLoading: boolean;
+  provenance: string[];
 }) {
   return (
     <div className="space-y-4">
@@ -1443,9 +1472,7 @@ function AccountArtifact({
         </p>
       </div>
 
-      <ProvenanceCard
-        labels={["CRM", "support", "usage", "CSM activity", "renewal", "derived"]}
-      />
+      <ProvenanceCard labels={provenance} />
     </div>
   );
 }
@@ -1454,10 +1481,12 @@ function SimilarArtifact({
   context,
   similar,
   isLoading,
+  provenance,
 }: {
   context: AccountContext;
   similar: SimilarAccount[];
   isLoading: boolean;
+  provenance: string[];
 }) {
   const sharedPatterns = deriveSharedPatterns(similar)
     .filter((pattern) => pattern.count > 0)
@@ -1569,7 +1598,7 @@ function SimilarArtifact({
         <p className="mt-2 text-[14px] leading-7 text-white">{nextStep}</p>
       </div>
 
-      <ProvenanceCard labels={["CRM", "support", "usage", "derived"]} />
+      <ProvenanceCard labels={provenance} />
     </div>
   );
 }
@@ -1697,14 +1726,31 @@ function ActionList({ items }: { items: string[] }) {
 function ProvenanceCard({ labels }: { labels: string[] }) {
   return (
     <SectionCard title="Evidence Sources">
-      <div className="flex flex-wrap gap-2">
-        {labels.map((label) => (
-          <Badge className="bg-slate-50 text-slate-600" key={label} variant="outline">
-            {label}
-          </Badge>
-        ))}
-      </div>
+      <EvidenceSourceBadges labels={labels} />
     </SectionCard>
+  );
+}
+
+function EvidenceSourceBadges({ labels }: { labels: string[] }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {labels.map((label) => (
+        <Badge className="bg-slate-50 text-slate-600" key={label} variant="outline">
+          {label}
+        </Badge>
+      ))}
+    </div>
+  );
+}
+
+function InlineEvidenceSources({ labels }: { labels: string[] }) {
+  return (
+    <div className="rounded-2xl border border-black/6 bg-white px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
+      <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+        Evidence sources
+      </div>
+      <EvidenceSourceBadges labels={labels} />
+    </div>
   );
 }
 
@@ -1857,6 +1903,16 @@ function bootstrapToAccountData(data: WorkspaceBootstrap): WorkspaceAccountData 
     brief: data.featuredAccount.brief,
     similar: data.featuredAccount.similar,
   };
+}
+
+function workflowDefaultProvenance(workflow: WorkflowId): string[] {
+  if (workflow === "brief") {
+    return ["CRM", "support", "usage", "CSM activity", "renewal", "derived"];
+  }
+  if (workflow === "similar") {
+    return ["CRM", "support", "usage", "derived"];
+  }
+  return ["CRM", "support", "usage", "CSM activity", "renewal", "derived"];
 }
 
 // ── Generative UI Inline Cards ─────────────────────────────────────────────

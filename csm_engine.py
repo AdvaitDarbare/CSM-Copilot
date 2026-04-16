@@ -814,6 +814,7 @@ def to_chat_response(workflow: str, artifact, reply: str, account_id: str | None
         account_id=account_id,
         workflow_stages=artifact.stages if artifact else workflow_stages(workflow),
         artifact_title=artifact.title if artifact else None,
+        provenance=artifact.provenance if artifact else [],
         triage_accounts=triage_cards,
         brief_snapshot=brief_snapshot,
         similar_accounts=similar_cards,
