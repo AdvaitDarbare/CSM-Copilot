@@ -733,33 +733,10 @@ export function CopilotWorkspace({
                     )}
                   >
                     {message.role === "assistant" ? (
-                      <div className="space-y-3">
-                        {/* Main text reply */}
-                        <div className="rounded-2xl border border-black/6 bg-white px-4 py-3.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
-                          <MessageResponse className="prose prose-slate max-w-none text-[13.5px] leading-7">
-                            {message.content}
-                          </MessageResponse>
-                        </div>
-
-                        {/* ── Generative UI: Triage card ── */}
-                        {message.triageAccounts && message.triageAccounts.length > 0 && (
-                          <InlineTriageCard accounts={message.triageAccounts} onSelect={(id) => void loadAccount(id, "brief")} />
-                        )}
-
-                        {/* ── Generative UI: Brief snapshot card ── */}
-                        {message.briefSnapshot && (
-                          <InlineBriefCard snapshot={message.briefSnapshot} />
-                        )}
-
-                        {/* ── Generative UI: Similar accounts card ── */}
-                        {message.similarAccounts && message.similarAccounts.length > 0 && (
-                          <InlineSimilarCard accounts={message.similarAccounts} />
-                        )}
-
-                        {message.provenance && message.provenance.length > 0 && (
-                          <InlineEvidenceSources labels={message.provenance} />
-                        )}
-                      </div>
+                      <AssistantPayload
+                        message={message}
+                        onSelectAccount={(id) => void loadAccount(id, "brief")}
+                      />
                     ) : (
                       <p className="whitespace-pre-wrap text-[13.5px] leading-6">
                         {message.content}
@@ -871,59 +848,17 @@ export function CopilotWorkspace({
       </div>
 
       {/* ── Artifact panel — slides in after first response ───────── */}
-      <div
-        className={cn(
-          "flex h-full shrink-0 flex-col border-l border-black/6 bg-white/60 backdrop-blur-xl transition-all duration-500 ease-out",
-          hasArtifact ? "w-[480px] opacity-100" : "w-0 overflow-hidden opacity-0"
-        )}
-      >
-        {hasArtifact && (
-          <>
-            <header className="flex shrink-0 items-center justify-between border-b border-black/6 px-4 py-2.5">
-              <div className="flex items-center gap-2 text-[13px] font-medium text-slate-700">
-                <WorkflowIcon className="size-3.5 text-slate-400" />
-                {artifactTitle}
-              </div>
-              <button
-                className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
-                onClick={() => setHasArtifact(false)}
-                type="button"
-                aria-label="Close artifact panel"
-              >
-                <svg className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </header>
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              <div className="animate-in fade-in slide-in-from-right-4 p-4 duration-400">
-                {activeWorkflow === "morning" ? (
-                  <PortfolioArtifact
-                    activeAccountId={accountData.accountId}
-                    onSelectAccount={(id) => void loadAccount(id, "brief")}
-                    portfolio={workspaceData.portfolio}
-                    provenance={artifactProvenance}
-                  />
-                ) : activeWorkflow === "brief" ? (
-                  <AccountArtifact
-                    brief={accountData.brief}
-                    context={accountData.context}
-                    isLoading={accountStatus === "loading"}
-                    provenance={artifactProvenance}
-                  />
-                ) : (
-                  <SimilarArtifact
-                    context={accountData.context}
-                    isLoading={accountStatus === "loading"}
-                    provenance={artifactProvenance}
-                    similar={accountData.similar}
-                  />
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
+      <ArtifactPanel
+        accountData={accountData}
+        accountStatus={accountStatus}
+        activeWorkflow={activeWorkflow}
+        artifactProvenance={artifactProvenance}
+        artifactTitle={artifactTitle}
+        hasArtifact={hasArtifact}
+        onClose={() => setHasArtifact(false)}
+        onSelectAccount={(id) => void loadAccount(id, "brief")}
+        portfolio={workspaceData.portfolio}
+      />
 
     </div>
   );
@@ -1386,6 +1321,116 @@ function PortfolioArtifact({
       </SectionCard>
 
       <ProvenanceCard labels={provenance} />
+    </div>
+  );
+}
+
+function ArtifactPanel({
+  activeWorkflow,
+  accountData,
+  accountStatus,
+  artifactProvenance,
+  artifactTitle,
+  hasArtifact,
+  onClose,
+  onSelectAccount,
+  portfolio,
+}: {
+  activeWorkflow: WorkflowId;
+  accountData: WorkspaceAccountData;
+  accountStatus: "idle" | "loading";
+  artifactProvenance: string[];
+  artifactTitle: string;
+  hasArtifact: boolean;
+  onClose: () => void;
+  onSelectAccount: (accountId: string) => void;
+  portfolio: WorkspaceBootstrap["portfolio"];
+}) {
+  return (
+    <div
+      className={cn(
+        "flex h-full shrink-0 flex-col border-l border-black/6 bg-white/60 backdrop-blur-xl transition-all duration-500 ease-out",
+        hasArtifact ? "w-[480px] opacity-100" : "w-0 overflow-hidden opacity-0"
+      )}
+    >
+      {hasArtifact && (
+        <>
+          <header className="flex shrink-0 items-center justify-between border-b border-black/6 px-4 py-2.5">
+            <div className="flex items-center gap-2 text-[13px] font-medium text-slate-700">
+              <WorkflowIcon className="size-3.5 text-slate-400" />
+              {artifactTitle}
+            </div>
+            <button
+              aria-label="Close artifact panel"
+              className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+              onClick={onClose}
+              type="button"
+            >
+              <svg className="size-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </header>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="animate-in fade-in slide-in-from-right-4 p-4 duration-400">
+              {activeWorkflow === "morning" ? (
+                <PortfolioArtifact
+                  activeAccountId={accountData.accountId}
+                  onSelectAccount={onSelectAccount}
+                  portfolio={portfolio}
+                  provenance={artifactProvenance}
+                />
+              ) : activeWorkflow === "brief" ? (
+                <AccountArtifact
+                  brief={accountData.brief}
+                  context={accountData.context}
+                  isLoading={accountStatus === "loading"}
+                  provenance={artifactProvenance}
+                />
+              ) : (
+                <SimilarArtifact
+                  context={accountData.context}
+                  isLoading={accountStatus === "loading"}
+                  provenance={artifactProvenance}
+                  similar={accountData.similar}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function AssistantPayload({
+  message,
+  onSelectAccount,
+}: {
+  message: ChatEntry;
+  onSelectAccount: (accountId: string) => void;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="rounded-2xl border border-black/6 bg-white px-4 py-3.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
+        <MessageResponse className="prose prose-slate max-w-none text-[13.5px] leading-7">
+          {message.content}
+        </MessageResponse>
+      </div>
+
+      {message.triageAccounts && message.triageAccounts.length > 0 && (
+        <InlineTriageCard accounts={message.triageAccounts} onSelect={onSelectAccount} />
+      )}
+
+      {message.briefSnapshot && <InlineBriefCard snapshot={message.briefSnapshot} />}
+
+      {message.similarAccounts && message.similarAccounts.length > 0 && (
+        <InlineSimilarCard accounts={message.similarAccounts} />
+      )}
+
+      {message.provenance && message.provenance.length > 0 && (
+        <InlineEvidenceSources labels={message.provenance} />
+      )}
     </div>
   );
 }
