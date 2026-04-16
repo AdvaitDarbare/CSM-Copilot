@@ -1,0 +1,52 @@
+[
+  {
+    "id": "morning-triage-top-accounts",
+    "workflow": "morning",
+    "prompt": "Which accounts need attention this week?",
+    "required_signals": [
+      "main pressure themes",
+      "accounts needing attention"
+    ],
+    "required_provenance": [
+      "CRM",
+      "support",
+      "usage",
+      "renewal",
+      "derived"
+    ]
+  },
+  {
+    "id": "pre-call-brief-top-account",
+    "workflow": "brief",
+    "account_selector": "top_priority",
+    "prompt": "I have a call with this account in 20 minutes. What should I know?",
+    "required_signals": [
+      "Next action:",
+      "renewing on"
+    ],
+    "required_provenance": [
+      "CRM",
+      "support",
+      "usage",
+      "CSM activity",
+      "renewal",
+      "derived"
+    ]
+  },
+  {
+    "id": "similar-pattern-top-account",
+    "workflow": "similar",
+    "account_selector": "top_priority",
+    "prompt": "Is this account an isolated problem or part of a broader pattern?",
+    "required_signals": [
+      "closest accounts",
+      "recurring pattern"
+    ],
+    "required_provenance": [
+      "CRM",
+      "support",
+      "usage",
+      "derived"
+    ]
+  }
+]
