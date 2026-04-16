@@ -215,7 +215,7 @@ Plain text, 2–4 sentences. Sounds like a knowledgeable coworker, not a report 
 
 ### Interaction model
 
-The UX should follow a two-pane agent workspace rather than a plain chatbot or a static dashboard.
+The UX should follow a two-pane workflow workspace rather than a plain chatbot or a static dashboard.
 
 ```text
 Left side  = request + progress + short answer
@@ -226,16 +226,17 @@ The right pane is the persistent artifact area for the same account or workflow 
 
 ```text
 User Ask
-  -> Orchestrator
-     -> Portfolio Agent
-     -> Account Agent
+  -> Workflow Router
+     -> Morning Triage
+     -> Pre-call Prep
+     -> Similar Pattern
   -> Account Intelligence Layer
   -> Right-side artifact
 ```
 
 ### Request flow
 
-Each request should move through one clear path: the user asks in chat, the orchestrator classifies whether the request is portfolio-level or account-specific, the right specialist agent queries the Account Intelligence Layer, and the result is returned in two forms at once: a short conversational answer on the left and a durable artifact on the right. That boundary is important because chat handles interaction, while the artifact handles the operational output the CSM may revisit, share, or act on later.
+Each request moves through one clear path: the user asks in chat, the workflow router classifies the request, the appropriate workflow gathers structured evidence from the Account Intelligence Layer, and the result is returned in two forms at once: a short conversational answer on the left and a durable artifact on the right.
 
 ### Why this model fits CSM work
 
@@ -331,22 +332,22 @@ http://localhost:3000
 
 ```text
 "What should I focus on this morning?"
-  -> Orchestrator -> Portfolio Agent
+  -> Workflow Router -> Morning Triage
   -> /accounts/prioritized
   -> Priority queue artifact
 
 "I have a call with Acme in 20 minutes. What should I know?"
-  -> Orchestrator -> Account Agent
+  -> Workflow Router -> Pre-call Prep
   -> /accounts/{id}/context + /accounts/{id}/brief
   -> Pre-call brief artifact
 
 "Are there other accounts with the same issues as Acme?"
-  -> Orchestrator -> Account Agent
+  -> Workflow Router -> Similar Pattern
   -> /accounts/similar/{id}
   -> Similar accounts artifact
 
 "Who renews in the next 30 days and is at risk?"
-  -> Orchestrator -> Portfolio Agent
+  -> Workflow Router -> Morning Triage
   -> accounts query filtered by renewal window
   -> Renewal watchlist artifact
 ```
@@ -435,57 +436,28 @@ table
 | `usage_trend` | Increasing / Stable / Decreasing |
 | `open_ticket_count` | Open support tickets |
 
-### Internal enrichment layer (operational context)
+### Structured source datasets
 
-Synthetic dataset keyed by `hubspot_company_id`, simulating signals a startup would keep outside the CRM — support history, engagement signals, product adoption, account health context.
+Structured synthetic data is keyed by `hubspot_company_id` and mirrors the non-CRM systems a real CSM team uses:
 
-| Field | Description |
-|---|---|
-| `segment` | SMB / Mid-market / Enterprise |
-| `plan_tier` | Starter / Growth / Pro / Enterprise |
-| `arr` | Annual recurring revenue |
-| `owner_name` | CSM owner |
-| `engagement_status` | Healthy / Neutral / Declining / At Risk |
-| `days_since_last_touch` | Days since last CSM contact |
-| `active_users` | Active user count |
-| `licensed_seats` | Total licensed seats |
-| `usage_change_30d` | 30-day usage delta (%) |
-| `top_issue_theme` | Primary issue category |
-| `issue_severity` | Low / Medium / High / Critical |
-| `open_escalation` | Active escalation flag |
-| `onboarding_status` | Complete / Partial / Stalled |
-| `champion_status` | Champion relationship status |
-| `renewal_confidence` | Strong / Monitor / At Risk |
-| `latest_ticket_summary` | Most recent support ticket summary |
-| `recent_csm_note` | Latest CSM note |
-| `recommended_next_action` | Suggested next step |
+- `support_tickets.json`
+- `product_usage_daily.json`
+- `csm_activities.json`
+- `onboarding_milestones.json`
+- `renewal_signals.json`
 
-### Postgres schema (Account Intelligence Layer)
-
-```sql
-accounts (
-  hubspot_company_id   TEXT PRIMARY KEY,
-  crm_snapshot         JSONB,
-  internal_context     JSONB,
-  merged_context       JSONB,
-  priority_score       INT,
-  priority_reasons     JSONB,
-  last_refreshed       TIMESTAMPTZ
-)
-
-briefs (
-  id                   UUID PRIMARY KEY,
-  hubspot_company_id   TEXT,
-  brief                JSONB,
-  generated_at         TIMESTAMPTZ
-)
-
-account_embeddings (
-  hubspot_company_id   TEXT PRIMARY KEY,
-  embedding            VECTOR(768),
-  updated_at           TIMESTAMPTZ
-)
-```
+These datasets are combined deterministically into one derived account-intelligence record containing fields such as:
+- `segment`
+- `plan_tier`
+- `arr`
+- `engagement_status`
+- `days_since_last_touch`
+- `usage_change_30d`
+- `top_issue_theme`
+- `open_escalation`
+- `champion_status`
+- `renewal_confidence`
+- `recommended_next_action`
 
 ---
 
@@ -493,14 +465,13 @@ account_embeddings (
 
 | Layer | Technology |
 |---|---|
-| Agent framework | Google ADK |
-| Backend API | FastAPI (Python) |
+| Workflow API | FastAPI (Python) |
 | LLM | Gemini 2.5 Flash |
-| Embeddings | Gemini Embeddings API |
-| Database | Postgres + pgvector |
-| CRM | HubSpot (developer account) |
-| Internal data | Synthetic enrichment layer (JSON → Postgres) |
-| Frontend | Next.js / React / Recharts |
+| CRM anchor | HubSpot-shaped JSON export |
+| Structured source data | Local JSON datasets |
+| App store / dev DB | Local Postgres-compatible workflow, optional |
+| Frontend | Next.js / React |
+| Evals | pytest + DeepEval |
 
 ---
 
@@ -511,9 +482,9 @@ account_embeddings (
 | `GET /accounts` | List accounts from HubSpot |
 | `GET /accounts/prioritized` | All accounts ranked by priority score with reasons |
 | `GET /accounts/high-risk` | Accounts with `risk_level = High` |
-| `GET /accounts/similar/{id}` | Nearest-neighbor accounts by 768-dim pgvector similarity |
-| `GET /accounts/{id}/context` | Merged CRM + internal context |
-| `GET /accounts/{id}/brief` | Gemini-generated structured brief |
+| `GET /accounts/similar/{id}` | Similar accounts by structured risk-shape comparison |
+| `GET /accounts/{id}/context` | Merged CRM + derived account context |
+| `GET /accounts/{id}/brief` | Structured brief grounded in derived evidence |
 | `GET /hubspot/raw` | Raw HubSpot response (debug) |
 
 ---
@@ -523,28 +494,23 @@ account_embeddings (
 ### 1. Install dependencies
 
 ```bash
-pip install fastapi uvicorn requests python-dotenv google-generativeai faker
+pip install -r requirements.txt
 ```
 
 ### 2. Configure environment
 
 ```env
-HUBSPOT_ACCESS_TOKEN=your_hubspot_token
 GEMINI_API_KEY=your_gemini_key
-DATABASE_URL=postgresql://localhost/csm_copilot
 ```
 
 ### 3. Generate enrichment data
 
 ```bash
-# Fetch HubSpot companies
-curl http://localhost:8000/hubspot/raw > hubspot_companies.json
-
-# Generate internal enrichment layer
+# Generate structured source datasets
 python3 generate_account_context.py
 ```
 
-### 4. Sync the Account Intelligence Layer
+### 4. Materialize an inspection snapshot
 
 ```bash
 python3 sync_context_engine.py
@@ -576,11 +542,13 @@ Frontend: `http://localhost:3000`
 ```
 .
 ├── main.py                      # FastAPI backend + scoring logic
-├── generate_account_context.py  # Synthetic enrichment generator
-├── sync_context_engine.py       # HubSpot + enrichment -> Postgres + pgvector sync
+├── csm_engine.py                # Structured source loading + derivation + workflow logic
+├── csm_types.py                 # Shared schemas for sources, artifacts, and chat responses
+├── generate_account_context.py  # Structured source dataset generator
+├── sync_context_engine.py       # Local snapshot writer for inspection
 ├── blocks-main/                 # Next.js frontend workspace prototype
-├── account_context.json         # Generated internal enrichment data
 ├── hubspot_companies.json       # HubSpot raw export
+├── synthetic_sources/           # Generated structured source datasets
 └── .env                         # API keys (not committed)
 ```
 
@@ -588,7 +556,7 @@ Frontend: `http://localhost:3000`
 
 ## Data positioning
 
-This project uses real CRM structure via HubSpot's API with synthetic business account records and a synthetic internal enrichment layer. The synthetic data is intentionally correlated — High-risk accounts consistently show negative usage trends, weak champion status, declining engagement, and low renewal confidence.
+This project uses HubSpot-shaped CRM records as the anchor account layer, then simulates the non-CRM systems a CSM actually depends on: support, product usage, CSM activity, onboarding, and renewal signals.
 
 > No public dataset cleanly combines CRM, support, renewal, and account-health context for the same B2B accounts. The goal is to demonstrate the workflow, system design, and reasoning layer against a realistic data model.
 
@@ -597,18 +565,17 @@ This project uses real CRM structure via HubSpot's API with synthetic business a
 ## Build order
 
 - [x] HubSpot CRM integration
-- [x] Internal enrichment layer + data generation
+- [x] Structured source datasets + deterministic derivation
 - [x] `/accounts` and `/accounts/high-risk`
-- [x] `/accounts/{id}/context` — merged account object
+- [x] `/accounts/{id}/context` — merged CRM + derived account object
 - [x] `/accounts/prioritized` — scored and ranked queue
-- [x] `/accounts/{id}/brief` — Gemini structured brief with pre-computed signals
-- [x] Postgres + pgvector Account Intelligence Layer
-- [x] `/accounts/similar/{id}` — vector similarity search
+- [x] `/accounts/{id}/brief` — structured brief with bounded generation
+- [x] `/accounts/similar/{id}` — structured peer-pattern analysis
 - [x] Conversational frontend (Next.js prototype)
 - [x] Two-pane workspace UI: conversation + artifact panel
 - [x] Portfolio workspace
 - [x] Account workspace
-- [x] Save-plan / draft-action panel
-- [ ] Google ADK — Orchestrator, Portfolio Agent, Account Agent
+- [x] DeepEval + pytest evaluation scaffolding
+- [ ] Full frontend provenance and artifact polish
 - [ ] Renewal review view
 - [ ] Production app shell cleanup and route migration away from the blocks gallery
