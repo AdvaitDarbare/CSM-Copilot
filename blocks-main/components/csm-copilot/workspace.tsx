@@ -180,6 +180,7 @@ export function CopilotWorkspace({
   const [accountStatus, setAccountStatus] = useState<"idle" | "loading">("idle");
   const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading">("idle");
   const [hasArtifact, setHasArtifact] = useState(false);
+  const [artifactTitle, setArtifactTitle] = useState<string>("Portfolio Artifact");
   const timeoutIdsRef = useRef<number[]>([]);
 
   const featuredAccount = accountData.context;
@@ -308,6 +309,7 @@ export function CopilotWorkspace({
       });
       setStatus("submitted");
       setActiveWorkflow(workflowId);
+      setArtifactTitle(flow.artifactTitle);
 
       flow.steps.forEach((_, index) => {
         const timeoutId = window.setTimeout(() => {
@@ -372,6 +374,7 @@ export function CopilotWorkspace({
       clearRunTimers();
       setRunState({ workflowId: localWorkflowId, steps: flow.steps, currentStep: 0 });
       setActiveWorkflow(localWorkflowId);
+      setArtifactTitle(flow.artifactTitle);
 
       flow.steps.forEach((_, index) => {
         const id = window.setTimeout(() => {
@@ -420,6 +423,7 @@ export function CopilotWorkspace({
         }
 
         setActiveWorkflow(agentResp.workflow);
+        setArtifactTitle(agentResp.artifact_title ?? flow.artifactTitle);
         setHasArtifact(true);
 
         setMessages((prev) => [
@@ -513,6 +517,7 @@ export function CopilotWorkspace({
               setStatus("ready");
               setInputValue("");
               setHasArtifact(false);
+              setArtifactTitle("Portfolio Artifact");
             }}
             type="button"
           >
@@ -851,7 +856,7 @@ export function CopilotWorkspace({
             <header className="flex shrink-0 items-center justify-between border-b border-black/6 px-4 py-2.5">
               <div className="flex items-center gap-2 text-[13px] font-medium text-slate-700">
                 <WorkflowIcon className="size-3.5 text-slate-400" />
-                {activeWorkflow === "morning" ? "Portfolio Artifact" : activeWorkflow === "brief" ? "Account Brief" : "Pattern Analysis"}
+                {artifactTitle}
               </div>
               <button
                 className="rounded-lg p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
