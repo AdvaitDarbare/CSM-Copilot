@@ -449,9 +449,9 @@ export function CopilotWorkspace({
                 : buildWorkflowAnswer(localWorkflowId, trimmed, workspaceData, accountData),
           },
         ]);
+        setRunState(null);
       } finally {
         clearRunTimers();
-        setRunState(null);
         setStatus("ready");
       }
     },
