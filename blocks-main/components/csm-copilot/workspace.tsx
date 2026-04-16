@@ -134,7 +134,6 @@ type FlowDefinition = {
   prompt: string;
   answer: string;
   artifactTitle: string;
-  artifactSummary: string;
   steps: string[];
 };
 
@@ -927,8 +926,6 @@ function buildFlows(
         .map((account) => account.name)
         .join("**, **")}**.\n\nThe strongest cross-account pattern is **${topThemes}**, which is why the priority queue leans toward renewal-critical accounts instead of general monitoring.\n\nI assembled a morning triage artifact with the ranked queue, shared pressure themes, and manager actions on the right.`,
       artifactTitle: "Morning Triage Artifact",
-      artifactSummary:
-        "A ranked queue of the accounts that need attention first, plus the shared patterns behind the spike in urgency.",
       steps: [
         "Loading ranked portfolio evidence",
         "Checking renewal and support pressure",
@@ -944,8 +941,6 @@ function buildFlows(
         ? `${accountData.brief.summary}\n\nThe most important move right now is **${accountData.brief.recommended_next_action.toLowerCase()}**\n\nI assembled the pre-call artifact with why it was flagged, the current situation, and the next step on the right.`
         : `Loading account brief for ${featuredName}. Ask a question to generate the full pre-call summary.`,
       artifactTitle: "Pre-Call Brief Artifact",
-      artifactSummary:
-        "A decision-ready account view with the summary, why it is risky, current blockers, and the next move the CSM should take.",
       steps: [
         "Loading account evidence",
         "Reviewing health, usage, and renewal pressure",
@@ -959,8 +954,6 @@ function buildFlows(
       prompt: `Are there other accounts with the same pattern as ${featuredName}?`,
       answer: `**${featuredName}** does not look isolated.\n\nThe closest matches are **${similarNames}**. The shared pattern is a mix of support load, softening adoption, and renewal exposure.\n\nI assembled a similarity artifact with the nearest accounts and the shared risk patterns on the right.`,
       artifactTitle: "Similarity Artifact",
-      artifactSummary:
-        "A pattern-analysis view that shows which other accounts look most like the selected account and what the common signals are.",
       steps: [
         "Loading the source account evidence",
         "Retrieving the closest workflow matches",
