@@ -114,6 +114,26 @@ The structural backbone. Maintains one canonical, derived account record per com
 - Next.js frontend prototype is live locally in `blocks-main`
 - DeepEval and pytest scaffolding are included for workflow-grounding checks
 
+### Local evaluation
+
+Deterministic tests:
+
+```bash
+python3 -m pytest tests/test_csm_engine.py
+```
+
+DeepEval workflow checks:
+
+```bash
+export GEMINI_API_KEY=your_key_here
+python3 run_deepeval.py
+```
+
+The DeepEval suite covers the three user-facing workflows:
+- morning triage
+- pre-call prep
+- similar-account pattern analysis
+
 **Planned experience**
 - richer workflow artifacts
 - stronger eval coverage

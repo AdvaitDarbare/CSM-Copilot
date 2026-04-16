@@ -97,3 +97,35 @@ def test_triage_summary_passes_deepeval(judge):
     assert relevancy.success
     assert faithfulness.success
     assert hallucination.success
+
+
+def test_similar_pattern_summary_passes_deepeval(judge):
+    top = get_prioritized_accounts(limit=1)[0]
+    artifact = build_workflow_artifact("similar", top.id)
+    shared = ", ".join(artifact.shared_patterns or ["no clear shared pattern"])
+    names = ", ".join(account.name for account in artifact.similar_accounts[:3]) or "no close matches"
+    summary = (
+        f"The closest accounts to {artifact.account.crm.name} are {names}. "
+        f"The recurring pattern is {shared}."
+    )
+    case = LLMTestCase(
+        input=f"Is {artifact.account.crm.name} an isolated problem or part of a broader pattern?",
+        actual_output=summary,
+        retrieval_context=[
+            str(artifact.account.model_dump(mode="json")),
+            str([account.model_dump(mode="json") for account in artifact.similar_accounts]),
+            str(artifact.shared_patterns),
+        ],
+    )
+
+    relevancy = AnswerRelevancyMetric(model=judge, threshold=0.5)
+    faithfulness = FaithfulnessMetric(model=judge, threshold=0.5)
+    hallucination = HallucinationMetric(model=judge, threshold=0.5)
+
+    relevancy.measure(case)
+    faithfulness.measure(case)
+    hallucination.measure(case)
+
+    assert relevancy.success
+    assert faithfulness.success
+    assert hallucination.success
