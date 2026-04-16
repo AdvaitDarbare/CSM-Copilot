@@ -1354,6 +1354,10 @@ function PortfolioArtifact({
           ]}
         />
       </SectionCard>
+
+      <ProvenanceCard
+        labels={["CRM", "support", "usage", "CSM activity", "renewal", "derived"]}
+      />
     </div>
   );
 }
@@ -1437,6 +1441,10 @@ function AccountArtifact({
             ?? "Ask a question to generate the recommended next step for this account."}
         </p>
       </div>
+
+      <ProvenanceCard
+        labels={["CRM", "support", "usage", "CSM activity", "renewal", "derived"]}
+      />
     </div>
   );
 }
@@ -1559,6 +1567,8 @@ function SimilarArtifact({
         </div>
         <p className="mt-2 text-[14px] leading-7 text-white">{nextStep}</p>
       </div>
+
+      <ProvenanceCard labels={["CRM", "support", "usage", "derived"]} />
     </div>
   );
 }
@@ -1680,6 +1690,20 @@ function ActionList({ items }: { items: string[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function ProvenanceCard({ labels }: { labels: string[] }) {
+  return (
+    <SectionCard title="Evidence Sources">
+      <div className="flex flex-wrap gap-2">
+        {labels.map((label) => (
+          <Badge className="bg-slate-50 text-slate-600" key={label} variant="outline">
+            {label}
+          </Badge>
+        ))}
+      </div>
+    </SectionCard>
   );
 }
 
