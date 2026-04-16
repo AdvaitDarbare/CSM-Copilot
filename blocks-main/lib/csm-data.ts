@@ -569,10 +569,28 @@ function buildFallbackBootstrap(): WorkspaceBootstrap {
 
 function buildFallbackAccountData(accountId?: string): WorkspaceAccountData {
   const fallbackId = accountId || FALLBACK_DATA.featuredAccount.id;
-  const fallbackAccount =
-    fallbackId === FALLBACK_DATA.featuredAccount.id
-      ? FALLBACK_DATA.featuredAccount
-      : FALLBACK_DATA.featuredAccount;
+  const fallbackAccount = [
+    {
+      id: FALLBACK_DATA.featuredAccount.id,
+      context: FALLBACK_DATA.featuredAccount.context,
+      brief: FALLBACK_DATA.featuredAccount.brief,
+      similar: FALLBACK_DATA.featuredAccount.similar,
+    },
+    ...FALLBACK_DATA.portfolio.prioritized.map((account) => ({
+      id: account.id,
+      context: accountContextFromPrioritized(account),
+      brief: null,
+      similar:
+        account.id === FALLBACK_DATA.featuredAccount.id
+          ? FALLBACK_DATA.featuredAccount.similar
+          : [],
+    })),
+  ].find((account) => account.id === fallbackId) ?? {
+    id: FALLBACK_DATA.featuredAccount.id,
+    context: FALLBACK_DATA.featuredAccount.context,
+    brief: FALLBACK_DATA.featuredAccount.brief,
+    similar: FALLBACK_DATA.featuredAccount.similar,
+  };
 
   return {
     source: "fallback",
@@ -591,14 +609,29 @@ export async function getWorkspaceBootstrapData(): Promise<WorkspaceBootstrap> {
     const prioritized = normalizeAccounts(prioritizedResponse.results ?? []);
 
     if (!prioritized.length) {
-      return FALLBACK_DATA;
+      return buildFallbackBootstrap();
     }
 
-    // Build featured account context from the top prioritized account — no extra
-    // API calls needed. Brief and similar load on demand when the user asks.
-    const context = accountContextFromPrioritized(prioritized[0]);
+    const featuredId = prioritized[0].id;
 
-    return withComputedPortfolio(prioritized, context, null, [], "live");
+    try {
+      const [context, brief, similarResponse] = await Promise.all([
+        fetchJson<AccountContextResponse>(`/accounts/${featuredId}/context`),
+        fetchJson<AccountBriefResponse>(`/accounts/${featuredId}/brief`),
+        fetchJson<SimilarResponse>(`/accounts/similar/${featuredId}?limit=5`),
+      ]);
+
+      return withComputedPortfolio(
+        prioritized,
+        context,
+        brief,
+        similarResponse.results ?? [],
+        "live"
+      );
+    } catch {
+      const context = accountContextFromPrioritized(prioritized[0]);
+      return withComputedPortfolio(prioritized, context, null, [], "live");
+    }
   } catch {
     return buildFallbackBootstrap();
   }

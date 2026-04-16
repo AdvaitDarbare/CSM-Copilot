@@ -60,3 +60,14 @@ def test_chat_returns_structured_similar_response_for_resolved_account():
     assert response.brief_snapshot is None
     assert response.triage_accounts is None
     assert response.similar_accounts[0].top_reason
+
+
+def test_chat_routes_renewal_question_to_filtered_morning_queue():
+    response = chat_with_agent(ChatMessage(message="Who is renewing in the next 30 days?"))
+
+    assert response.workflow == "morning"
+    assert response.triage_accounts
+    assert all(card.renewal_date for card in response.triage_accounts)
+    assert all(card.renewal_date <= "2026-05-16" for card in response.triage_accounts)
+    renewal_dates = [card.renewal_date for card in response.triage_accounts]
+    assert renewal_dates == sorted(renewal_dates)

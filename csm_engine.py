@@ -684,7 +684,39 @@ def build_account_brief(context: AccountContext) -> AccountBrief:
     )
 
 
-def build_workflow_artifact(workflow: str, account_id: str | None = None):
+def _select_morning_accounts(
+    prioritized: list[PrioritizedAccount],
+    question: str | None = None,
+) -> list[PrioritizedAccount]:
+    if not question:
+        return prioritized[:5]
+
+    lower = question.lower()
+    if any(signal in lower for signal in ["renew", "renewing", "renewal", "30 days", "30d", "this month"]):
+        renewal_candidates = []
+        for account in prioritized:
+            if not account.renewal_date:
+                continue
+            days = (date.fromisoformat(account.renewal_date) - REFERENCE_TODAY).days
+            if 0 <= days <= 30:
+                renewal_candidates.append((days, -account.priority_score, account))
+        if renewal_candidates:
+            renewal_candidates.sort(key=lambda item: (item[0], item[1]))
+            return [account for _, _, account in renewal_candidates[:5]]
+
+    if "high risk" in lower:
+        high_risk = [account for account in prioritized if account.risk_level == "High"]
+        if high_risk:
+            return high_risk[:5]
+
+    return prioritized[:5]
+
+
+def build_workflow_artifact(
+    workflow: str,
+    account_id: str | None = None,
+    question: str | None = None,
+):
     if workflow == "brief":
         context = get_account_context(account_id) if account_id else None
         if not context:
@@ -710,13 +742,14 @@ def build_workflow_artifact(workflow: str, account_id: str | None = None):
             similar_accounts=similar,
             shared_patterns=shared_patterns,
         )
-    prioritized = get_prioritized_accounts(limit=8)
+    prioritized = get_prioritized_accounts(limit=100)
+    selected_accounts = _select_morning_accounts(prioritized, question=question)
     return TriageArtifact(
         title="Morning Triage",
         provenance=["CRM", "support", "usage", "CSM activity", "renewal", "derived"],
         stages=workflow_stages("morning"),
-        top_accounts=prioritized[:5],
-        top_themes=top_risk_themes(prioritized),
+        top_accounts=selected_accounts,
+        top_themes=top_risk_themes(selected_accounts or prioritized),
     )
 
 

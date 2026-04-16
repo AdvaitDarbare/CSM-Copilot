@@ -146,7 +146,7 @@ def get_similar_accounts(company_id: str, limit: int = 5):
     }
 
 
-def _fallback_reply(workflow: str, artifact: Any) -> str:
+def _fallback_reply(workflow: str, artifact: Any, question: str | None = None) -> str:
     if workflow == "brief" and artifact:
         return (
             f"{artifact.brief.summary} "
@@ -158,6 +158,18 @@ def _fallback_reply(workflow: str, artifact: Any) -> str:
         names = ", ".join(account.name for account in artifact.similar_accounts[:3])
         patterns = ", ".join(artifact.shared_patterns or ["a broader risk pattern"])
         return f"The closest peer accounts are {names}. They share {patterns}."
+    if artifact and question:
+        lower = question.lower()
+        if any(signal in lower for signal in ["renew", "renewing", "renewal", "30 days", "this month"]):
+            renewal_lines = []
+            for account in artifact.top_accounts[:5]:
+                if account.renewal_date:
+                    renewal_lines.append(
+                        f"{account.name} ({account.renewal_date}, score {account.priority_score})"
+                    )
+            if renewal_lines:
+                return "The nearest renewals are " + ", ".join(renewal_lines) + "."
+
     top_names = ", ".join(account.name for account in artifact.top_accounts[:3])
     themes = ", ".join(artifact.top_themes or top_risk_themes(artifact.top_accounts))
     return f"The accounts needing attention are {top_names}. The main pressure themes are {themes}."
@@ -165,7 +177,7 @@ def _fallback_reply(workflow: str, artifact: Any) -> str:
 
 def _generate_reply(workflow: str, artifact: Any, question: str) -> str:
     if not response_model or not artifact:
-        return _fallback_reply(workflow, artifact)
+        return _fallback_reply(workflow, artifact, question)
 
     payload = artifact.model_dump(mode="json")
     try:
@@ -179,7 +191,7 @@ def _generate_reply(workflow: str, artifact: Any, question: str) -> str:
         )
         return response.text
     except Exception:
-        return _fallback_reply(workflow, artifact)
+        return _fallback_reply(workflow, artifact, question)
 
 
 @app.post("/chat")
@@ -194,7 +206,7 @@ def chat_with_agent(body: ChatMessage) -> ChatResponse:
     if workflow in {"brief", "similar"} and not resolved_account_id:
         raise HTTPException(status_code=404, detail="Could not resolve an account from the request")
 
-    artifact = build_workflow_artifact(workflow, resolved_account_id)
+    artifact = build_workflow_artifact(workflow, resolved_account_id, body.message)
     if not artifact:
         raise HTTPException(status_code=404, detail="Unable to build workflow artifact")
 
