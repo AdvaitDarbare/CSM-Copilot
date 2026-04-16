@@ -436,7 +436,11 @@ export function CopilotWorkspace({
             similarAccounts: agentResp.similar_accounts,
           },
         ]);
-      } catch {
+      } catch (error) {
+        const message =
+          error instanceof Error && error.message
+            ? error.message.replace(/^"|"$/g, "")
+            : null;
         setHasArtifact(true);
         setMessages((prev) => [
           ...prev,
@@ -445,7 +449,7 @@ export function CopilotWorkspace({
             role: "assistant",
             content:
               localWorkflowId === "brief" || localWorkflowId === "similar"
-                ? "I couldn't confidently resolve the account for that request. Mention the account name or open it from the portfolio list and try again."
+                ? message || "I couldn't confidently resolve the account for that request. Mention the account name or open it from the portfolio list and try again."
                 : buildWorkflowAnswer(localWorkflowId, trimmed, workspaceData, accountData),
           },
         ]);
