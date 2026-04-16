@@ -899,7 +899,7 @@ export function CopilotWorkspace({
           </p>
         </div>
 
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1 min-h-0">
           <div
             className="space-y-4 p-4"
             key={`${activeWorkflow}:${accountData.accountId}`}
@@ -1358,7 +1358,7 @@ function PortfolioArtifact({
 
   return (
     <div className="space-y-4">
-      <section className="grid gap-3 md:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3">
         <MetricCard
           icon={RadarIcon}
           label="Accounts reviewed"
@@ -1383,7 +1383,7 @@ function PortfolioArtifact({
         />
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="grid gap-4">
         <SectionCard
           description="The strongest recurring signals across the current queue, shown as an at-a-glance distribution."
           title="Risk Pressure Map"
@@ -1501,7 +1501,7 @@ function PortfolioArtifact({
         </Table>
       </SectionCard>
 
-      <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="grid gap-4">
         <SectionCard
           description="Repeated signals across the priority queue."
           title="Risk Theme Breakdown"
@@ -1539,7 +1539,7 @@ function PortfolioArtifact({
         description="A lightweight owner-by-owner board that makes the queue feel operational instead of purely analytical."
         title="Save Plan Board"
       >
-        <div className="grid gap-3 lg:grid-cols-3">
+        <div className="grid gap-3 grid-cols-1">
           {portfolio.prioritized.slice(0, 3).map((account) => (
             <CoverageCard
               account={account}
@@ -1580,7 +1580,7 @@ function AccountArtifact({
         title="Account Snapshot"
       >
         {isLoading ? <InlineLoadingBanner label="Refreshing account brief" /> : null}
-        <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid gap-4">
           <div className="space-y-4">
             <div className="rounded-[24px] border border-black/6 bg-[#f7f4ef] p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -1614,7 +1614,7 @@ function AccountArtifact({
               </div>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               {signalBars.map((signal) => (
                 <SignalBarCard key={signal.label} {...signal} />
               ))}
@@ -1656,14 +1656,14 @@ function AccountArtifact({
         </div>
       </SectionCard>
 
-      <div className="grid gap-4 lg:grid-cols-[1.03fr_0.97fr]">
+      <div className="grid gap-4">
         <SectionCard
           description="A visual read on the four dimensions driving the account to the top of the queue."
           title="Signal Profile"
         >
-          <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid gap-4">
             <ChartContainer
-              className="mx-auto h-[280px] w-full max-w-[360px]"
+              className="mx-auto h-[220px] w-full max-w-[360px]"
               config={accountPressureChartConfig}
             >
               <RadarChart accessibilityLayer data={toPressureChartData(signalBars)}>
@@ -1689,7 +1689,7 @@ function AccountArtifact({
               </RadarChart>
             </ChartContainer>
 
-            <div className="grid gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {signalBars.map((signal) => (
                 <div
                   className="rounded-[22px] border border-black/6 bg-slate-50 px-4 py-3"
@@ -1738,7 +1738,7 @@ function AccountArtifact({
               tone={touchRisk >= 65 ? "critical" : "neutral"}
               value={touchRisk}
             />
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <MiniStat
                 label="Onboarding"
                 value={context.internal.onboarding_status}
@@ -1768,7 +1768,7 @@ function AccountArtifact({
         description="Copyable outputs the CSM can actually take into customer follow-up, internal save planning, and leadership communication."
         title="Action Center"
       >
-        <div className="grid gap-4 xl:grid-cols-3">
+        <div className="grid gap-4">
           <ActionStudioCard
             eyebrow="Customer follow-up"
             icon={BriefcaseBusinessIcon}
@@ -1799,7 +1799,7 @@ function AccountArtifact({
         </div>
       </SectionCard>
 
-      <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="grid gap-4">
         <SectionCard
           description="The supporting narrative is secondary to the structured signals, but still useful for CSM context."
           title="Current Situation"
@@ -1813,7 +1813,7 @@ function AccountArtifact({
               label="Recent CSM note"
               value={context.internal.recent_csm_note}
             />
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-3">
               <MiniStat
                 label="Champion"
                 value={context.internal.champion_status}
@@ -1885,7 +1885,7 @@ function SimilarArtifact({
         title="Pattern Overview"
       >
         {isLoading ? <InlineLoadingBanner label="Refreshing similarity matches" /> : null}
-        <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="grid gap-4">
           <div className="rounded-[24px] border border-black/6 bg-[#f8f5ef] p-4">
             <div className="flex items-center gap-2">
               <Badge className="bg-slate-900 text-white">Source account</Badge>
@@ -1906,7 +1906,7 @@ function SimilarArtifact({
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-3 gap-3">
             {sharedPatterns.map((pattern) => (
               <div
                 className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_8px_24px_rgba(15,23,42,0.04)]"
@@ -1925,7 +1925,7 @@ function SimilarArtifact({
         </div>
       </SectionCard>
 
-      <div className="grid gap-4 lg:grid-cols-[1.02fr_0.98fr]">
+      <div className="grid gap-4">
         <SectionCard
           description="A compact visual of how close each neighbor is to the selected account."
           title="Similarity Ladder"
@@ -2016,7 +2016,7 @@ function SimilarArtifact({
               className="rounded-[24px] border border-black/6 bg-white p-4 shadow-[0_10px_26px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_30px_rgba(15,23,42,0.08)]"
               key={account.id}
             >
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div className="flex flex-col gap-3">
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-semibold text-lg tracking-tight text-slate-900">
@@ -2210,7 +2210,7 @@ function FlowDiagram({
   }>;
 }) {
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch">
+    <div className="flex flex-col gap-3">
       {steps.map((step, index) => (
         <Fragment key={step.label}>
           <div className="flex-1 rounded-[22px] border border-black/6 bg-slate-50 px-4 py-4">

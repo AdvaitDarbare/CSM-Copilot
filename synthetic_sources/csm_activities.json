@@ -1,0 +1,2585 @@
+[
+  {
+    "activity_id": "ACT-317967706847-1",
+    "company_id": "317967706847",
+    "date": "2026-04-13T10:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-317967706847-2",
+    "company_id": "317967706847",
+    "date": "2026-03-20T01:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706848-1",
+    "company_id": "317967706848",
+    "date": "2026-04-13T09:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706848-2",
+    "company_id": "317967706848",
+    "date": "2026-03-19T23:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706849-1",
+    "company_id": "317967706849",
+    "date": "2026-03-30T11:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-317967706849-2",
+    "company_id": "317967706849",
+    "date": "2026-03-21T20:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706850-1",
+    "company_id": "317967706850",
+    "date": "2026-03-24T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-317967706850-2",
+    "company_id": "317967706850",
+    "date": "2026-03-27T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706851-1",
+    "company_id": "317967706851",
+    "date": "2026-03-29T20:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706851-2",
+    "company_id": "317967706851",
+    "date": "2026-04-06T05:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706852-1",
+    "company_id": "317967706852",
+    "date": "2026-04-12T03:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706852-2",
+    "company_id": "317967706852",
+    "date": "2026-03-31T21:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706853-1",
+    "company_id": "317967706853",
+    "date": "2026-03-21T14:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706853-2",
+    "company_id": "317967706853",
+    "date": "2026-03-30T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706853-3",
+    "company_id": "317967706853",
+    "date": "2026-04-10T22:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706854-1",
+    "company_id": "317967706854",
+    "date": "2026-03-31T09:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706854-2",
+    "company_id": "317967706854",
+    "date": "2026-04-01T01:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706854-3",
+    "company_id": "317967706854",
+    "date": "2026-04-06T07:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706855-1",
+    "company_id": "317967706855",
+    "date": "2026-03-24T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706855-2",
+    "company_id": "317967706855",
+    "date": "2026-04-05T23:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706855-3",
+    "company_id": "317967706855",
+    "date": "2026-03-24T08:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706856-1",
+    "company_id": "317967706856",
+    "date": "2026-03-13T05:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706856-2",
+    "company_id": "317967706856",
+    "date": "2026-03-13T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706856-3",
+    "company_id": "317967706856",
+    "date": "2026-04-12T00:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706857-1",
+    "company_id": "317967706857",
+    "date": "2026-03-30T16:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-317967706857-2",
+    "company_id": "317967706857",
+    "date": "2026-04-09T04:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706858-1",
+    "company_id": "317967706858",
+    "date": "2026-04-05T13:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706858-2",
+    "company_id": "317967706858",
+    "date": "2026-03-28T23:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706858-3",
+    "company_id": "317967706858",
+    "date": "2026-04-08T14:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706859-1",
+    "company_id": "317967706859",
+    "date": "2026-03-26T14:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706859-2",
+    "company_id": "317967706859",
+    "date": "2026-03-20T07:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706859-3",
+    "company_id": "317967706859",
+    "date": "2026-04-02T22:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706860-1",
+    "company_id": "317967706860",
+    "date": "2026-04-07T08:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706860-2",
+    "company_id": "317967706860",
+    "date": "2026-03-15T11:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706860-3",
+    "company_id": "317967706860",
+    "date": "2026-03-12T20:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706861-1",
+    "company_id": "317967706861",
+    "date": "2026-04-12T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706861-2",
+    "company_id": "317967706861",
+    "date": "2026-03-22T13:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706861-3",
+    "company_id": "317967706861",
+    "date": "2026-04-13T12:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706862-1",
+    "company_id": "317967706862",
+    "date": "2026-03-16T03:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706862-2",
+    "company_id": "317967706862",
+    "date": "2026-03-17T15:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706862-3",
+    "company_id": "317967706862",
+    "date": "2026-03-31T04:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706863-1",
+    "company_id": "317967706863",
+    "date": "2026-03-19T22:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706863-2",
+    "company_id": "317967706863",
+    "date": "2026-03-24T23:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706863-3",
+    "company_id": "317967706863",
+    "date": "2026-03-12T16:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706864-1",
+    "company_id": "317967706864",
+    "date": "2026-03-14T23:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706864-2",
+    "company_id": "317967706864",
+    "date": "2026-04-04T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706864-3",
+    "company_id": "317967706864",
+    "date": "2026-03-25T13:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706865-1",
+    "company_id": "317967706865",
+    "date": "2026-03-16T11:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706865-2",
+    "company_id": "317967706865",
+    "date": "2026-03-31T12:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706865-3",
+    "company_id": "317967706865",
+    "date": "2026-03-30T16:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706866-1",
+    "company_id": "317967706866",
+    "date": "2026-03-25T10:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706866-2",
+    "company_id": "317967706866",
+    "date": "2026-04-06T13:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706866-3",
+    "company_id": "317967706866",
+    "date": "2026-03-18T00:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706866-4",
+    "company_id": "317967706866",
+    "date": "2026-04-01T13:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706867-1",
+    "company_id": "317967706867",
+    "date": "2026-03-24T11:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706867-2",
+    "company_id": "317967706867",
+    "date": "2026-03-22T21:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706867-3",
+    "company_id": "317967706867",
+    "date": "2026-03-19T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706868-1",
+    "company_id": "317967706868",
+    "date": "2026-04-03T11:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706868-2",
+    "company_id": "317967706868",
+    "date": "2026-04-11T02:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706868-3",
+    "company_id": "317967706868",
+    "date": "2026-04-03T00:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706868-4",
+    "company_id": "317967706868",
+    "date": "2026-03-17T10:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706869-1",
+    "company_id": "317967706869",
+    "date": "2026-04-09T16:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706869-2",
+    "company_id": "317967706869",
+    "date": "2026-03-14T07:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706869-3",
+    "company_id": "317967706869",
+    "date": "2026-03-19T05:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-317967706870-1",
+    "company_id": "317967706870",
+    "date": "2026-03-22T03:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706870-2",
+    "company_id": "317967706870",
+    "date": "2026-04-07T02:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706870-3",
+    "company_id": "317967706870",
+    "date": "2026-03-28T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706870-4",
+    "company_id": "317967706870",
+    "date": "2026-04-06T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706871-1",
+    "company_id": "317967706871",
+    "date": "2026-04-07T18:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706871-2",
+    "company_id": "317967706871",
+    "date": "2026-03-27T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706871-3",
+    "company_id": "317967706871",
+    "date": "2026-04-14T05:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706871-4",
+    "company_id": "317967706871",
+    "date": "2026-03-11T11:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706872-1",
+    "company_id": "317967706872",
+    "date": "2026-03-19T08:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706872-2",
+    "company_id": "317967706872",
+    "date": "2026-04-06T15:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706872-3",
+    "company_id": "317967706872",
+    "date": "2026-03-26T07:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706872-4",
+    "company_id": "317967706872",
+    "date": "2026-03-24T07:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967706873-1",
+    "company_id": "317967706873",
+    "date": "2026-03-22T10:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706873-2",
+    "company_id": "317967706873",
+    "date": "2026-04-05T11:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706873-3",
+    "company_id": "317967706873",
+    "date": "2026-03-14T04:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967706873-4",
+    "company_id": "317967706873",
+    "date": "2026-04-05T20:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967707834-1",
+    "company_id": "317967707834",
+    "date": "2026-03-29T16:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967707834-2",
+    "company_id": "317967707834",
+    "date": "2026-03-18T21:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967707834-3",
+    "company_id": "317967707834",
+    "date": "2026-03-27T01:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967707834-4",
+    "company_id": "317967707834",
+    "date": "2026-04-02T08:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967707835-1",
+    "company_id": "317967707835",
+    "date": "2026-03-28T05:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967707835-2",
+    "company_id": "317967707835",
+    "date": "2026-03-31T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-317967707835-3",
+    "company_id": "317967707835",
+    "date": "2026-03-31T04:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-317967707835-4",
+    "company_id": "317967707835",
+    "date": "2026-04-05T09:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050881266-1",
+    "company_id": "318050881266",
+    "date": "2026-04-01T03:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318050881266-2",
+    "company_id": "318050881266",
+    "date": "2026-04-03T04:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318050881267-1",
+    "company_id": "318050881267",
+    "date": "2026-03-12T17:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318050881267-2",
+    "company_id": "318050881267",
+    "date": "2026-04-01T07:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318050881268-1",
+    "company_id": "318050881268",
+    "date": "2026-03-25T09:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881268-2",
+    "company_id": "318050881268",
+    "date": "2026-03-22T02:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881269-1",
+    "company_id": "318050881269",
+    "date": "2026-03-22T07:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881269-2",
+    "company_id": "318050881269",
+    "date": "2026-04-01T04:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881270-1",
+    "company_id": "318050881270",
+    "date": "2026-03-31T11:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881270-2",
+    "company_id": "318050881270",
+    "date": "2026-03-24T08:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881271-1",
+    "company_id": "318050881271",
+    "date": "2026-03-25T03:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881271-2",
+    "company_id": "318050881271",
+    "date": "2026-03-15T12:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881272-1",
+    "company_id": "318050881272",
+    "date": "2026-04-07T02:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050881272-2",
+    "company_id": "318050881272",
+    "date": "2026-03-18T08:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050881272-3",
+    "company_id": "318050881272",
+    "date": "2026-03-12T07:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050881273-1",
+    "company_id": "318050881273",
+    "date": "2026-04-09T15:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050881273-2",
+    "company_id": "318050881273",
+    "date": "2026-04-13T04:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050881273-3",
+    "company_id": "318050881273",
+    "date": "2026-03-26T06:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882234-1",
+    "company_id": "318050882234",
+    "date": "2026-04-05T03:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882234-2",
+    "company_id": "318050882234",
+    "date": "2026-03-30T21:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882234-3",
+    "company_id": "318050882234",
+    "date": "2026-03-21T02:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882235-1",
+    "company_id": "318050882235",
+    "date": "2026-04-07T08:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882235-2",
+    "company_id": "318050882235",
+    "date": "2026-03-12T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882235-3",
+    "company_id": "318050882235",
+    "date": "2026-03-15T04:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882236-1",
+    "company_id": "318050882236",
+    "date": "2026-04-14T06:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882236-2",
+    "company_id": "318050882236",
+    "date": "2026-03-12T02:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882236-3",
+    "company_id": "318050882236",
+    "date": "2026-03-22T12:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882237-1",
+    "company_id": "318050882237",
+    "date": "2026-04-06T15:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882237-2",
+    "company_id": "318050882237",
+    "date": "2026-03-31T02:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882237-3",
+    "company_id": "318050882237",
+    "date": "2026-03-31T13:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882238-1",
+    "company_id": "318050882238",
+    "date": "2026-04-02T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882238-2",
+    "company_id": "318050882238",
+    "date": "2026-03-12T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882238-3",
+    "company_id": "318050882238",
+    "date": "2026-03-21T07:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882239-1",
+    "company_id": "318050882239",
+    "date": "2026-03-15T08:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882239-2",
+    "company_id": "318050882239",
+    "date": "2026-03-29T22:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882239-3",
+    "company_id": "318050882239",
+    "date": "2026-04-01T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882240-1",
+    "company_id": "318050882240",
+    "date": "2026-04-04T19:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882240-2",
+    "company_id": "318050882240",
+    "date": "2026-03-17T02:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882241-1",
+    "company_id": "318050882241",
+    "date": "2026-04-04T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882241-2",
+    "company_id": "318050882241",
+    "date": "2026-03-11T19:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882241-3",
+    "company_id": "318050882241",
+    "date": "2026-03-16T03:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882242-1",
+    "company_id": "318050882242",
+    "date": "2026-03-27T12:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882242-2",
+    "company_id": "318050882242",
+    "date": "2026-03-27T09:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882242-3",
+    "company_id": "318050882242",
+    "date": "2026-04-07T06:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882243-1",
+    "company_id": "318050882243",
+    "date": "2026-03-28T12:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882243-2",
+    "company_id": "318050882243",
+    "date": "2026-04-10T08:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882243-3",
+    "company_id": "318050882243",
+    "date": "2026-04-03T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882244-1",
+    "company_id": "318050882244",
+    "date": "2026-03-13T05:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882244-2",
+    "company_id": "318050882244",
+    "date": "2026-04-09T18:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318050882245-1",
+    "company_id": "318050882245",
+    "date": "2026-03-22T21:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882245-2",
+    "company_id": "318050882245",
+    "date": "2026-03-13T12:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882245-3",
+    "company_id": "318050882245",
+    "date": "2026-03-12T09:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882246-1",
+    "company_id": "318050882246",
+    "date": "2026-03-29T00:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882246-2",
+    "company_id": "318050882246",
+    "date": "2026-03-31T18:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882246-3",
+    "company_id": "318050882246",
+    "date": "2026-03-21T01:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882247-1",
+    "company_id": "318050882247",
+    "date": "2026-04-03T20:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882247-2",
+    "company_id": "318050882247",
+    "date": "2026-03-24T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882247-3",
+    "company_id": "318050882247",
+    "date": "2026-04-05T03:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882248-1",
+    "company_id": "318050882248",
+    "date": "2026-04-10T00:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882248-2",
+    "company_id": "318050882248",
+    "date": "2026-03-31T07:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882248-3",
+    "company_id": "318050882248",
+    "date": "2026-04-10T01:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882249-1",
+    "company_id": "318050882249",
+    "date": "2026-04-01T04:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882249-2",
+    "company_id": "318050882249",
+    "date": "2026-04-02T12:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882249-3",
+    "company_id": "318050882249",
+    "date": "2026-04-02T09:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882249-4",
+    "company_id": "318050882249",
+    "date": "2026-03-22T21:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882250-1",
+    "company_id": "318050882250",
+    "date": "2026-03-13T15:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882250-2",
+    "company_id": "318050882250",
+    "date": "2026-03-22T01:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882250-3",
+    "company_id": "318050882250",
+    "date": "2026-04-10T02:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882251-1",
+    "company_id": "318050882251",
+    "date": "2026-04-07T03:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882251-2",
+    "company_id": "318050882251",
+    "date": "2026-03-27T09:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882251-3",
+    "company_id": "318050882251",
+    "date": "2026-03-28T23:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882252-1",
+    "company_id": "318050882252",
+    "date": "2026-03-19T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882252-2",
+    "company_id": "318050882252",
+    "date": "2026-03-26T08:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882252-3",
+    "company_id": "318050882252",
+    "date": "2026-03-29T13:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882253-1",
+    "company_id": "318050882253",
+    "date": "2026-04-10T09:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882253-2",
+    "company_id": "318050882253",
+    "date": "2026-04-01T13:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882253-3",
+    "company_id": "318050882253",
+    "date": "2026-03-25T06:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882254-1",
+    "company_id": "318050882254",
+    "date": "2026-04-02T00:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882254-2",
+    "company_id": "318050882254",
+    "date": "2026-03-21T00:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882254-3",
+    "company_id": "318050882254",
+    "date": "2026-03-28T12:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882254-4",
+    "company_id": "318050882254",
+    "date": "2026-04-08T07:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882255-1",
+    "company_id": "318050882255",
+    "date": "2026-03-21T03:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882255-2",
+    "company_id": "318050882255",
+    "date": "2026-04-05T01:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882255-3",
+    "company_id": "318050882255",
+    "date": "2026-03-20T19:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882255-4",
+    "company_id": "318050882255",
+    "date": "2026-03-18T08:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882256-1",
+    "company_id": "318050882256",
+    "date": "2026-04-02T01:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882256-2",
+    "company_id": "318050882256",
+    "date": "2026-04-12T23:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882256-3",
+    "company_id": "318050882256",
+    "date": "2026-04-04T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882256-4",
+    "company_id": "318050882256",
+    "date": "2026-04-06T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882257-1",
+    "company_id": "318050882257",
+    "date": "2026-04-12T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882257-2",
+    "company_id": "318050882257",
+    "date": "2026-03-22T02:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318050882257-3",
+    "company_id": "318050882257",
+    "date": "2026-04-05T06:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882258-1",
+    "company_id": "318050882258",
+    "date": "2026-04-09T03:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882258-2",
+    "company_id": "318050882258",
+    "date": "2026-04-06T04:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882258-3",
+    "company_id": "318050882258",
+    "date": "2026-03-15T02:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882258-4",
+    "company_id": "318050882258",
+    "date": "2026-03-28T13:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882259-1",
+    "company_id": "318050882259",
+    "date": "2026-03-27T04:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318050882259-2",
+    "company_id": "318050882259",
+    "date": "2026-03-25T20:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882259-3",
+    "company_id": "318050882259",
+    "date": "2026-03-19T05:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318050882259-4",
+    "company_id": "318050882259",
+    "date": "2026-03-25T12:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496015-1",
+    "company_id": "318093496015",
+    "date": "2026-04-04T09:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496015-2",
+    "company_id": "318093496015",
+    "date": "2026-04-08T10:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Customer cannot stabilize the key integration before expanding usage. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496016-1",
+    "company_id": "318093496016",
+    "date": "2026-03-23T02:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496016-2",
+    "company_id": "318093496016",
+    "date": "2026-03-23T14:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496017-1",
+    "company_id": "318093496017",
+    "date": "2026-03-24T06:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496017-2",
+    "company_id": "318093496017",
+    "date": "2026-04-11T08:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496018-1",
+    "company_id": "318093496018",
+    "date": "2026-03-26T06:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496018-2",
+    "company_id": "318093496018",
+    "date": "2026-04-10T08:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Customer is pushing on roadmap fit for their advanced use case. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496019-1",
+    "company_id": "318093496019",
+    "date": "2026-03-25T11:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496019-2",
+    "company_id": "318093496019",
+    "date": "2026-04-06T08:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496020-1",
+    "company_id": "318093496020",
+    "date": "2026-04-06T06:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496020-2",
+    "company_id": "318093496020",
+    "date": "2026-03-22T12:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496021-1",
+    "company_id": "318093496021",
+    "date": "2026-03-30T23:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496021-2",
+    "company_id": "318093496021",
+    "date": "2026-04-09T22:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496022-1",
+    "company_id": "318093496022",
+    "date": "2026-03-16T18:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496022-2",
+    "company_id": "318093496022",
+    "date": "2026-03-20T21:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496023-1",
+    "company_id": "318093496023",
+    "date": "2026-03-28T05:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496023-2",
+    "company_id": "318093496023",
+    "date": "2026-03-20T20:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496024-1",
+    "company_id": "318093496024",
+    "date": "2026-04-06T12:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496024-2",
+    "company_id": "318093496024",
+    "date": "2026-03-29T14:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496025-1",
+    "company_id": "318093496025",
+    "date": "2026-04-10T03:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496025-2",
+    "company_id": "318093496025",
+    "date": "2026-04-11T05:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496026-1",
+    "company_id": "318093496026",
+    "date": "2026-04-07T16:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496026-2",
+    "company_id": "318093496026",
+    "date": "2026-04-06T08:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496026-3",
+    "company_id": "318093496026",
+    "date": "2026-03-24T03:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496027-1",
+    "company_id": "318093496027",
+    "date": "2026-03-18T20:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496027-2",
+    "company_id": "318093496027",
+    "date": "2026-04-10T09:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496027-3",
+    "company_id": "318093496027",
+    "date": "2026-04-09T06:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496028-1",
+    "company_id": "318093496028",
+    "date": "2026-03-16T03:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496028-2",
+    "company_id": "318093496028",
+    "date": "2026-03-22T13:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496028-3",
+    "company_id": "318093496028",
+    "date": "2026-04-13T02:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496029-1",
+    "company_id": "318093496029",
+    "date": "2026-03-27T19:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496029-2",
+    "company_id": "318093496029",
+    "date": "2026-03-30T16:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496029-3",
+    "company_id": "318093496029",
+    "date": "2026-03-24T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496030-1",
+    "company_id": "318093496030",
+    "date": "2026-03-28T11:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496030-2",
+    "company_id": "318093496030",
+    "date": "2026-03-30T15:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496031-1",
+    "company_id": "318093496031",
+    "date": "2026-03-19T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496031-2",
+    "company_id": "318093496031",
+    "date": "2026-03-17T14:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496031-3",
+    "company_id": "318093496031",
+    "date": "2026-03-20T04:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496032-1",
+    "company_id": "318093496032",
+    "date": "2026-03-31T12:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496032-2",
+    "company_id": "318093496032",
+    "date": "2026-03-20T03:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496033-1",
+    "company_id": "318093496033",
+    "date": "2026-04-04T04:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496033-2",
+    "company_id": "318093496033",
+    "date": "2026-03-30T02:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496033-3",
+    "company_id": "318093496033",
+    "date": "2026-03-20T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496034-1",
+    "company_id": "318093496034",
+    "date": "2026-03-24T04:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496034-2",
+    "company_id": "318093496034",
+    "date": "2026-04-04T11:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496034-3",
+    "company_id": "318093496034",
+    "date": "2026-03-20T06:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496035-1",
+    "company_id": "318093496035",
+    "date": "2026-03-25T17:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496035-2",
+    "company_id": "318093496035",
+    "date": "2026-04-09T16:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496035-3",
+    "company_id": "318093496035",
+    "date": "2026-03-13T09:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496036-1",
+    "company_id": "318093496036",
+    "date": "2026-03-20T17:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496036-2",
+    "company_id": "318093496036",
+    "date": "2026-04-05T06:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account needs an active recovery motion.",
+    "outcome": "No Response"
+  },
+  {
+    "activity_id": "ACT-318093496037-1",
+    "company_id": "318093496037",
+    "date": "2026-03-31T16:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496037-2",
+    "company_id": "318093496037",
+    "date": "2026-04-11T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496037-3",
+    "company_id": "318093496037",
+    "date": "2026-03-30T02:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496038-1",
+    "company_id": "318093496038",
+    "date": "2026-03-19T01:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496038-2",
+    "company_id": "318093496038",
+    "date": "2026-03-24T13:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496038-3",
+    "company_id": "318093496038",
+    "date": "2026-03-18T07:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496039-1",
+    "company_id": "318093496039",
+    "date": "2026-03-20T03:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496039-2",
+    "company_id": "318093496039",
+    "date": "2026-04-09T08:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496039-3",
+    "company_id": "318093496039",
+    "date": "2026-03-14T21:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Champion",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496040-1",
+    "company_id": "318093496040",
+    "date": "2026-03-15T05:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496040-2",
+    "company_id": "318093496040",
+    "date": "2026-03-14T13:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496040-3",
+    "company_id": "318093496040",
+    "date": "2026-03-29T18:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496041-1",
+    "company_id": "318093496041",
+    "date": "2026-04-11T12:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496041-2",
+    "company_id": "318093496041",
+    "date": "2026-04-10T13:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496041-3",
+    "company_id": "318093496041",
+    "date": "2026-03-25T10:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496042-1",
+    "company_id": "318093496042",
+    "date": "2026-04-14T10:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496042-2",
+    "company_id": "318093496042",
+    "date": "2026-03-30T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496042-3",
+    "company_id": "318093496042",
+    "date": "2026-03-31T08:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496043-1",
+    "company_id": "318093496043",
+    "date": "2026-03-21T05:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496043-2",
+    "company_id": "318093496043",
+    "date": "2026-03-30T05:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496043-3",
+    "company_id": "318093496043",
+    "date": "2026-03-15T21:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496044-1",
+    "company_id": "318093496044",
+    "date": "2026-04-05T10:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496044-2",
+    "company_id": "318093496044",
+    "date": "2026-04-10T20:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Admin",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496044-3",
+    "company_id": "318093496044",
+    "date": "2026-03-15T08:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Power users are blocked on workflow complexity and need enablement. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496045-1",
+    "company_id": "318093496045",
+    "date": "2026-03-14T04:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496045-2",
+    "company_id": "318093496045",
+    "date": "2026-03-21T14:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496045-3",
+    "company_id": "318093496045",
+    "date": "2026-03-21T03:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496046-1",
+    "company_id": "318093496046",
+    "date": "2026-04-14T07:00:00+00:00",
+    "activity_type": "Save Plan",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496046-2",
+    "company_id": "318093496046",
+    "date": "2026-04-07T11:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496046-3",
+    "company_id": "318093496046",
+    "date": "2026-04-12T01:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496047-1",
+    "company_id": "318093496047",
+    "date": "2026-04-12T04:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496047-2",
+    "company_id": "318093496047",
+    "date": "2026-03-30T14:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496047-3",
+    "company_id": "318093496047",
+    "date": "2026-04-08T10:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496048-1",
+    "company_id": "318093496048",
+    "date": "2026-04-09T02:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Champion",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496048-2",
+    "company_id": "318093496048",
+    "date": "2026-04-06T11:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496048-3",
+    "company_id": "318093496048",
+    "date": "2026-04-11T02:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Champion says the broader team has not adopted the workflow yet. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496049-1",
+    "company_id": "318093496049",
+    "date": "2026-04-06T21:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Ops Lead",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "At Risk"
+  },
+  {
+    "activity_id": "ACT-318093496049-2",
+    "company_id": "318093496049",
+    "date": "2026-03-18T07:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Admin",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496049-3",
+    "company_id": "318093496049",
+    "date": "2026-04-05T07:00:00+00:00",
+    "activity_type": "QBR",
+    "contact_role": "Champion",
+    "note_summary": "Customer is worried about renewal pricing and wants finance clarity. This account should stay on watch.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496050-1",
+    "company_id": "318093496050",
+    "date": "2026-03-17T16:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Admin",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496050-2",
+    "company_id": "318093496050",
+    "date": "2026-04-02T10:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496050-3",
+    "company_id": "318093496050",
+    "date": "2026-03-17T19:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496050-4",
+    "company_id": "318093496050",
+    "date": "2026-03-29T01:00:00+00:00",
+    "activity_type": "Call",
+    "contact_role": "Ops Lead",
+    "note_summary": "Stakeholders do not trust the reporting outputs yet. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496051-1",
+    "company_id": "318093496051",
+    "date": "2026-03-25T13:00:00+00:00",
+    "activity_type": "Email",
+    "contact_role": "Exec Sponsor",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496051-2",
+    "company_id": "318093496051",
+    "date": "2026-04-05T01:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Admin",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Positive"
+  },
+  {
+    "activity_id": "ACT-318093496051-3",
+    "company_id": "318093496051",
+    "date": "2026-03-13T14:00:00+00:00",
+    "activity_type": "Slack",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  },
+  {
+    "activity_id": "ACT-318093496051-4",
+    "company_id": "318093496051",
+    "date": "2026-04-12T08:00:00+00:00",
+    "activity_type": "Exec Check-in",
+    "contact_role": "Ops Lead",
+    "note_summary": "Implementation owners changed and the rollout is behind plan. This account is stable but should be monitored through renewal.",
+    "outcome": "Neutral"
+  }
+]

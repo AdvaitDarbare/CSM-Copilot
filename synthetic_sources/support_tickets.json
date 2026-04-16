@@ -1,0 +1,4342 @@
+[
+  {
+    "ticket_id": "TKT-317967706847-1",
+    "company_id": "317967706847",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-16T18:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706847-2",
+    "company_id": "317967706847",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-15T14:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706847-3",
+    "company_id": "317967706847",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-13T15:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706847-4",
+    "company_id": "317967706847",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-12T12:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706847-5",
+    "company_id": "317967706847",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-14T18:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706848-1",
+    "company_id": "317967706848",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-12T15:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706848-2",
+    "company_id": "317967706848",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-02T15:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706848-3",
+    "company_id": "317967706848",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-15T07:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706848-4",
+    "company_id": "317967706848",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-01T17:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706848-5",
+    "company_id": "317967706848",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-16T07:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706848-6",
+    "company_id": "317967706848",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-08T19:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706848-7",
+    "company_id": "317967706848",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T23:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706849-1",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-09T12:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-2",
+    "company_id": "317967706849",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-09T04:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-3",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-31T03:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-4",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T10:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-5",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T08:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-6",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T05:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-7",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T00:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-8",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-06T18:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706849-9",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-12T08:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-10",
+    "company_id": "317967706849",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-27T17:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706849-11",
+    "company_id": "317967706849",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-23T04:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706850-1",
+    "company_id": "317967706850",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-16T01:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706850-2",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-11T02:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706850-3",
+    "company_id": "317967706850",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-09T09:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706850-4",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T21:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706850-5",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T17:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706850-6",
+    "company_id": "317967706850",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-06T00:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706850-7",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-15T03:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706850-8",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-03T00:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706850-9",
+    "company_id": "317967706850",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T22:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706851-1",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-05T21:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706851-2",
+    "company_id": "317967706851",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-08T14:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-3",
+    "company_id": "317967706851",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-11T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-4",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-10T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-5",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T02:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-6",
+    "company_id": "317967706851",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-21T13:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-7",
+    "company_id": "317967706851",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-25T21:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706851-8",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T21:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-9",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-15T23:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706851-10",
+    "company_id": "317967706851",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-08T10:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706852-1",
+    "company_id": "317967706852",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-30T06:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706852-2",
+    "company_id": "317967706852",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-15T12:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706852-3",
+    "company_id": "317967706852",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-29T10:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-4",
+    "company_id": "317967706852",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T16:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-5",
+    "company_id": "317967706852",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-07T22:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706852-6",
+    "company_id": "317967706852",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T16:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-7",
+    "company_id": "317967706852",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T01:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-317967706852-8",
+    "company_id": "317967706852",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-19T12:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-9",
+    "company_id": "317967706852",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T00:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-10",
+    "company_id": "317967706852",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-30T15:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706852-11",
+    "company_id": "317967706852",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-25T02:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-317967706853-1",
+    "company_id": "317967706853",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T11:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706853-2",
+    "company_id": "317967706853",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-21T00:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706854-1",
+    "company_id": "317967706854",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T02:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706854-2",
+    "company_id": "317967706854",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-16T05:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706854-3",
+    "company_id": "317967706854",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T21:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706854-4",
+    "company_id": "317967706854",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-03T08:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706855-1",
+    "company_id": "317967706855",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-28T03:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706855-2",
+    "company_id": "317967706855",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T05:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706855-3",
+    "company_id": "317967706855",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T09:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706856-1",
+    "company_id": "317967706856",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-15T07:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706856-2",
+    "company_id": "317967706856",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T08:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706856-3",
+    "company_id": "317967706856",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T09:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706856-4",
+    "company_id": "317967706856",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-31T21:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706857-1",
+    "company_id": "317967706857",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706857-2",
+    "company_id": "317967706857",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-08T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706857-3",
+    "company_id": "317967706857",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-10T05:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706857-4",
+    "company_id": "317967706857",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-08T22:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706857-5",
+    "company_id": "317967706857",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-08T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706857-6",
+    "company_id": "317967706857",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T20:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706858-1",
+    "company_id": "317967706858",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-27T23:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706858-2",
+    "company_id": "317967706858",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-26T10:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706858-3",
+    "company_id": "317967706858",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-09T18:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706858-4",
+    "company_id": "317967706858",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T07:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706859-1",
+    "company_id": "317967706859",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T22:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706859-2",
+    "company_id": "317967706859",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-10T06:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706860-1",
+    "company_id": "317967706860",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-09T17:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-317967706860-2",
+    "company_id": "317967706860",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-24T20:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-317967706860-3",
+    "company_id": "317967706860",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T13:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706861-1",
+    "company_id": "317967706861",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-11T12:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-317967706861-2",
+    "company_id": "317967706861",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-28T04:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706861-3",
+    "company_id": "317967706861",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-07T23:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-317967706862-1",
+    "company_id": "317967706862",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T13:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706862-2",
+    "company_id": "317967706862",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T12:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706862-3",
+    "company_id": "317967706862",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T21:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706862-4",
+    "company_id": "317967706862",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T00:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706862-5",
+    "company_id": "317967706862",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-16T22:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-317967706863-1",
+    "company_id": "317967706863",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-01T19:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706863-2",
+    "company_id": "317967706863",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-11T15:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706863-3",
+    "company_id": "317967706863",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-23T12:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-317967706864-1",
+    "company_id": "317967706864",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-03T02:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-317967706864-2",
+    "company_id": "317967706864",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T00:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-317967706865-1",
+    "company_id": "317967706865",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-08T13:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706865-2",
+    "company_id": "317967706865",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-14T14:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706865-3",
+    "company_id": "317967706865",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-22T17:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706866-1",
+    "company_id": "317967706866",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-04-08T09:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706866-2",
+    "company_id": "317967706866",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-25T09:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706867-1",
+    "company_id": "317967706867",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-22T18:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706867-2",
+    "company_id": "317967706867",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T19:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706867-3",
+    "company_id": "317967706867",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-07T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967706868-1",
+    "company_id": "317967706868",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-12T00:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706869-1",
+    "company_id": "317967706869",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-14T15:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-317967706869-2",
+    "company_id": "317967706869",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T11:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-317967706871-1",
+    "company_id": "317967706871",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-03-28T17:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-317967706871-2",
+    "company_id": "317967706871",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-04-15T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-317967706872-1",
+    "company_id": "317967706872",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-03-31T17:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706872-2",
+    "company_id": "317967706872",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-03-22T03:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967706873-1",
+    "company_id": "317967706873",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T18:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-317967707834-1",
+    "company_id": "317967707834",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-04-01T22:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-317967707835-1",
+    "company_id": "317967707835",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-04-11T05:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050881266-1",
+    "company_id": "318050881266",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-12T02:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881266-2",
+    "company_id": "318050881266",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-08T15:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881266-3",
+    "company_id": "318050881266",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-13T19:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881266-4",
+    "company_id": "318050881266",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T00:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881266-5",
+    "company_id": "318050881266",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881266-6",
+    "company_id": "318050881266",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-31T14:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881266-7",
+    "company_id": "318050881266",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-06T18:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881266-8",
+    "company_id": "318050881266",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T21:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881267-1",
+    "company_id": "318050881267",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-12T19:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-2",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T05:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050881267-3",
+    "company_id": "318050881267",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-20T22:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-4",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T11:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-5",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T17:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-6",
+    "company_id": "318050881267",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-08T09:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050881267-7",
+    "company_id": "318050881267",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-13T02:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-8",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T05:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050881267-9",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-11T13:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-10",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T18:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881267-11",
+    "company_id": "318050881267",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T12:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881268-1",
+    "company_id": "318050881268",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-17T00:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881268-2",
+    "company_id": "318050881268",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-23T13:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-3",
+    "company_id": "318050881268",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T03:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-4",
+    "company_id": "318050881268",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T11:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-5",
+    "company_id": "318050881268",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-25T14:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-6",
+    "company_id": "318050881268",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T08:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881268-7",
+    "company_id": "318050881268",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T16:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-8",
+    "company_id": "318050881268",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T04:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881268-9",
+    "company_id": "318050881268",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-12T06:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881268-10",
+    "company_id": "318050881268",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-08T18:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881269-1",
+    "company_id": "318050881269",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-12T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-2",
+    "company_id": "318050881269",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-31T16:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881269-3",
+    "company_id": "318050881269",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-26T13:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-4",
+    "company_id": "318050881269",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T07:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881269-5",
+    "company_id": "318050881269",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T03:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-6",
+    "company_id": "318050881269",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-07T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-7",
+    "company_id": "318050881269",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-26T15:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881269-8",
+    "company_id": "318050881269",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-01T02:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-9",
+    "company_id": "318050881269",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-12T00:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050881269-10",
+    "company_id": "318050881269",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-08T09:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050881270-1",
+    "company_id": "318050881270",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-24T05:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050881270-2",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-07T18:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050881270-3",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-08T23:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050881270-4",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T22:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050881270-5",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-14T16:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050881270-6",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T10:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050881270-7",
+    "company_id": "318050881270",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T06:00:00+00:00",
+    "escalated": true,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050881271-1",
+    "company_id": "318050881271",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T02:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881271-2",
+    "company_id": "318050881271",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-17T09:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881271-3",
+    "company_id": "318050881271",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-01T00:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881271-4",
+    "company_id": "318050881271",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-07T08:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881271-5",
+    "company_id": "318050881271",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-08T06:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881271-6",
+    "company_id": "318050881271",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-01T17:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318050881271-7",
+    "company_id": "318050881271",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-11T10:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881271-8",
+    "company_id": "318050881271",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-18T16:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881271-9",
+    "company_id": "318050881271",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-08T15:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318050881272-1",
+    "company_id": "318050881272",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050881272-2",
+    "company_id": "318050881272",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T16:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050881272-3",
+    "company_id": "318050881272",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-24T03:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050881272-4",
+    "company_id": "318050881272",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T11:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050881272-5",
+    "company_id": "318050881272",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T16:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050881272-6",
+    "company_id": "318050881272",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-11T20:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050881273-1",
+    "company_id": "318050881273",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T06:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050881273-2",
+    "company_id": "318050881273",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T20:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050881273-3",
+    "company_id": "318050881273",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-13T06:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882234-1",
+    "company_id": "318050882234",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T15:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882234-2",
+    "company_id": "318050882234",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-09T21:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318050882235-1",
+    "company_id": "318050882235",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T21:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882235-2",
+    "company_id": "318050882235",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T08:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882235-3",
+    "company_id": "318050882235",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-09T23:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882236-1",
+    "company_id": "318050882236",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T17:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882236-2",
+    "company_id": "318050882236",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-29T19:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050882236-3",
+    "company_id": "318050882236",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-13T20:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050882237-1",
+    "company_id": "318050882237",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T12:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882237-2",
+    "company_id": "318050882237",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-08T16:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050882237-3",
+    "company_id": "318050882237",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-19T16:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882237-4",
+    "company_id": "318050882237",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T08:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882237-5",
+    "company_id": "318050882237",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-09T08:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050882237-6",
+    "company_id": "318050882237",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T15:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882238-1",
+    "company_id": "318050882238",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-10T09:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882238-2",
+    "company_id": "318050882238",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-03T02:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050882239-1",
+    "company_id": "318050882239",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-12T13:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050882239-2",
+    "company_id": "318050882239",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-06T11:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882240-1",
+    "company_id": "318050882240",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T08:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-2",
+    "company_id": "318050882240",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T13:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-3",
+    "company_id": "318050882240",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T04:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-4",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T22:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-5",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-21T10:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-6",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T11:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-7",
+    "company_id": "318050882240",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T05:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-8",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T19:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882240-9",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-26T09:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318050882240-10",
+    "company_id": "318050882240",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T11:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882241-1",
+    "company_id": "318050882241",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-29T06:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882241-2",
+    "company_id": "318050882241",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-04T13:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882242-1",
+    "company_id": "318050882242",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T20:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882242-2",
+    "company_id": "318050882242",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-15T15:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882242-3",
+    "company_id": "318050882242",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T01:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882242-4",
+    "company_id": "318050882242",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T16:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882242-5",
+    "company_id": "318050882242",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T04:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882242-6",
+    "company_id": "318050882242",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T17:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882243-1",
+    "company_id": "318050882243",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T10:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318050882243-2",
+    "company_id": "318050882243",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-09T20:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882244-1",
+    "company_id": "318050882244",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-11T06:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318050882244-2",
+    "company_id": "318050882244",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-29T09:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-3",
+    "company_id": "318050882244",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T09:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-4",
+    "company_id": "318050882244",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-23T22:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-5",
+    "company_id": "318050882244",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-28T03:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-6",
+    "company_id": "318050882244",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-09T19:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-7",
+    "company_id": "318050882244",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-14T11:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318050882244-8",
+    "company_id": "318050882244",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-03T19:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318050882245-1",
+    "company_id": "318050882245",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-06T18:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318050882245-2",
+    "company_id": "318050882245",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T03:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318050882246-1",
+    "company_id": "318050882246",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T21:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882246-2",
+    "company_id": "318050882246",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T07:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318050882247-1",
+    "company_id": "318050882247",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-23T14:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882247-2",
+    "company_id": "318050882247",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-20T04:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882247-3",
+    "company_id": "318050882247",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T10:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050882247-4",
+    "company_id": "318050882247",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-30T02:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318050882247-5",
+    "company_id": "318050882247",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T03:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882248-1",
+    "company_id": "318050882248",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T15:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882248-2",
+    "company_id": "318050882248",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T15:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882248-3",
+    "company_id": "318050882248",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-01T18:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882248-4",
+    "company_id": "318050882248",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-13T08:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318050882250-1",
+    "company_id": "318050882250",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-26T22:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882251-1",
+    "company_id": "318050882251",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-22T04:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050882251-2",
+    "company_id": "318050882251",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T04:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050882251-3",
+    "company_id": "318050882251",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T17:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050882251-4",
+    "company_id": "318050882251",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T23:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050882251-5",
+    "company_id": "318050882251",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-31T17:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050882252-1",
+    "company_id": "318050882252",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T15:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318050882252-2",
+    "company_id": "318050882252",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-09T13:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050882254-1",
+    "company_id": "318050882254",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T01:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318050882255-1",
+    "company_id": "318050882255",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T16:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050882255-2",
+    "company_id": "318050882255",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-04-02T20:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318050882257-1",
+    "company_id": "318050882257",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-15T04:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882257-2",
+    "company_id": "318050882257",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T06:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318050882257-3",
+    "company_id": "318050882257",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-06T18:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318050882257-4",
+    "company_id": "318050882257",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-07T17:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318093496015-1",
+    "company_id": "318093496015",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-09T13:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318093496015-2",
+    "company_id": "318093496015",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-03T00:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318093496015-3",
+    "company_id": "318093496015",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T01:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318093496015-4",
+    "company_id": "318093496015",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-19T00:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318093496015-5",
+    "company_id": "318093496015",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-21T23:00:00+00:00",
+    "escalated": true,
+    "category": "Integration",
+    "summary": "CRM sync failed during automated updates and blocked the team's workflow."
+  },
+  {
+    "ticket_id": "TKT-318093496015-6",
+    "company_id": "318093496015",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T01:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318093496015-7",
+    "company_id": "318093496015",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-24T12:00:00+00:00",
+    "escalated": false,
+    "category": "Integration",
+    "summary": "Authentication reconnect attempts keep failing for the primary integration."
+  },
+  {
+    "ticket_id": "TKT-318093496016-1",
+    "company_id": "318093496016",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T21:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496016-2",
+    "company_id": "318093496016",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-26T15:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496016-3",
+    "company_id": "318093496016",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T04:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496016-4",
+    "company_id": "318093496016",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-03T18:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496016-5",
+    "company_id": "318093496016",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-12T21:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496016-6",
+    "company_id": "318093496016",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-22T21:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496016-7",
+    "company_id": "318093496016",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-29T12:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496016-8",
+    "company_id": "318093496016",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-07T14:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-1",
+    "company_id": "318093496017",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-01T02:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496017-2",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T05:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-3",
+    "company_id": "318093496017",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-09T09:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496017-4",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-01T06:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496017-5",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-16T03:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-6",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-08T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-7",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-28T17:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496017-8",
+    "company_id": "318093496017",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-12T16:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-9",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496017-10",
+    "company_id": "318093496017",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T20:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496018-1",
+    "company_id": "318093496018",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-18T12:00:00+00:00",
+    "escalated": true,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318093496018-2",
+    "company_id": "318093496018",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-16T09:00:00+00:00",
+    "escalated": true,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318093496018-3",
+    "company_id": "318093496018",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-03T20:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318093496018-4",
+    "company_id": "318093496018",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T05:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318093496018-5",
+    "company_id": "318093496018",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-05T14:00:00+00:00",
+    "escalated": true,
+    "category": "Feature Gap",
+    "summary": "The requested use case depends on functionality that is not available yet."
+  },
+  {
+    "ticket_id": "TKT-318093496018-6",
+    "company_id": "318093496018",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-24T10:00:00+00:00",
+    "escalated": false,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318093496018-7",
+    "company_id": "318093496018",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-15T18:00:00+00:00",
+    "escalated": true,
+    "category": "Feature Gap",
+    "summary": "The customer expected deeper admin controls that are still on the roadmap."
+  },
+  {
+    "ticket_id": "TKT-318093496019-1",
+    "company_id": "318093496019",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-09T16:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496019-2",
+    "company_id": "318093496019",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-07T20:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496019-3",
+    "company_id": "318093496019",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T23:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496019-4",
+    "company_id": "318093496019",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-12T02:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496019-5",
+    "company_id": "318093496019",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T03:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496020-1",
+    "company_id": "318093496020",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T18:00:00+00:00",
+    "escalated": true,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496020-2",
+    "company_id": "318093496020",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T21:00:00+00:00",
+    "escalated": true,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496020-3",
+    "company_id": "318093496020",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T05:00:00+00:00",
+    "escalated": true,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496020-4",
+    "company_id": "318093496020",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-22T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496020-5",
+    "company_id": "318093496020",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-28T05:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496021-1",
+    "company_id": "318093496021",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T10:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496021-2",
+    "company_id": "318093496021",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-27T16:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-3",
+    "company_id": "318093496021",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T04:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-4",
+    "company_id": "318093496021",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-08T13:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-5",
+    "company_id": "318093496021",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-07T06:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496021-6",
+    "company_id": "318093496021",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T06:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-7",
+    "company_id": "318093496021",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T21:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-8",
+    "company_id": "318093496021",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-10T23:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496021-9",
+    "company_id": "318093496021",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-23T10:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496021-10",
+    "company_id": "318093496021",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-25T07:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-1",
+    "company_id": "318093496022",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-14T09:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-2",
+    "company_id": "318093496022",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-17T22:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496022-3",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T01:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496022-4",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T17:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496022-5",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T22:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496022-6",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-14T03:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-7",
+    "company_id": "318093496022",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-12T05:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-8",
+    "company_id": "318093496022",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-26T19:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-9",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T05:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496022-10",
+    "company_id": "318093496022",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T23:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496023-1",
+    "company_id": "318093496023",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-22T00:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496023-2",
+    "company_id": "318093496023",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-11T08:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496023-3",
+    "company_id": "318093496023",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T21:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496023-4",
+    "company_id": "318093496023",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T04:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496023-5",
+    "company_id": "318093496023",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496023-6",
+    "company_id": "318093496023",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T00:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496024-1",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T08:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-2",
+    "company_id": "318093496024",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-04-02T16:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496024-3",
+    "company_id": "318093496024",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-13T03:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-4",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T10:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-5",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T01:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496024-6",
+    "company_id": "318093496024",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-11T07:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-7",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-14T19:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496024-8",
+    "company_id": "318093496024",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-01T10:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-9",
+    "company_id": "318093496024",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-06T19:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496024-10",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T07:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496024-11",
+    "company_id": "318093496024",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-31T21:00:00+00:00",
+    "escalated": true,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496024-12",
+    "company_id": "318093496024",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T02:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496025-1",
+    "company_id": "318093496025",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-28T00:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496025-2",
+    "company_id": "318093496025",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-28T07:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496025-3",
+    "company_id": "318093496025",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T11:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496025-4",
+    "company_id": "318093496025",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-11T05:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496025-5",
+    "company_id": "318093496025",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T09:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496026-1",
+    "company_id": "318093496026",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-16T00:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318093496026-2",
+    "company_id": "318093496026",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-06T11:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496026-3",
+    "company_id": "318093496026",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-11T15:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496026-4",
+    "company_id": "318093496026",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-03T08:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496027-1",
+    "company_id": "318093496027",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T12:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496027-2",
+    "company_id": "318093496027",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T22:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496027-3",
+    "company_id": "318093496027",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-18T18:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496027-4",
+    "company_id": "318093496027",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-20T04:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496027-5",
+    "company_id": "318093496027",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-18T07:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496027-6",
+    "company_id": "318093496027",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496028-1",
+    "company_id": "318093496028",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T14:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496028-2",
+    "company_id": "318093496028",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-09T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496028-3",
+    "company_id": "318093496028",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-01T17:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496028-4",
+    "company_id": "318093496028",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-30T01:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496028-5",
+    "company_id": "318093496028",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T22:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496029-1",
+    "company_id": "318093496029",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-06T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496029-2",
+    "company_id": "318093496029",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-20T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-1",
+    "company_id": "318093496030",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T13:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-2",
+    "company_id": "318093496030",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-28T22:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496030-3",
+    "company_id": "318093496030",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-24T21:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496030-4",
+    "company_id": "318093496030",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T21:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-5",
+    "company_id": "318093496030",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T14:00:00+00:00",
+    "escalated": true,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-6",
+    "company_id": "318093496030",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-24T15:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-7",
+    "company_id": "318093496030",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-05T04:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496030-8",
+    "company_id": "318093496030",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-10T21:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496030-9",
+    "company_id": "318093496030",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-02T05:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496031-1",
+    "company_id": "318093496031",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-29T12:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496031-2",
+    "company_id": "318093496031",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-29T23:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496032-1",
+    "company_id": "318093496032",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-11T05:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496032-2",
+    "company_id": "318093496032",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-24T05:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496032-3",
+    "company_id": "318093496032",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T14:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496032-4",
+    "company_id": "318093496032",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T07:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496032-5",
+    "company_id": "318093496032",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T15:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496032-6",
+    "company_id": "318093496032",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-03T22:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496033-1",
+    "company_id": "318093496033",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-09T08:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496033-2",
+    "company_id": "318093496033",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-22T17:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496034-1",
+    "company_id": "318093496034",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T12:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496034-2",
+    "company_id": "318093496034",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T13:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496034-3",
+    "company_id": "318093496034",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T03:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496035-1",
+    "company_id": "318093496035",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-11T03:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496035-2",
+    "company_id": "318093496035",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-01T20:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496035-3",
+    "company_id": "318093496035",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-07T18:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496036-1",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-28T17:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496036-2",
+    "company_id": "318093496036",
+    "severity": "Critical",
+    "status": "Open",
+    "created_at": "2026-03-18T10:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496036-3",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T01:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496036-4",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-07T08:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496036-5",
+    "company_id": "318093496036",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T23:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-6",
+    "company_id": "318093496036",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-30T14:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-7",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-08T20:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-8",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-06T23:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-9",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T09:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-10",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-04T12:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496036-11",
+    "company_id": "318093496036",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-04T13:00:00+00:00",
+    "escalated": true,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496036-12",
+    "company_id": "318093496036",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T08:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496037-1",
+    "company_id": "318093496037",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-24T22:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496037-2",
+    "company_id": "318093496037",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-07T08:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496037-3",
+    "company_id": "318093496037",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T22:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "The customer cannot get the advanced workflow automation to run reliably."
+  },
+  {
+    "ticket_id": "TKT-318093496037-4",
+    "company_id": "318093496037",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-08T08:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496038-1",
+    "company_id": "318093496038",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-19T12:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496038-2",
+    "company_id": "318093496038",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-22T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496038-3",
+    "company_id": "318093496038",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-17T23:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496038-4",
+    "company_id": "318093496038",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-12T22:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496038-5",
+    "company_id": "318093496038",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-04T10:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496039-1",
+    "company_id": "318093496039",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-10T19:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318093496039-2",
+    "company_id": "318093496039",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-15T03:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318093496039-3",
+    "company_id": "318093496039",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T22:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318093496039-4",
+    "company_id": "318093496039",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-13T01:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "Implementation stalled because the admin team did not complete the required setup steps."
+  },
+  {
+    "ticket_id": "TKT-318093496040-1",
+    "company_id": "318093496040",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-30T00:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496040-2",
+    "company_id": "318093496040",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-27T07:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496040-3",
+    "company_id": "318093496040",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-25T08:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496040-4",
+    "company_id": "318093496040",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-22T02:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496041-1",
+    "company_id": "318093496041",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-07T09:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496041-2",
+    "company_id": "318093496041",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-08T05:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496042-1",
+    "company_id": "318093496042",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-21T10:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496042-2",
+    "company_id": "318093496042",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-11T13:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496043-1",
+    "company_id": "318093496043",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-04T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496043-2",
+    "company_id": "318093496043",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-10T19:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496043-3",
+    "company_id": "318093496043",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-19T22:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496043-4",
+    "company_id": "318093496043",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T03:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "Stakeholders cannot reconcile dashboard totals and report filters."
+  },
+  {
+    "ticket_id": "TKT-318093496044-1",
+    "company_id": "318093496044",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-12T18:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496044-2",
+    "company_id": "318093496044",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-09T14:00:00+00:00",
+    "escalated": false,
+    "category": "Workflow",
+    "summary": "Power users are stuck on multi-step workflow configuration and conditional logic."
+  },
+  {
+    "ticket_id": "TKT-318093496045-1",
+    "company_id": "318093496045",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T06:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496046-1",
+    "company_id": "318093496046",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-12T22:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496046-2",
+    "company_id": "318093496046",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-18T04:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496046-3",
+    "company_id": "318093496046",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-13T21:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496046-4",
+    "company_id": "318093496046",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-10T08:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496046-5",
+    "company_id": "318093496046",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T14:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496046-6",
+    "company_id": "318093496046",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-02T16:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496047-1",
+    "company_id": "318093496047",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-26T15:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496047-2",
+    "company_id": "318093496047",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-20T03:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496047-3",
+    "company_id": "318093496047",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-14T21:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496047-4",
+    "company_id": "318093496047",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-01T00:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Customer disputed invoice alignment with the active contract."
+  },
+  {
+    "ticket_id": "TKT-318093496048-1",
+    "company_id": "318093496048",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-19T16:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "Weekly active usage dropped after the pilot and has not expanded beyond the core team."
+  },
+  {
+    "ticket_id": "TKT-318093496048-2",
+    "company_id": "318093496048",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-04-04T00:00:00+00:00",
+    "escalated": false,
+    "category": "Adoption",
+    "summary": "The broader user group is not adopting the product after onboarding."
+  },
+  {
+    "ticket_id": "TKT-318093496049-1",
+    "company_id": "318093496049",
+    "severity": "High",
+    "status": "Open",
+    "created_at": "2026-03-17T17:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496049-2",
+    "company_id": "318093496049",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-03-28T08:00:00+00:00",
+    "escalated": false,
+    "category": "Billing",
+    "summary": "Finance contact flagged an unexpected renewal amount after seat changes."
+  },
+  {
+    "ticket_id": "TKT-318093496050-1",
+    "company_id": "318093496050",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-03-14T22:00:00+00:00",
+    "escalated": false,
+    "category": "Reporting",
+    "summary": "The team is confused by reporting attribution and filter behavior."
+  },
+  {
+    "ticket_id": "TKT-318093496051-1",
+    "company_id": "318093496051",
+    "severity": "Medium",
+    "status": "Open",
+    "created_at": "2026-04-06T20:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  },
+  {
+    "ticket_id": "TKT-318093496051-2",
+    "company_id": "318093496051",
+    "severity": "Low",
+    "status": "Open",
+    "created_at": "2026-03-10T12:00:00+00:00",
+    "escalated": false,
+    "category": "Onboarding",
+    "summary": "The rollout is partially configured and blocked on customer-side ownership."
+  }
+]

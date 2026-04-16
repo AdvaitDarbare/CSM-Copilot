@@ -1,0 +1,8 @@
+fastapi>=0.115,<1
+uvicorn>=0.34,<1
+pydantic>=2.9,<3
+python-dotenv>=1.0,<2
+google-generativeai>=0.8,<1
+faker>=37,<38
+pytest>=8.3,<9
+deepeval>=2.9,<3
