@@ -688,9 +688,20 @@ def classify_workflow(message: str, account_name: str | None = None) -> str:
     lower = message.lower()
     if any(signal in lower for signal in ["similar", "pattern", "isolated", "other accounts", "compare", "cluster"]):
         return "similar"
-    if any(signal in lower for signal in ["call", "brief", "prep", "what should i know", "tell me about", "status of", "update on"]) or (
-        account_name and account_name.lower() in lower
-    ):
+    if any(signal in lower for signal in [
+        "call",
+        "brief",
+        "prep",
+        "what should i know",
+        "tell me about",
+        "status of",
+        "update on",
+        "what should i do",
+        "what do i do",
+        "next step",
+        "next move",
+        "what now",
+    ]) or (account_name and account_name.lower() in lower):
         return "brief"
     return "morning"
 

@@ -12,6 +12,7 @@ import {
   LoaderCircleIcon,
   RadarIcon,
   RefreshCcwIcon,
+  SearchIcon,
   SparklesIcon,
   UsersRoundIcon,
   WorkflowIcon,
@@ -21,6 +22,7 @@ import {
   type ReactNode,
   startTransition,
   useCallback,
+  useDeferredValue,
   useEffect,
   useMemo,
   useRef,
@@ -117,6 +119,11 @@ type AgentResponse = {
   similar_accounts?: SimilarAccountCard[] | null;
 };
 
+type ChatErrorResponse = {
+  error?: string;
+  suggested_accounts?: PrioritizedAccount[];
+};
+
 // ─────────────────────────────────────────────────────────────────────────
 
 type ChatEntry = {
@@ -124,6 +131,7 @@ type ChatEntry = {
   role: "user" | "assistant";
   content: string;
   provenance?: string[] | null;
+  suggestedAccounts?: PrioritizedAccount[] | null;
   // Generative UI payloads (only on assistant messages)
   triageAccounts?: TriageAccountCard[] | null;
   briefSnapshot?: BriefSnapshot | null;
@@ -189,7 +197,11 @@ export function CopilotWorkspace({
   const [artifactProvenance, setArtifactProvenance] = useState<string[]>(
     defaultArtifactProvenance
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchStatus, setSearchStatus] = useState<"idle" | "loading">("idle");
+  const [searchResults, setSearchResults] = useState<PrioritizedAccount[]>([]);
   const timeoutIdsRef = useRef<number[]>([]);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   const featuredAccount = accountData.context;
   const portfolio = workspaceData.portfolio;
@@ -206,6 +218,44 @@ export function CopilotWorkspace({
   }, []);
 
   useEffect(() => clearRunTimers, [clearRunTimers]);
+
+  useEffect(() => {
+    const query = deferredSearchQuery.trim();
+    if (query.length < 2) {
+      setSearchResults([]);
+      setSearchStatus("idle");
+      return;
+    }
+
+    const controller = new AbortController();
+    setSearchStatus("loading");
+
+    void fetch(`/api/workspace/search?q=${encodeURIComponent(query)}&limit=6`, {
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Search failed");
+        }
+
+        const payload = (await response.json()) as {
+          results?: PrioritizedAccount[];
+        };
+        setSearchResults(payload.results ?? []);
+        setSearchStatus("idle");
+      })
+      .catch(() => {
+        if (controller.signal.aborted) {
+          return;
+        }
+
+        setSearchResults([]);
+        setSearchStatus("idle");
+      });
+
+    return () => controller.abort();
+  }, [deferredSearchQuery]);
 
   const loadAccount = useCallback(
     async (accountId: string, workflowId?: WorkflowId) => {
@@ -289,6 +339,19 @@ export function CopilotWorkspace({
     }
   }, [accountData.accountId, accountData.source]);
 
+  const openAccountBrief = useCallback(
+    async (accountId: string) => {
+      setSearchQuery("");
+      setSearchResults([]);
+      setActiveWorkflow("brief");
+      setArtifactTitle("Pre-Call Brief");
+      setArtifactProvenance(workflowDefaultProvenance("brief"));
+      setHasArtifact(true);
+      await loadAccount(accountId, "brief");
+    },
+    [loadAccount]
+  );
+
   const runWorkflow = useCallback(
     async ({
       workflowId,
@@ -364,6 +427,10 @@ export function CopilotWorkspace({
     async (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || status !== "ready") return;
+      const previousWorkflow = activeWorkflow;
+      const previousArtifactTitle = artifactTitle;
+      const previousArtifactProvenance = artifactProvenance;
+      const previousHasArtifact = hasArtifact;
 
       // Add user message immediately
       const userMsgId = `user-${Date.now()}`;
@@ -377,9 +444,7 @@ export function CopilotWorkspace({
       // Determine which workflow to show in the step tracker
       const localWorkflowId = inferWorkflowFromPrompt(trimmed, featuredAccount.crm.name);
       const localAccountId =
-        localWorkflowId === "morning"
-          ? resolveAccountFromPrompt(trimmed, portfolio.prioritized, accountData)
-          : undefined;
+        resolveAccountFromPrompt(trimmed, portfolio.prioritized, accountData) ?? undefined;
       const flow = flows[localWorkflowId];
 
       // Start step animation
@@ -412,8 +477,41 @@ export function CopilotWorkspace({
         });
 
         if (!res.ok) {
-          const errorText = await res.text();
-          throw new Error(errorText || `Request failed: ${res.status}`);
+          let errorPayload: ChatErrorResponse = {};
+
+          try {
+            errorPayload = (await res.json()) as ChatErrorResponse;
+          } catch {
+            errorPayload = {
+              error: `Request failed: ${res.status}`,
+            };
+          }
+
+          const fallbackError =
+            localWorkflowId === "brief" || localWorkflowId === "similar"
+              ? "I couldn't confidently resolve the account for that request. Mention the account name, choose one of the suggested accounts, or use account search."
+              : `Request failed: ${res.status}`;
+          const errorMessage = errorPayload.error?.trim() || fallbackError;
+
+          if (localWorkflowId === "brief" || localWorkflowId === "similar") {
+            setActiveWorkflow(previousWorkflow);
+            setArtifactTitle(previousArtifactTitle);
+            setArtifactProvenance(previousArtifactProvenance);
+            setHasArtifact(previousHasArtifact);
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: `assistant-${Date.now()}`,
+                role: "assistant",
+                content: errorMessage,
+                suggestedAccounts: errorPayload.suggested_accounts ?? null,
+              },
+            ]);
+            setRunState(null);
+            return;
+          }
+
+          throw new Error(errorMessage);
         }
 
         const agentResp: AgentResponse = await res.json();
@@ -447,6 +545,7 @@ export function CopilotWorkspace({
             role: "assistant",
             content: agentResp.reply,
             provenance: agentResp.provenance,
+            suggestedAccounts: null,
             triageAccounts: agentResp.triage_accounts,
             briefSnapshot: agentResp.brief_snapshot,
             similarAccounts: agentResp.similar_accounts,
@@ -457,8 +556,17 @@ export function CopilotWorkspace({
           error instanceof Error && error.message
             ? error.message.replace(/^"|"$/g, "")
             : null;
-        setHasArtifact(true);
-        setArtifactProvenance(workflowDefaultProvenance(localWorkflowId));
+
+        if (localWorkflowId === "brief" || localWorkflowId === "similar") {
+          setActiveWorkflow(previousWorkflow);
+          setArtifactTitle(previousArtifactTitle);
+          setArtifactProvenance(previousArtifactProvenance);
+          setHasArtifact(previousHasArtifact);
+        } else {
+          setHasArtifact(true);
+          setArtifactProvenance(workflowDefaultProvenance(localWorkflowId));
+        }
+
         setMessages((prev) => [
           ...prev,
           {
@@ -468,7 +576,11 @@ export function CopilotWorkspace({
               localWorkflowId === "brief" || localWorkflowId === "similar"
                 ? message || "I couldn't confidently resolve the account for that request. Mention the account name or open it from the portfolio list and try again."
                 : buildWorkflowAnswer(localWorkflowId, trimmed, workspaceData, accountData),
-            provenance: workflowDefaultProvenance(localWorkflowId),
+            provenance:
+              localWorkflowId === "brief" || localWorkflowId === "similar"
+                ? null
+                : workflowDefaultProvenance(localWorkflowId),
+            suggestedAccounts: null,
           },
         ]);
         setRunState(null);
@@ -477,7 +589,20 @@ export function CopilotWorkspace({
         setStatus("ready");
       }
     },
-    [accountData, clearRunTimers, featuredAccount.crm.name, flows, loadAccount, portfolio.prioritized, status, workspaceData]
+    [
+      accountData,
+      activeWorkflow,
+      artifactProvenance,
+      artifactTitle,
+      clearRunTimers,
+      featuredAccount.crm.name,
+      flows,
+      hasArtifact,
+      loadAccount,
+      portfolio.prioritized,
+      status,
+      workspaceData,
+    ]
   );
 
   const starterPrompts = useMemo(
@@ -537,6 +662,8 @@ export function CopilotWorkspace({
               setRunState(null);
               setStatus("ready");
               setInputValue("");
+              setSearchQuery("");
+              setSearchResults([]);
               setHasArtifact(false);
               setArtifactTitle("Portfolio Artifact");
               setArtifactProvenance(defaultArtifactProvenance);
@@ -633,8 +760,15 @@ export function CopilotWorkspace({
       {/* ── Chat area ─────────────────────────────────────── */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Chat header — fixed, compact */}
-        <header className="flex shrink-0 items-center gap-3 border-b border-black/6 bg-white/80 px-4 py-2.5 backdrop-blur-xl">
-          <div className="flex items-center gap-2 shrink-0">
+        <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-black/6 bg-white/80 px-4 py-2.5 backdrop-blur-xl">
+          <div
+            className="flex items-center gap-2 shrink-0"
+            title={
+              workspaceData.source === "live"
+                ? "Connected to FastAPI backend with live account intelligence."
+                : "Backend unreachable — showing seeded fallback so the UI stays usable. Start uvicorn and refresh."
+            }
+          >
             <span
               className={cn(
                 "size-2 rounded-full",
@@ -646,7 +780,63 @@ export function CopilotWorkspace({
             </span>
           </div>
 
-          <div className="h-4 w-px bg-black/8" />
+          <div className="text-[12px] text-slate-400">
+            Updated {formatDateTime(workspaceData.generatedAt)}
+          </div>
+
+          <div className="relative min-w-[15rem] max-w-[19rem] flex-1 sm:flex-none">
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-slate-400" />
+            <input
+              className="h-8 w-full rounded-full border border-black/8 bg-white pl-9 pr-3 text-[12.5px] text-slate-700 outline-none transition focus:border-slate-300 focus:ring-2 focus:ring-slate-200"
+              onChange={(event) => setSearchQuery(event.currentTarget.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && searchResults[0]) {
+                  event.preventDefault();
+                  void openAccountBrief(searchResults[0].id);
+                }
+              }}
+              placeholder="Search accounts"
+              value={searchQuery}
+            />
+            {searchQuery.trim().length >= 2 && (
+              <div className="absolute top-[calc(100%+0.45rem)] left-0 z-20 w-full overflow-hidden rounded-2xl border border-black/8 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.12)]">
+                {searchStatus === "loading" ? (
+                  <div className="flex items-center gap-2 px-3 py-3 text-[12.5px] text-slate-500">
+                    <LoaderCircleIcon className="size-3.5 animate-spin" />
+                    Searching accounts
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="max-h-72 overflow-y-auto p-1.5">
+                    {searchResults.map((account) => (
+                      <button
+                        className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left transition hover:bg-slate-50"
+                        key={account.id}
+                        onClick={() => void openAccountBrief(account.id)}
+                        type="button"
+                      >
+                        <div className="min-w-0">
+                          <div className="truncate text-[12.5px] font-medium text-slate-900">
+                            {account.name}
+                          </div>
+                          <div className="truncate text-[11px] text-slate-500">
+                            {account.segment ?? "Account"} · Score {account.priority_score} · Renews{" "}
+                            {formatDateShort(account.renewal_date)}
+                          </div>
+                        </div>
+                        <RiskBadge value={account.risk_level} />
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-3 py-3 text-[12.5px] text-slate-500">
+                    No matching accounts found.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden h-4 w-px bg-black/8 lg:block" />
 
           {/* Account switcher — scrollable row, truncates gracefully */}
           <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto pb-0.5">
@@ -664,7 +854,7 @@ export function CopilotWorkspace({
                       : "border-black/8 bg-white/80 text-slate-500 hover:border-slate-300 hover:text-slate-800"
                   )}
                   key={account.id}
-                  onClick={() => void loadAccount(account.id, "brief")}
+                  onClick={() => void openAccountBrief(account.id)}
                   title={`${account.name} — Score ${account.priority_score}`}
                   type="button"
                 >
@@ -678,6 +868,12 @@ export function CopilotWorkspace({
         {/* Conversation */}
         <Conversation className="flex-1 bg-[#faf9f7]">
           <ConversationContent className="gap-5 px-5 py-6 max-w-[780px] mx-auto w-full">
+            {workspaceData.source === "fallback" && (
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-[13px] leading-6 text-amber-900">
+                Showing seeded demo data because the live backend could not be reached. Start the FastAPI server and refresh to return to live account intelligence.
+              </div>
+            )}
+
             {/* Empty state — shown only before any user message */}
             {!hasConversation && (
               <div className="animate-in fade-in slide-in-from-bottom-2 flex flex-col items-center gap-6 pt-4 duration-500">
@@ -735,7 +931,7 @@ export function CopilotWorkspace({
                     {message.role === "assistant" ? (
                       <AssistantPayload
                         message={message}
-                        onSelectAccount={(id) => void loadAccount(id, "brief")}
+                        onSelectAccount={(id) => void openAccountBrief(id)}
                       />
                     ) : (
                       <p className="whitespace-pre-wrap text-[13.5px] leading-6">
@@ -856,7 +1052,7 @@ export function CopilotWorkspace({
         artifactTitle={artifactTitle}
         hasArtifact={hasArtifact}
         onClose={() => setHasArtifact(false)}
-        onSelectAccount={(id) => void loadAccount(id, "brief")}
+        onSelectAccount={(id) => void openAccountBrief(id)}
         portfolio={workspaceData.portfolio}
       />
 
@@ -946,6 +1142,14 @@ function inferWorkflowFromPrompt(
     lower.includes("brief") ||
     lower.includes("prep") ||
     lower.includes("customer") ||
+    lower.includes("tell me about") ||
+    lower.includes("status of") ||
+    lower.includes("update on") ||
+    lower.includes("what should i do") ||
+    lower.includes("what do i do") ||
+    lower.includes("next step") ||
+    lower.includes("next move") ||
+    lower.includes("what now") ||
     lower.includes(currentAccountName.toLowerCase())
   ) {
     return "brief";
@@ -960,11 +1164,18 @@ function resolveAccountFromPrompt(
   currentAccountData: WorkspaceAccountData
 ) {
   const lower = prompt.toLowerCase();
+  const currentAccountName = currentAccountData.context.crm.name.toLowerCase();
+
+  if (
+    lower.includes(currentAccountName) ||
+    lower.includes("this account") ||
+    lower.includes("this customer") ||
+    lower.includes("current account")
+  ) {
+    return currentAccountData.accountId;
+  }
+
   const candidates = [
-    {
-      id: currentAccountData.accountId,
-      name: currentAccountData.context.crm.name,
-    },
     ...prioritized.map((account) => ({
       id: account.id,
       name: account.name,
@@ -993,7 +1204,7 @@ function resolveAccountFromPrompt(
     return tokenMatches[0].id;
   }
 
-  return currentAccountData.accountId;
+  return null;
 }
 
 function buildWorkflowAnswer(
@@ -1428,9 +1639,56 @@ function AssistantPayload({
         <InlineSimilarCard accounts={message.similarAccounts} />
       )}
 
+      {message.suggestedAccounts && message.suggestedAccounts.length > 0 && (
+        <InlineSuggestedAccounts
+          accounts={message.suggestedAccounts}
+          onSelect={onSelectAccount}
+        />
+      )}
+
       {message.provenance && message.provenance.length > 0 && (
         <InlineEvidenceSources labels={message.provenance} />
       )}
+    </div>
+  );
+}
+
+function InlineSuggestedAccounts({
+  accounts,
+  onSelect,
+}: {
+  accounts: PrioritizedAccount[];
+  onSelect: (accountId: string) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3.5 shadow-[0_4px_16px_rgba(15,23,42,0.05)]">
+      <div className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.16em] text-amber-900/80">
+        <CircleDashedIcon className="size-3.5" />
+        Closest matches
+      </div>
+      <p className="mt-2 text-[13px] leading-6 text-amber-950">
+        I found likely accounts. Choose one to open the brief without rewriting the prompt.
+      </p>
+      <div className="mt-3 grid gap-2">
+        {accounts.map((account) => (
+          <button
+            className="flex items-center justify-between gap-3 rounded-xl border border-amber-200/80 bg-white/80 px-3 py-2.5 text-left transition hover:border-amber-300 hover:bg-white"
+            key={account.id}
+            onClick={() => onSelect(account.id)}
+            type="button"
+          >
+            <div className="min-w-0">
+              <div className="truncate text-[13px] font-medium text-slate-900">
+                {account.name}
+              </div>
+              <div className="truncate text-[11.5px] text-slate-500">
+                Score {account.priority_score} · Renews {formatDateShort(account.renewal_date)}
+              </div>
+            </div>
+            <ArrowRightIcon className="size-3.5 shrink-0 text-slate-400" />
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

@@ -109,6 +109,11 @@ export type WorkspaceAccountData = {
   similar: SimilarAccount[];
 };
 
+export type AccountSearchResponse = {
+  query: string;
+  results: PrioritizedAccount[];
+};
+
 type PrioritizedResponse = {
   results: PrioritizedAccount[];
 };
@@ -315,7 +320,7 @@ const FALLBACK_DATA: WorkspaceBootstrap = {
         active_users: 200,
         licensed_seats: 274,
         usage_change_30d: -9,
-        top_issue_theme: "integration_failure",
+        top_issue_theme: "integration",
         issue_severity: "Critical",
         open_escalation: true,
         onboarding_status: "Partial",
@@ -490,6 +495,54 @@ function classifyThemes(accounts: PrioritizedAccount[]): RiskTheme[] {
     .sort((a, b) => b.count - a.count);
 }
 
+function searchLocalAccounts(
+  query: string,
+  accounts: PrioritizedAccount[],
+  limit = 5
+): PrioritizedAccount[] {
+  const lower = query.trim().toLowerCase();
+  if (!lower) {
+    return [];
+  }
+
+  const matches: Array<{ score: number; account: PrioritizedAccount }> = [];
+  for (const account of accounts) {
+    const nameLower = account.name.toLowerCase();
+    let score = 0;
+
+    if (lower === nameLower) {
+      score = 1_000;
+    } else if (nameLower.startsWith(lower)) {
+      score = 500 + lower.length;
+    } else if (nameLower.includes(lower)) {
+      score = 100 + lower.length;
+    } else {
+      const tokenHits = nameLower
+        .replaceAll("-", " ")
+        .split(/\s+/)
+        .filter((token) => token.length >= 3)
+        .filter((token) => token.includes(lower) || lower.includes(token)).length;
+
+      if (!tokenHits) {
+        continue;
+      }
+
+      score = tokenHits * 10;
+    }
+
+    matches.push({ score, account });
+  }
+
+  return matches
+    .sort(
+      (left, right) =>
+        right.score - left.score ||
+        right.account.priority_score - left.account.priority_score
+    )
+    .slice(0, limit)
+    .map((match) => match.account);
+}
+
 function normalizeAccounts(accounts: PrioritizedAccount[]): PrioritizedAccount[] {
   return accounts.map((account) => ({
     ...account,
@@ -569,17 +622,28 @@ function buildFallbackBootstrap(): WorkspaceBootstrap {
 
 function buildFallbackAccountData(accountId?: string): WorkspaceAccountData {
   const fallbackId = accountId || FALLBACK_DATA.featuredAccount.id;
-  const fallbackAccount =
-    fallbackId === FALLBACK_DATA.featuredAccount.id
-      ? FALLBACK_DATA.featuredAccount
-      : FALLBACK_DATA.featuredAccount;
+  if (fallbackId === FALLBACK_DATA.featuredAccount.id) {
+    return {
+      source: "fallback",
+      accountId: FALLBACK_DATA.featuredAccount.id,
+      context: FALLBACK_DATA.featuredAccount.context,
+      brief: FALLBACK_DATA.featuredAccount.brief,
+      similar: FALLBACK_DATA.featuredAccount.similar,
+    };
+  }
+
+  const fallbackAccount = FALLBACK_DATA.portfolio.prioritized.find(
+    (account) => account.id === fallbackId
+  );
 
   return {
     source: "fallback",
-    accountId: fallbackAccount.id,
-    context: fallbackAccount.context,
-    brief: fallbackAccount.brief,
-    similar: fallbackAccount.similar,
+    accountId: fallbackAccount?.id ?? FALLBACK_DATA.featuredAccount.id,
+    context: fallbackAccount
+      ? accountContextFromPrioritized(fallbackAccount)
+      : FALLBACK_DATA.featuredAccount.context,
+    brief: fallbackAccount ? null : FALLBACK_DATA.featuredAccount.brief,
+    similar: fallbackAccount ? [] : FALLBACK_DATA.featuredAccount.similar,
   };
 }
 
@@ -591,14 +655,25 @@ export async function getWorkspaceBootstrapData(): Promise<WorkspaceBootstrap> {
     const prioritized = normalizeAccounts(prioritizedResponse.results ?? []);
 
     if (!prioritized.length) {
-      return FALLBACK_DATA;
+      return buildFallbackBootstrap();
     }
 
-    // Build featured account context from the top prioritized account — no extra
-    // API calls needed. Brief and similar load on demand when the user asks.
-    const context = accountContextFromPrioritized(prioritized[0]);
+    const featuredId = prioritized[0].id;
+    const [contextResult, briefResult, similarResult] = await Promise.allSettled([
+      fetchJson<AccountContextResponse>(`/accounts/${featuredId}/context`),
+      fetchJson<AccountBriefResponse>(`/accounts/${featuredId}/brief`),
+      fetchJson<SimilarResponse>(`/accounts/similar/${featuredId}?limit=5`),
+    ]);
 
-    return withComputedPortfolio(prioritized, context, null, [], "live");
+    const context =
+      contextResult.status === "fulfilled"
+        ? contextResult.value
+        : accountContextFromPrioritized(prioritized[0]);
+    const brief = briefResult.status === "fulfilled" ? briefResult.value : null;
+    const similar =
+      similarResult.status === "fulfilled" ? similarResult.value.results ?? [] : [];
+
+    return withComputedPortfolio(prioritized, context, brief, similar, "live");
   } catch {
     return buildFallbackBootstrap();
   }
@@ -623,5 +698,21 @@ export async function getAccountWorkspaceData(
     };
   } catch {
     return buildFallbackAccountData(accountId);
+  }
+}
+
+export async function searchWorkspaceAccounts(
+  query: string,
+  limit = 6
+): Promise<AccountSearchResponse> {
+  try {
+    return await fetchJson<AccountSearchResponse>(
+      `/accounts/search?q=${encodeURIComponent(query)}&limit=${limit}`
+    );
+  } catch {
+    return {
+      query,
+      results: searchLocalAccounts(query, FALLBACK_DATA.portfolio.prioritized, limit),
+    };
   }
 }

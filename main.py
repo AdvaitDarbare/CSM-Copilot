@@ -200,13 +200,20 @@ def chat_with_agent(body: ChatMessage) -> ChatResponse:
     workflow = classify_workflow(body.message, account_name)
     if workflow in {"brief", "similar"} and not resolved_account_id:
         candidates = search_accounts(body.message, limit=3)
-        if candidates:
-            names = ", ".join(account.name for account in candidates)
-            raise HTTPException(
-                status_code=404,
-                detail=f"Could not resolve an account from the request. Closest matches: {names}",
-            )
-        raise HTTPException(status_code=404, detail="Could not resolve an account from the request")
+        detail: dict[str, Any] = {
+            "message": "Could not resolve an account from the request.",
+            "suggested_accounts": [
+                {
+                    "id": account.id,
+                    "name": account.name,
+                    "risk_level": account.risk_level,
+                    "priority_score": account.priority_score,
+                    "renewal_date": account.renewal_date,
+                }
+                for account in candidates
+            ],
+        }
+        raise HTTPException(status_code=404, detail=detail)
 
     artifact = build_workflow_artifact(workflow, resolved_account_id)
     if not artifact:

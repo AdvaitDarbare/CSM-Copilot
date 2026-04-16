@@ -20,7 +20,27 @@ def test_chat_rejects_unresolved_account_specific_request():
         chat_with_agent(ChatMessage(message="Tell me about a made up account named Foo Bar Baz"))
 
     assert exc.value.status_code == 404
-    assert "Could not resolve an account" in exc.value.detail
+    assert exc.value.detail["message"] == "Could not resolve an account from the request."
+    assert exc.value.detail["suggested_accounts"] == []
+
+
+def test_chat_returns_suggested_accounts_for_close_match_request():
+    with pytest.raises(HTTPException) as exc:
+        chat_with_agent(ChatMessage(message="Tell me about Hurst Freemn"))
+
+    assert exc.value.status_code == 404
+    assert exc.value.detail["message"] == "Could not resolve an account from the request."
+    assert exc.value.detail["suggested_accounts"]
+    assert exc.value.detail["suggested_accounts"][0]["name"] == "Hurst Freeman and Nelson"
+
+
+def test_chat_treats_next_step_prompt_as_account_brief_request():
+    with pytest.raises(HTTPException) as exc:
+        chat_with_agent(ChatMessage(message="What should I do next for Spenser-Garcia?"))
+
+    assert exc.value.status_code == 404
+    assert exc.value.detail["suggested_accounts"]
+    assert exc.value.detail["suggested_accounts"][0]["name"] == "Spencer-Garcia"
 
 
 def test_search_endpoint_returns_matches_for_known_fragment():

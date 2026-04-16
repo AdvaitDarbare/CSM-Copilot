@@ -17,9 +17,40 @@ export async function POST(request: Request) {
     });
 
     if (!response.ok) {
-      const error = await response.text();
+      let errorMessage = `Agent API error: ${response.status}`;
+      let suggestedAccounts: unknown[] = [];
+
+      try {
+        const payload = await response.json();
+        const detail =
+          payload && typeof payload === "object" && "detail" in payload
+            ? payload.detail
+            : payload;
+
+        if (typeof detail === "string") {
+          errorMessage = detail;
+        } else if (detail && typeof detail === "object") {
+          const message =
+            "message" in detail && typeof detail.message === "string"
+              ? detail.message
+              : null;
+          const suggestions =
+            "suggested_accounts" in detail && Array.isArray(detail.suggested_accounts)
+              ? detail.suggested_accounts
+              : [];
+
+          errorMessage = message ?? errorMessage;
+          suggestedAccounts = suggestions;
+        }
+      } catch {
+        const errorText = await response.text();
+        if (errorText) {
+          errorMessage = errorText;
+        }
+      }
+
       return NextResponse.json(
-        { error: `Agent API error: ${error}` },
+        { error: errorMessage, suggested_accounts: suggestedAccounts },
         { status: response.status }
       );
     }
