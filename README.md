@@ -485,7 +485,7 @@ These datasets are combined deterministically into one derived account-intellige
 | `GET /accounts/similar/{id}` | Similar accounts by structured risk-shape comparison |
 | `GET /accounts/{id}/context` | Merged CRM + derived account context |
 | `GET /accounts/{id}/brief` | Structured brief grounded in derived evidence |
-| `GET /hubspot/raw` | Raw HubSpot response (debug) |
+| `GET /hubspot/raw` | Local CRM anchor export used by the workflow engine |
 
 ---
 
@@ -547,7 +547,7 @@ Frontend: `http://localhost:3000`
 ├── generate_account_context.py  # Structured source dataset generator
 ├── sync_context_engine.py       # Local snapshot writer for inspection
 ├── blocks-main/                 # Next.js frontend workspace prototype
-├── hubspot_companies.json       # HubSpot raw export
+├── hubspot_companies.json       # HubSpot-shaped CRM anchor export
 ├── synthetic_sources/           # Generated structured source datasets
 └── .env                         # API keys (not committed)
 ```
