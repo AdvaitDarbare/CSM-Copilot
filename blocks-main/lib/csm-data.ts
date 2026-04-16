@@ -435,7 +435,7 @@ async function fetchJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-function daysUntil(renewalDate?: string | null): number | null {
+export function daysUntil(renewalDate?: string | null): number | null {
   if (!renewalDate) {
     return null;
   }
@@ -445,6 +445,18 @@ function daysUntil(renewalDate?: string | null): number | null {
   } catch {
     return null;
   }
+}
+
+export function isRenewingSoonAccount(
+  account: Pick<PrioritizedAccount, "renewal_date">,
+  maxDays = 30
+): boolean {
+  const remainingDays = daysUntil(account.renewal_date);
+  return remainingDays !== null && remainingDays <= maxDays;
+}
+
+export function isActiveSavePlan(account: PrioritizedAccount): boolean {
+  return account.priority_score >= 90;
 }
 
 function classifyThemes(accounts: PrioritizedAccount[]): RiskTheme[] {
@@ -587,17 +599,16 @@ function withComputedPortfolio(
     source,
     generatedAt: formatISO(new Date()),
     portfolio: {
-      prioritized: normalized.slice(0, 8),
+      prioritized: normalized,
       totalAccounts: normalized.length,
       highRiskCount: normalized.filter(
         (account) => account.risk_level === "High"
       ).length,
-      renewingSoonCount: normalized.filter((account) => {
-        const days = daysUntil(account.renewal_date);
-        return days !== null && days <= 30;
-      }).length,
-      topSavePlanCount: normalized.filter(
-        (account) => account.priority_score >= 90
+      renewingSoonCount: normalized.filter((account) =>
+        isRenewingSoonAccount(account)
+      ).length,
+      topSavePlanCount: normalized.filter((account) =>
+        isActiveSavePlan(account)
       ).length,
       riskThemes: classifyThemes(normalized),
     },

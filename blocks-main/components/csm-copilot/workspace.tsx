@@ -64,10 +64,13 @@ import {
   type SimilarAccount,
   type WorkspaceAccountData,
   type WorkspaceBootstrap,
+  isActiveSavePlan,
+  isRenewingSoonAccount,
 } from "@/lib/csm-data";
 import { cn } from "@/lib/utils";
 
 type WorkflowId = "morning" | "brief" | "similar";
+type PortfolioViewId = "queue" | "renewing" | "save" | "highRisk" | "all";
 
 // ── Generative UI data types (mirrors Python backend) ─────────────────────
 
@@ -159,6 +162,17 @@ type WorkflowRunConfig = {
   accountId?: string;
   answer?: (data: WorkspaceAccountData) => string;
 };
+
+const PRIORITY_SCORE_FACTORS = [
+  "Health score contributes up to 25 points.",
+  "Renewal timing contributes up to 20 points, with the biggest bump inside 14 days.",
+  "Usage decline contributes up to 15 points.",
+  "Support load and escalations contribute up to 20 points.",
+  "Engagement status contributes up to 10 points.",
+  "Renewal confidence contributes up to 10 points.",
+  "Days since last CSM touch contributes up to 5 points.",
+  "ARR contributes up to 8 points, and the CRM risk flag adds up to 10 points.",
+];
 
 export function CopilotWorkspace({
   initialData,
@@ -729,7 +743,7 @@ export function CopilotWorkspace({
               { label: "Accounts", value: portfolio.totalAccounts },
               { label: "High risk", value: portfolio.highRiskCount },
               { label: "Renewing ≤30d", value: portfolio.renewingSoonCount },
-              { label: "Save plans", value: portfolio.topSavePlanCount },
+              { label: "Save-plan range", value: portfolio.topSavePlanCount },
             ].map((stat) => (
               <div
                 className="rounded-xl border border-black/6 bg-white/80 px-2.5 py-2"
@@ -1050,10 +1064,14 @@ export function CopilotWorkspace({
         activeWorkflow={activeWorkflow}
         artifactProvenance={artifactProvenance}
         artifactTitle={artifactTitle}
+        generatedAt={workspaceData.generatedAt}
         hasArtifact={hasArtifact}
         onClose={() => setHasArtifact(false)}
         onSelectAccount={(id) => void openAccountBrief(id)}
         portfolio={workspaceData.portfolio}
+        processLabel={flows[activeWorkflow].label}
+        processSteps={runState?.steps ?? flows[activeWorkflow].steps}
+        source={workspaceData.source}
       />
 
     </div>
@@ -1082,7 +1100,7 @@ function buildFlows(
       prompt: "What should I focus on this morning?",
       answer: `Your top accounts today are **${topAccounts
         .map((account) => account.name)
-        .join("**, **")}**.\n\nThe strongest cross-account pattern is **${topThemes}**, which is why the priority queue leans toward renewal-critical accounts instead of general monitoring.\n\nI assembled a morning triage artifact with the ranked queue, shared pressure themes, and manager actions on the right.`,
+        .join("**, **")}**.\n\nThe strongest cross-account pattern is **${topThemes}**, which is why the queue leans toward renewal-critical accounts instead of general monitoring.\n\nI assembled a morning triage artifact with the ranked queue, queue definitions, filtered portfolio views, and manager actions on the right.`,
       artifactTitle: "Morning Triage Artifact",
       steps: [
         "Loading ranked portfolio evidence",
@@ -1242,18 +1260,18 @@ function buildPortfolioAnswer(
   if (lower.includes("manager")) {
     return `As of ${formatDateTime(workspaceData.generatedAt)}, there are **${workspaceData.portfolio.renewingSoonCount}** accounts renewing inside 30 days and **${workspaceData.portfolio.highRiskCount}** accounts currently marked high risk.\n\nThe immediate concentration is **${topTheme?.label.toLowerCase() || "renewal pressure"}**, led by **${focusAccounts
       .map((account) => account.name)
-      .join("**, **")}**.\n\nI updated the portfolio artifact with the ranked queue, shared pressure themes, and manager actions.`;
+      .join("**, **")}**.\n\nI updated the portfolio artifact with the ranked queue, metric definitions, filtered views, and manager actions.`;
   }
 
   if (lower.includes("renew")) {
     return `The highest-risk renewals inside the next 30 days are **${focusAccounts
       .map((account) => account.name)
-      .join("**, **")}**.\n\nThere are **${workspaceData.portfolio.renewingSoonCount}** accounts in that window, and the repeated pattern is **${topTheme?.label.toLowerCase() || "renewal urgency"}**.\n\nThe portfolio artifact on the right now highlights the renewal wave and the accounts to treat as active save plans.`;
+      .join("**, **")}**.\n\nThere are **${workspaceData.portfolio.renewingSoonCount}** accounts in that window, and the repeated pattern is **${topTheme?.label.toLowerCase() || "renewal urgency"}**.\n\nThe portfolio artifact on the right now highlights the renewal wave and the accounts already in save-plan range.`;
   }
 
   return `The accounts I would focus on first are **${focusAccounts
     .map((account) => account.name)
-    .join("**, **")}**.\n\nAcross the portfolio, there are **${workspaceData.portfolio.highRiskCount}** high-risk accounts and **${workspaceData.portfolio.topSavePlanCount}** accounts already in top save-plan range. The strongest repeated signal is **${topTheme?.label.toLowerCase() || "renewal pressure"}**.\n\nI updated the portfolio artifact with the queue, shared pressure themes, and recommended manager actions.`;
+    .join("**, **")}**.\n\nAcross the portfolio, there are **${workspaceData.portfolio.highRiskCount}** high-risk accounts and **${workspaceData.portfolio.topSavePlanCount}** accounts already in save-plan range. The strongest repeated signal is **${topTheme?.label.toLowerCase() || "renewal pressure"}**.\n\nI updated the portfolio artifact with the queue, explanations for the metrics, and filtered views for renewals, save-plan range, and all loaded records.`;
 }
 
 function buildBriefAnswer(prompt: string, accountData: WorkspaceAccountData) {
@@ -1456,75 +1474,232 @@ function AccountFocusRail({
 }
 
 function PortfolioArtifact({
+  generatedAt,
   portfolio,
   activeAccountId,
   onSelectAccount,
   provenance,
+  source,
 }: {
+  generatedAt: string;
   portfolio: WorkspaceBootstrap["portfolio"];
   activeAccountId: string;
   onSelectAccount: (accountId: string) => void;
   provenance: string[];
+  source: WorkspaceBootstrap["source"];
 }) {
+  const [activeView, setActiveView] = useState<PortfolioViewId>("queue");
+  const portfolioViews = useMemo(
+    () => [
+      {
+        id: "queue" as const,
+        label: "Priority queue",
+        description:
+          "Ranked by priority score so the top rows are the first accounts a CSM manager should inspect.",
+        accounts: portfolio.prioritized.slice(0, 12),
+      },
+      {
+        id: "renewing" as const,
+        label: "Renewing ≤30d",
+        description:
+          "Accounts with a renewal date in the next 30 days. This is your immediate renewal window.",
+        accounts: portfolio.prioritized.filter((account) =>
+          isRenewingSoonAccount(account)
+        ),
+      },
+      {
+        id: "save" as const,
+        label: "Save-plan range",
+        description:
+          "Accounts scoring 90 or above. This is the explicit threshold where the demo treats the account as needing a save motion.",
+        accounts: portfolio.prioritized.filter((account) =>
+          isActiveSavePlan(account)
+        ),
+      },
+      {
+        id: "highRisk" as const,
+        label: "High risk",
+        description:
+          "Accounts currently marked High in the CRM-derived risk field, regardless of renewal date.",
+        accounts: portfolio.prioritized.filter(
+          (account) => account.risk_level === "High"
+        ),
+      },
+      {
+        id: "all" as const,
+        label: "All loaded records",
+        description:
+          "Every account record loaded into this workspace, so you can inspect the stored fields instead of only the ranked queue.",
+        accounts: portfolio.prioritized,
+      },
+    ],
+    [portfolio.prioritized]
+  );
+  const selectedView =
+    portfolioViews.find((view) => view.id === activeView) ?? portfolioViews[0];
+
   return (
     <div className="space-y-4">
       <section className="grid grid-cols-2 gap-3">
-        <MetricCard icon={RadarIcon} label="Accounts reviewed" value={String(portfolio.totalAccounts)} />
-        <MetricCard icon={BadgeAlertIcon} label="High risk" tone="critical" value={String(portfolio.highRiskCount)} />
-        <MetricCard icon={CalendarClockIcon} label="Renewing ≤30d" tone="warning" value={String(portfolio.renewingSoonCount)} />
-        <MetricCard icon={WorkflowIcon} label="Top save plans" value={String(portfolio.topSavePlanCount)} />
+        <MetricCard
+          icon={RadarIcon}
+          label="Accounts reviewed"
+          value={String(portfolio.totalAccounts)}
+          hint="Loaded account records currently available to rank."
+        />
+        <MetricCard
+          icon={BadgeAlertIcon}
+          label="High risk"
+          tone="critical"
+          value={String(portfolio.highRiskCount)}
+          hint="Count of loaded accounts already marked High in the CRM risk field."
+        />
+        <MetricCard
+          icon={CalendarClockIcon}
+          label="Renewing ≤30d"
+          tone="warning"
+          value={String(portfolio.renewingSoonCount)}
+          hint="Accounts with a renewal date inside the next 30 days."
+        />
+        <MetricCard
+          icon={WorkflowIcon}
+          label="Save-plan range"
+          value={String(portfolio.topSavePlanCount)}
+          hint="Accounts scoring 90 or above, which is the demo threshold for a save motion."
+        />
       </section>
 
-      <SectionCard title="Priority Queue">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Account</TableHead>
-              <TableHead>Risk</TableHead>
-              <TableHead>Score</TableHead>
-              <TableHead>Renewal</TableHead>
-              <TableHead>Top signal</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {portfolio.prioritized.slice(0, 8).map((account) => (
-              <TableRow
-                className={cn("cursor-pointer", account.id === activeAccountId && "bg-slate-50")}
-                key={account.id}
-                onClick={() => onSelectAccount(account.id)}
-              >
-                <TableCell className="py-3">
-                  <div className="font-medium text-slate-900">{account.name}</div>
-                  <div className="text-xs text-slate-500">{account.segment} · {account.plan_tier}</div>
-                </TableCell>
-                <TableCell><RiskBadge value={account.risk_level} /></TableCell>
-                <TableCell className="font-medium text-slate-900">{account.priority_score}</TableCell>
-                <TableCell className="text-slate-600">{formatDateShort(account.renewal_date)}</TableCell>
-                <TableCell className="max-w-[14rem] truncate text-slate-600">{account.priority_reasons[0]}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <SectionCard
+        title="How To Read This Queue"
+        description="These definitions sit next to the ranked data so the portfolio view is explainable during a live demo."
+      >
+        <div className="grid gap-3 md:grid-cols-2">
+          <DefinitionCard
+            label="Priority score"
+            value="0+ risk-weighted score"
+            description={PRIORITY_SCORE_FACTORS.join(" ")}
+          />
+          <DefinitionCard
+            label="High risk"
+            value={`${portfolio.highRiskCount} accounts`}
+            description="This is a count of the currently loaded records where the CRM-derived risk flag is already set to High."
+          />
+          <DefinitionCard
+            label="Renewing ≤30d"
+            value={`${portfolio.renewingSoonCount} accounts`}
+            description="This view isolates accounts with renewal dates in the next 30 days, so a CSM can work the near-term book instead of the full portfolio."
+          />
+          <DefinitionCard
+            label="Save-plan range"
+            value={`${portfolio.topSavePlanCount} accounts`}
+            description="This demo treats any account scoring 90 or above as being in save-plan range. It is a queue threshold, not a claim that a plan doc already exists."
+          />
+          <DefinitionCard
+            label="Health score"
+            value="0-100"
+            description="A lower number means the account is in worse shape. The score is used as one input into the queue, not as the only decision-maker."
+          />
+          <DefinitionCard
+            label="Segment"
+            value="SMB / Mid-market / Enterprise"
+            description="Segment is derived from ARR bands so the app can explain whether the account belongs in a lightweight touch model or a high-value recovery motion."
+          />
+        </div>
       </SectionCard>
 
-      <SectionCard title="Risk Theme Breakdown">
-        <div className="space-y-3">
-          {portfolio.riskThemes.map((theme) => (
-            <ThemeRow
-              count={theme.count}
-              key={theme.label}
-              label={theme.label}
-              max={Math.max(portfolio.totalAccounts / 4, 1)}
-              tone={theme.tone}
-            />
+      <SectionCard
+        title="Portfolio Views"
+        description={`${selectedView.description} Showing ${selectedView.accounts.length} records from ${source === "live" ? "the live backend" : "seeded fallback data"} refreshed ${formatDateTime(generatedAt)}.`}
+      >
+        <div className="flex flex-wrap gap-2">
+          {portfolioViews.map((view) => (
+            <button
+              className={cn(
+                "rounded-full border px-3 py-1.5 text-[12px] font-medium transition",
+                view.id === selectedView.id
+                  ? "border-slate-900 bg-slate-900 text-white"
+                  : "border-black/8 bg-slate-50 text-slate-600 hover:border-slate-300 hover:bg-white"
+              )}
+              key={view.id}
+              onClick={() => setActiveView(view.id)}
+              type="button"
+            >
+              {view.label}
+            </button>
           ))}
         </div>
+        {selectedView.accounts.length > 0 ? (
+          <div className="mt-4 overflow-hidden rounded-2xl border border-black/6">
+            <div className="max-h-[30rem] overflow-auto">
+              <Table>
+                <TableHeader className="sticky top-0 bg-white">
+                  <TableRow>
+                    <TableHead>Account</TableHead>
+                    <TableHead>Segment</TableHead>
+                    <TableHead>Health</TableHead>
+                    <TableHead>Risk</TableHead>
+                    <TableHead>Renewal</TableHead>
+                    <TableHead>Score</TableHead>
+                    <TableHead>Owner</TableHead>
+                    <TableHead>Lead signal</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedView.accounts.map((account) => (
+                    <TableRow
+                      className={cn(
+                        "cursor-pointer",
+                        account.id === activeAccountId && "bg-slate-50"
+                      )}
+                      key={account.id}
+                      onClick={() => onSelectAccount(account.id)}
+                    >
+                      <TableCell className="py-3">
+                        <div className="font-medium text-slate-900">{account.name}</div>
+                        <div className="text-xs text-slate-500">
+                          {account.plan_tier ?? "Plan unavailable"} · {formatCurrency(account.arr)}
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-slate-600">
+                        {account.segment ?? "Unknown"}
+                      </TableCell>
+                      <TableCell className="text-slate-600">
+                        {account.health_score ?? "—"}
+                      </TableCell>
+                      <TableCell>
+                        <RiskBadge value={account.risk_level} />
+                      </TableCell>
+                      <TableCell className="text-slate-600">
+                        {formatDateShort(account.renewal_date)}
+                      </TableCell>
+                      <TableCell className="font-medium text-slate-900">
+                        {account.priority_score}
+                      </TableCell>
+                      <TableCell className="text-slate-600">
+                        {account.owner_name ?? "Unassigned"}
+                      </TableCell>
+                      <TableCell className="max-w-[16rem] text-slate-600">
+                        <div className="truncate">
+                          {account.priority_reasons[0] ?? "No signal available"}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 rounded-2xl border border-dashed border-black/8 bg-slate-50 px-4 py-6 text-sm text-slate-500">
+            No accounts fall into this view right now.
+          </div>
+        )}
       </SectionCard>
 
       <SectionCard title="Recommended Manager Actions">
         <ActionList
           items={[
-            `Escalate ${portfolio.prioritized[0]?.name} and ${portfolio.prioritized[1]?.name} into active save-plan review.`,
+            `Escalate ${portfolio.prioritized[0]?.name} and ${portfolio.prioritized[1]?.name} into save-plan review.`,
             `Review the ticket-heavy cohort before the next renewal stand-up.`,
             `Assign an owner and due date to each account scoring 90 or above.`,
           ]}
@@ -1542,20 +1717,28 @@ function ArtifactPanel({
   accountStatus,
   artifactProvenance,
   artifactTitle,
+  generatedAt,
   hasArtifact,
   onClose,
   onSelectAccount,
   portfolio,
+  processLabel,
+  processSteps,
+  source,
 }: {
   activeWorkflow: WorkflowId;
   accountData: WorkspaceAccountData;
   accountStatus: "idle" | "loading";
   artifactProvenance: string[];
   artifactTitle: string;
+  generatedAt: string;
   hasArtifact: boolean;
   onClose: () => void;
   onSelectAccount: (accountId: string) => void;
   portfolio: WorkspaceBootstrap["portfolio"];
+  processLabel: string;
+  processSteps: string[];
+  source: WorkspaceBootstrap["source"];
 }) {
   return (
     <div
@@ -1584,12 +1767,20 @@ function ArtifactPanel({
           </header>
           <div className="min-h-0 flex-1 overflow-y-auto">
             <div className="animate-in fade-in slide-in-from-right-4 p-4 duration-400">
+              <ArtifactTraceCard
+                generatedAt={generatedAt}
+                label={processLabel}
+                source={source}
+                steps={processSteps}
+              />
               {activeWorkflow === "morning" ? (
                 <PortfolioArtifact
                   activeAccountId={accountData.accountId}
+                  generatedAt={generatedAt}
                   onSelectAccount={onSelectAccount}
                   portfolio={portfolio}
                   provenance={artifactProvenance}
+                  source={source}
                 />
               ) : activeWorkflow === "brief" ? (
                 <AccountArtifact
@@ -1759,6 +1950,29 @@ function AccountArtifact({
               value={context.internal.days_since_last_touch != null ? `${context.internal.days_since_last_touch}d ago` : null}
             />
           </div>
+        </div>
+      </SectionCard>
+
+      <SectionCard
+        title="Account Definitions"
+        description="The labels below are explained in-place so a rep or judge does not need outside context to read the brief."
+      >
+        <div className="grid gap-3 md:grid-cols-3">
+          <DefinitionCard
+            label="Priority score"
+            value={String(context.priority_score)}
+            description="This is the ranking score for the account. It blends health, renewal timing, usage change, support load, engagement, renewal confidence, last touch, ARR, and the CRM risk flag."
+          />
+          <DefinitionCard
+            label="Health score"
+            value={context.crm.health_score ?? "—"}
+            description="A lower health score means the customer is in worse shape. It is only one input into the queue, but it carries meaningful weight."
+          />
+          <DefinitionCard
+            label="Segment"
+            value={context.internal.segment ?? "Unknown"}
+            description="Segment is the operating tier for the account. In this demo it is derived from ARR bands so the rep can distinguish SMB, Mid-market, and Enterprise motions."
+          />
         </div>
       </SectionCard>
 
@@ -1942,15 +2156,81 @@ function SectionCard({
   );
 }
 
+function ArtifactTraceCard({
+  generatedAt,
+  label,
+  source,
+  steps,
+}: {
+  generatedAt: string;
+  label: string;
+  source: WorkspaceBootstrap["source"];
+  steps: string[];
+}) {
+  return (
+    <SectionCard
+      title="Behind The Scenes"
+      description={`This artifact keeps a lightweight trace of the workflow stages, source freshness, and evidence provenance so the output is easier to defend in a live CSM scenario.`}
+    >
+      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+        <Badge className="bg-slate-50 text-slate-600" variant="outline">
+          {label}
+        </Badge>
+        <Badge className="bg-slate-50 text-slate-600" variant="outline">
+          {source === "live" ? "Live backend" : "Fallback dataset"}
+        </Badge>
+        <Badge className="bg-slate-50 text-slate-600" variant="outline">
+          Updated {formatDateTime(generatedAt)}
+        </Badge>
+      </div>
+      <div className="mt-4 grid gap-2 md:grid-cols-2">
+        {steps.map((step, index) => (
+          <div
+            className="flex items-center gap-3 rounded-2xl border border-black/6 bg-slate-50 px-3 py-2.5"
+            key={step}
+          >
+            <div className="grid size-6 place-items-center rounded-full bg-white text-[11px] font-semibold text-slate-600">
+              {index + 1}
+            </div>
+            <div className="text-sm text-slate-700">{step}</div>
+          </div>
+        ))}
+      </div>
+    </SectionCard>
+  );
+}
+
+function DefinitionCard({
+  label,
+  value,
+  description,
+}: {
+  label: string;
+  value: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-[22px] border border-black/6 bg-slate-50 px-4 py-3">
+      <div className="text-xs uppercase tracking-[0.16em] text-slate-400">
+        {label}
+      </div>
+      <div className="mt-2 font-medium text-slate-900">{value}</div>
+      <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+    </div>
+  );
+}
+
 function MetricCard({
   icon: Icon,
   label,
   value,
+  hint,
   tone = "neutral",
 }: {
   icon: ComponentType<{ className?: string }>;
   label: string;
   value: string;
+  hint?: string;
   tone?: "neutral" | "critical" | "warning";
 }) {
   return (
@@ -1970,6 +2250,9 @@ function MetricCard({
           <div className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
             {value}
           </div>
+          {hint ? (
+            <p className="mt-2 text-sm leading-5 text-slate-500">{hint}</p>
+          ) : null}
         </div>
         <div className="grid size-10 place-items-center rounded-2xl bg-white/75">
           <Icon className="size-5 text-slate-600" />
@@ -2227,61 +2510,56 @@ function InlineTriageCard({
   accounts: TriageAccountCard[];
   onSelect: (id: string) => void;
 }) {
+  const previewAccounts = accounts.slice(0, 3);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-black/6 bg-white shadow-[0_4px_16px_rgba(15,23,42,0.06)]">
-      {/* Card header */}
       <div className="flex items-center gap-2 border-b border-black/5 bg-slate-50 px-4 py-2.5">
         <RadarIcon className="size-3.5 text-slate-500" />
         <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-          Priority Queue
+          Queue Snapshot
         </span>
         <span className="ml-auto rounded-full bg-slate-200 px-2 py-0.5 text-[11px] font-medium text-slate-600">
           {accounts.length} accounts
         </span>
       </div>
-
-      {/* Account rows */}
-      <div className="divide-y divide-black/4">
-        {accounts.map((account, index) => (
-          <button
-            className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-slate-50"
-            key={account.id}
-            onClick={() => onSelect(account.id)}
-            type="button"
-          >
-            {/* Rank badge */}
-            <div className="grid size-6 shrink-0 place-items-center rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
-              {index + 1}
-            </div>
-
-            {/* Name + reason */}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="truncate text-[13px] font-semibold text-slate-900">
-                  {account.name}
-                </span>
-                <RiskBadge value={account.risk_level} />
+      <div className="space-y-3 px-4 py-3.5">
+        <p className="text-[13px] leading-6 text-slate-600">
+          The full ranked queue lives in the artifact panel on the right. This chat card is just a quick preview of the first few accounts.
+        </p>
+        <div className="grid gap-2">
+          {previewAccounts.map((account, index) => (
+            <button
+              className="flex w-full items-center justify-between gap-3 rounded-xl border border-black/6 bg-slate-50 px-3 py-2.5 text-left transition-colors hover:bg-white"
+              key={account.id}
+              onClick={() => onSelect(account.id)}
+              type="button"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="grid size-5 shrink-0 place-items-center rounded-full bg-white text-[10px] font-semibold text-slate-500">
+                    {index + 1}
+                  </span>
+                  <span className="truncate text-[13px] font-semibold text-slate-900">
+                    {account.name}
+                  </span>
+                  <RiskBadge value={account.risk_level} />
+                </div>
+                <p className="mt-1 truncate text-[12px] text-slate-500">
+                  {account.top_reason}
+                </p>
               </div>
-              <p className="mt-0.5 truncate text-[12px] text-slate-500">
-                {account.top_reason}
-              </p>
-            </div>
-
-            {/* Metadata */}
-            <div className="shrink-0 text-right">
-              <div className="text-[13px] font-semibold text-slate-900">
-                {account.priority_score}
-              </div>
-              {account.renewal_date && (
+              <div className="shrink-0 text-right">
+                <div className="text-[13px] font-semibold text-slate-900">
+                  {account.priority_score}
+                </div>
                 <div className="mt-0.5 text-[11px] text-slate-400">
                   {formatDateShort(account.renewal_date)}
                 </div>
-              )}
-            </div>
-
-            <ArrowRightIcon className="size-3.5 shrink-0 text-slate-300" />
-          </button>
-        ))}
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
